@@ -1,272 +1,218 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>PawLife — Pet Health App</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PawLife — Today</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="pages-container">
-
-<!-- ======== TODAY PAGE ======== -->
-<div class="page-wrapper">
-  <div class="phone-label">🌤️ Today</div>
-  <div class="phone" style="position:relative;">
-    <div class="status-bar">
-      <span class="status-time">9:41</span>
-      <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+<div class="app-shell">
+  <div class="top-nav">
+    <div class="nav-logo">
+      <div class="logo-icon">🐾</div>
     </div>
-    <div class="page active">
-      <div class="top-nav">
-        <div class="nav-logo">
-          <div class="logo-icon">🐾</div>
-          <!-- <span class="logo-text">PawLife</span> -->
-        </div>
-        <span class="nav-title">Today</span>
-        <button class="nav-action">🔔</button>
+    <span class="nav-title">Today</span>
+    <button class="nav-action">🔔</button>
+  </div>
+
+  <div class="today-bg">
+    <div class="today-sky">
+      <div class="sky-date">March 6, 2026 🌅</div>
+      <div class="sky-info">
+        <div class="sky-tag">☀️ Sunny 23°C</div>
+        <div class="sky-tag">🌙 Waxing Quarter</div>
       </div>
-      <div class="today-bg">
-        <!-- Sky Info -->
-        <div class="today-sky">
-          <div class="sky-date">March 6, 2026 🌅</div>
-          <div class="sky-info">
-            <div class="sky-tag">☀️ Sunny 23°C</div>
-            <div class="sky-tag">🌙 Waxing Quarter</div>
+      <div style="font-size:12px;font-weight:600;color:var(--mint-deep);margin-top:8px;">🐾 今天很適合帶 Seoli 出去散步！</div>
+    </div>
+
+    <div class="pet-3d-area">
+      <div class="pet-3d-bg"></div>
+      <div class="pet-3d-shadow"></div>
+      <div class="pet-3d-avatar">🐶</div>
+      <div class="pet-mood-badge">😊 Happy</div>
+      <div class="pet-interact-btn">✨</div>
+    </div>
+
+    <div class="today-content">
+      <div class="section-header">
+        <span class="section-title">今日提醒</span>
+        <span class="section-more">全部</span>
+      </div>
+      <div class="todo-cards">
+        <div class="todo-card">
+          <div class="todo-icon-wrap todo-bg-warn"><span>🚶</span></div>
+          <div class="todo-text">
+            <div class="todo-title">Seoli 尚未散步</div>
+            <div class="todo-sub">建議：30 分鐘戶外散步</div>
           </div>
-          <div style="font-size:12px;font-weight:600;color:var(--mint-deep);margin-top:8px;">🐾 Perfect day for outdoor activities!</div>
+          <span class="todo-action">›</span>
         </div>
-
-        <!-- 3D Pet -->
-        <div class="pet-3d-area">
-          <div class="pet-3d-bg"></div>
-          <div class="pet-3d-shadow"></div>
-          <div class="pet-3d-avatar">🐶</div>
-          <div class="pet-mood-badge">😊 Happy</div>
-          <div class="pet-interact-btn">✨</div>
+        <div class="todo-card">
+          <div class="todo-icon-wrap todo-bg-info"><span>💧</span></div>
+          <div class="todo-text">
+            <div class="todo-title">飲水量偏低</div>
+            <div class="todo-sub">Seoli 今天需要多喝水</div>
+          </div>
+          <span class="todo-action">›</span>
         </div>
-
-        <!-- Content -->
-        <div class="today-content">
-
-          <!-- Todo -->
-          <div class="section-header">
-            <span class="section-title">Today's Reminders</span>
-            <span class="section-more">All</span>
+        <div class="todo-card">
+          <div class="todo-icon-wrap todo-bg-med"><span>💊</span></div>
+          <div class="todo-text">
+            <div class="todo-title">Lele 用藥提醒</div>
+            <div class="todo-sub">跳蚤預防藥 — 今天到期</div>
           </div>
-          <div class="todo-cards">
-            <div class="todo-card">
-              <div class="todo-icon-wrap todo-bg-warn"><span>🚶</span></div>
-              <div class="todo-text">
-                <div class="todo-title">Walk not completed</div>
-                <div class="todo-sub">Suggested: 30 min outdoor walk</div>
-              </div>
-              <span class="todo-action">›</span>
-            </div>
-            <div class="todo-card">
-              <div class="todo-icon-wrap todo-bg-info"><span>💧</span></div>
-              <div class="todo-text">
-                <div class="todo-title">Water intake low</div>
-                <div class="todo-sub">Mochi needs more water today</div>
-              </div>
-              <span class="todo-action">›</span>
-            </div>
-            <div class="todo-card">
-              <div class="todo-icon-wrap todo-bg-med"><span>💊</span></div>
-              <div class="todo-text">
-                <div class="todo-title">Luna's medication</div>
-                <div class="todo-sub">Flea prevention — due today</div>
-              </div>
-              <span class="todo-action">›</span>
-            </div>
-          </div>
-
-          <!-- Health Insight -->
-          <div class="insight-card">
-            <div class="insight-header">
-              <span class="insight-icon">💡</span>
-              <span class="insight-title">Health Insight</span>
-            </div>
-            <div class="insight-text">Mochi's activity is slightly lower than usual this week. Consider a short 15-min walk this evening — it would do him good!</div>
-          </div>
-
-          <!-- Record Button -->
-          <button class="record-fab" onclick="openSheet()">
-            <span class="fab-icon">➕</span>
-            <span>Quick Record</span>
-          </button>
-
-          <!-- Virtual World -->
-          <button class="virtual-btn">
-            🌐 Enter Virtual World
-          </button>
+          <span class="todo-action">›</span>
         </div>
       </div>
+
+      <div class="insight-card">
+        <div class="insight-header">
+          <span class="insight-icon">💡</span>
+          <span class="insight-title">健康建議</span>
+        </div>
+        <div class="insight-text">Seoli 本週活動量比平常偏低，今晚可以試試 15 分鐘輕鬆散步，對他很有幫助！</div>
+      </div>
+
+      <button class="record-fab" onclick="openSheet()">
+        <span class="fab-icon">➕</span>
+        <span>快速記錄</span>
+      </button>
+
+      <button class="virtual-btn">
+        🌐 進入虛擬世界
+      </button>
     </div>
+  </div><!-- /today-bg -->
 
-    <div class="bottom-nav">
-      <button class="nav-item" onclick="location.href='Home.html'">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-item active" onclick="location.href='Today.html'">
-        <span class="nav-icon">🌤️</span>
-        <span class="nav-label">Today</span>
-      </button>
-      <button class="nav-item" onclick="location.href='Calendar.html'">
-        <span class="nav-icon">📅</span>
-        <span class="nav-label">Calendar</span>
-      </button>
-    </div>
+  <div class="bottom-nav">
+    <button class="nav-item" onclick="location.href='Home.html'">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item active">
+      <span class="nav-icon">🌤️</span>
+      <span class="nav-label">Today</span>
+    </button>
+    <button class="nav-item" onclick="location.href='Calendar.html'">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">Calendar</span>
+    </button>
+  </div>
 
-    <!-- Bottom Sheet -->
-    <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
-      <div class="bottom-sheet" id="bottomSheet">
-        <div class="sheet-handle"></div>
-        <div class="sheet-title">Quick Record</div>
-        <div class="sheet-tabs">
-          <button class="sheet-tab active" onclick="switchTab(this,'life')">Life Record</button>
-          <button class="sheet-tab" onclick="switchTab(this,'status')">Status Rating</button>
-          <button class="sheet-tab" onclick="switchTab(this,'exp')">Experience</button>
+  <!-- Bottom Sheet -->
+  <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">快速記錄</div>
+      <div class="sheet-tabs">
+        <button class="sheet-tab active" onclick="switchTab(this,'life')">生活記錄</button>
+        <button class="sheet-tab" onclick="switchTab(this,'status')">狀態評分</button>
+        <button class="sheet-tab" onclick="switchTab(this,'exp')">體驗記錄</button>
+      </div>
+
+      <div id="tab-life">
+        <div class="sheet-grid">
+          <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">藥物</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">美容</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">⭐</span><span class="sheet-item-label">自訂</span></button>
         </div>
+      </div>
 
-        <!-- Life Record Grid -->
-        <div id="tab-life">
-          <div class="sheet-grid">
-            <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">Eat</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">Drink</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">Snack</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">Medicine</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">Poop</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">Pee</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">Walk</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">Play</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">Sleep</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">Groom</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">Bath</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">Vet</span></button>
-            <button class="sheet-item"><span class="sheet-item-icon">⭐</span><span class="sheet-item-label">Custom</span></button>
+      <div id="tab-status" style="display:none;">
+        <div class="rating-list">
+          <div class="rating-item">
+            <div class="rating-header">
+              <span class="rating-name">🍽️ 飲食</span>
+              <div class="rating-emojis">
+                <span class="rating-emoji">😣</span><span class="rating-emoji">😕</span>
+                <span class="rating-emoji selected">😊</span><span class="rating-emoji">😄</span><span class="rating-emoji">🤩</span>
+              </div>
+            </div>
+            <input type="range" class="rating-slider" min="1" max="5" value="3">
+          </div>
+          <div class="rating-item">
+            <div class="rating-header">
+              <span class="rating-name">💩 排泄</span>
+              <div class="rating-emojis">
+                <span class="rating-emoji">😣</span><span class="rating-emoji">😕</span>
+                <span class="rating-emoji">😊</span><span class="rating-emoji selected">😄</span><span class="rating-emoji">🤩</span>
+              </div>
+            </div>
+            <input type="range" class="rating-slider" min="1" max="5" value="4">
+          </div>
+          <div class="rating-item">
+            <div class="rating-header">
+              <span class="rating-name">🏃 活動</span>
+              <div class="rating-emojis">
+                <span class="rating-emoji selected">😣</span><span class="rating-emoji">😕</span>
+                <span class="rating-emoji">😊</span><span class="rating-emoji">😄</span><span class="rating-emoji">🤩</span>
+              </div>
+            </div>
+            <input type="range" class="rating-slider" min="1" max="5" value="2">
+          </div>
+          <div class="rating-item">
+            <div class="rating-header">
+              <span class="rating-name">😊 情緒</span>
+              <div class="rating-emojis">
+                <span class="rating-emoji">😣</span><span class="rating-emoji">😕</span>
+                <span class="rating-emoji">😊</span><span class="rating-emoji selected">😄</span><span class="rating-emoji">🤩</span>
+              </div>
+            </div>
+            <input type="range" class="rating-slider" min="1" max="5" value="4">
           </div>
         </div>
+      </div>
 
-        <!-- Status Rating -->
-        <div id="tab-status" style="display:none;">
-          <div class="rating-list">
-            <div class="rating-item">
-              <div class="rating-header">
-                <span class="rating-name">🍽️ Eating</span>
-                <div class="rating-emojis">
-                  <span class="rating-emoji">😣</span>
-                  <span class="rating-emoji">😕</span>
-                  <span class="rating-emoji selected">😊</span>
-                  <span class="rating-emoji">😄</span>
-                  <span class="rating-emoji">🤩</span>
-                </div>
-              </div>
-              <input type="range" class="rating-slider" min="1" max="5" value="3">
-            </div>
-            <div class="rating-item">
-              <div class="rating-header">
-                <span class="rating-name">💩 Excretion</span>
-                <div class="rating-emojis">
-                  <span class="rating-emoji">😣</span>
-                  <span class="rating-emoji">😕</span>
-                  <span class="rating-emoji">😊</span>
-                  <span class="rating-emoji selected">😄</span>
-                  <span class="rating-emoji">🤩</span>
-                </div>
-              </div>
-              <input type="range" class="rating-slider" min="1" max="5" value="4">
-            </div>
-            <div class="rating-item">
-              <div class="rating-header">
-                <span class="rating-name">🏃 Activity</span>
-                <div class="rating-emojis">
-                  <span class="rating-emoji selected">😣</span>
-                  <span class="rating-emoji">😕</span>
-                  <span class="rating-emoji">😊</span>
-                  <span class="rating-emoji">😄</span>
-                  <span class="rating-emoji">🤩</span>
-                </div>
-              </div>
-              <input type="range" class="rating-slider" min="1" max="5" value="2">
-            </div>
-            <div class="rating-item">
-              <div class="rating-header">
-                <span class="rating-name">😊 Mood</span>
-                <div class="rating-emojis">
-                  <span class="rating-emoji">😣</span>
-                  <span class="rating-emoji">😕</span>
-                  <span class="rating-emoji">😊</span>
-                  <span class="rating-emoji selected">😄</span>
-                  <span class="rating-emoji">🤩</span>
-                </div>
-              </div>
-              <input type="range" class="rating-slider" min="1" max="5" value="4">
-            </div>
-          </div>
+      <div id="tab-exp" style="display:none;">
+        <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
+          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🚶</span><span class="sheet-item-label" style="font-size:13px;">散步</span></button>
+          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏃</span><span class="sheet-item-label" style="font-size:13px;">公園跑步</span></button>
+          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏊</span><span class="sheet-item-label" style="font-size:13px;">游泳</span></button>
+          <button class="sheet-item" style="padding:20px 16px;background:linear-gradient(135deg,#E8E0F5,#D4E0F5);"><span class="sheet-item-icon" style="font-size:32px;">🌐</span><span class="sheet-item-label" style="font-size:13px;color:#7B5EA7;">虛擬世界</span></button>
         </div>
+      </div>
 
-        <!-- Experience -->
-        <div id="tab-exp" style="display:none;">
-          <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
-            <button class="sheet-item" style="padding:20px 16px;">
-              <span class="sheet-item-icon" style="font-size:32px;">🚶</span>
-              <span class="sheet-item-label" style="font-size:13px;">Walk</span>
-            </button>
-            <button class="sheet-item" style="padding:20px 16px;">
-              <span class="sheet-item-icon" style="font-size:32px;">🏃</span>
-              <span class="sheet-item-label" style="font-size:13px;">Park Run</span>
-            </button>
-            <button class="sheet-item" style="padding:20px 16px;">
-              <span class="sheet-item-icon" style="font-size:32px;">🏊</span>
-              <span class="sheet-item-label" style="font-size:13px;">Swimming</span>
-            </button>
-            <button class="sheet-item" style="padding:20px 16px;background:linear-gradient(135deg,#E8E0F5,#D4E0F5);">
-              <span class="sheet-item-icon" style="font-size:32px;">🌐</span>
-              <span class="sheet-item-label" style="font-size:13px;color:#7B5EA7;">Virtual World</span>
-            </button>
-          </div>
-        </div>
-
-        <div style="height:16px;"></div>
-        <div style="padding:0 24px;">
-          <button style="width:100%;background:var(--peach-deep);color:white;font-family:var(--font-display);font-weight:800;font-size:16px;padding:14px;border-radius:18px;border:none;cursor:pointer;">Save Record</button>
-        </div>
+      <div style="height:16px;"></div>
+      <div style="padding:0 24px;">
+        <button style="width:100%;background:var(--peach-deep);color:white;font-family:var(--font-display);font-weight:800;font-size:16px;padding:14px;border-radius:18px;border:none;cursor:pointer;">儲存記錄</button>
       </div>
     </div>
   </div>
-</div>
-
-</div>
+</div><!-- /app-shell -->
 
 <script>
-// Bottom sheet
 function openSheet() {
   document.getElementById('sheetOverlay').classList.add('open');
 }
 function closeSheet(e) {
-  if(e.target === document.getElementById('sheetOverlay')) {
+  if (e.target === document.getElementById('sheetOverlay')) {
     document.getElementById('sheetOverlay').classList.remove('open');
   }
 }
-
 function switchTab(btn, tab) {
-  document.querySelectorAll('.sheet-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  ['life','status','exp'].forEach(t=>{
-    const el = document.getElementById('tab-'+t);
-    if(el) el.style.display = t===tab?'block':'none';
+  ['life','status','exp'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.style.display = t === tab ? 'block' : 'none';
   });
 }
-
-// Rating emoji selection
 document.querySelectorAll('.rating-emojis').forEach(group => {
-  group.querySelectorAll('.rating-emoji').forEach((emoji, i) => {
+  group.querySelectorAll('.rating-emoji').forEach(emoji => {
     emoji.addEventListener('click', () => {
-      group.querySelectorAll('.rating-emoji').forEach(e=>e.classList.remove('selected'));
+      group.querySelectorAll('.rating-emoji').forEach(e => e.classList.remove('selected'));
       emoji.classList.add('selected');
     });
   });

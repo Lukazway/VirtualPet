@@ -1,291 +1,249 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>PawLife — Pet Health App</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PawLife — Home</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="pages-container">
-
-<!-- ======== HOME PAGE ======== -->
-<div class="page-wrapper">
-  <div class="phone-label">🏠 Home</div>
-  <div class="phone">
-    <div class="status-bar">
-      <span class="status-time">02:00</span>
-      <div class="status-icons">
-        <span>●●●</span>
-        <span>WiFi</span>
-        <span>🔋</span>
-      </div>
+<div class="app-shell">
+  <div class="top-nav">
+    <div class="nav-logo">
+      <div class="logo-icon">🐾</div>
     </div>
-    <div class="page active">
-      <div class="top-nav">
-        <div class="nav-logo">
-          <div class="logo-icon">🐾</div>
-          <!-- <span class="logo-text">PawLife</span> -->
-        </div>
-        <span class="nav-title">Home</span>
-        <button class="nav-action">⚙️</button>
-      </div>
-      <div class="scroll-area home-content">
-
-        <!-- Pet 1: Seoli -->
-        <div class="section-header">
-          <span class="section-title">我的寵物</span>
-          <span class="section-more">加入 +</span>
-        </div>
-
-        <div class="pet-card">
-          <div class="pet-card-header" onclick="togglePetRecords('seoli')">
-            <div class="pet-avatar-wrap">
-              <div class="pet-avatar">🐶</div>
-              <div class="pet-avatar-badge">✓</div>
-            </div>
-            <div class="pet-info">
-              <div class="pet-name">Seoli</div>
-              <div class="pet-breed">薩摩耶犬 · 男生</div>
-              <div class="pet-age-tag">🎂 4 歲 11 月</div>
-            </div>
-            <div class="pet-card-more" onclick="event.stopPropagation(); alert('Edit Seoli')">✏️</div>
-          </div>
-
-          <!-- ── Health Strip: Insight Panel ── -->
-          <div class="health-strip">
-            <!-- Left: 7-day sparkline -->
-            <div class="hs-chart">
-              <div class="hs-chart-label">活動量 · 7天</div>
-              <svg class="hs-svg" viewBox="0 0 110 44" preserveAspectRatio="none">
-                <!-- grid lines -->
-                <line x1="0" y1="10" x2="110" y2="10" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="22" x2="110" y2="22" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="34" x2="110" y2="34" stroke="#EAD9C5" stroke-width="0.8"/>
-                <!-- past 7 days area fill -->
-                <polyline points="4,10 20,16 36,12 52,6 68,20 84,14 100,32"
-                  fill="none" stroke="#F5A870" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-                <polygon points="4,10 20,16 36,12 52,6 68,20 84,14 100,32 100,44 4,44"
-                  fill="rgba(249,201,160,0.25)"/>
-                <!-- today dot -->
-                <circle cx="100" cy="32" r="3.5" fill="#E8834A"/>
-                <circle cx="100" cy="32" r="6" fill="rgba(232,131,74,0.2)"/>
-                <!-- day labels -->
-                <text x="4"  y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">M</text>
-                <text x="17" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="33" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">W</text>
-                <text x="49" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="65" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">F</text>
-                <text x="81" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">S</text>
-                <text x="93" y="43" font-size="7" fill="#E8834A" font-family="Nunito" font-weight="800">今</text>
-              </svg>
-            </div>
-            <!-- Right: insight alerts -->
-            <div class="hs-alerts">
-              <div class="hs-alert warn">
-                <span class="hs-alert-icon">🏃</span>
-                <div class="hs-alert-body">
-                  <div class="hs-alert-title">活動量偏低</div>
-                  <div class="hs-alert-sub">比過去7天少 40%，忘記記錄了嗎？</div>
-                </div>
-              </div>
-              <div class="hs-alert ok">
-                <span class="hs-alert-icon">🍽️</span>
-                <div class="hs-alert-body">
-                  <div class="hs-alert-title">飲食正常</div>
-                  <div class="hs-alert-sub">進食量與過去7天相近</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── Pet Records: 3-Tab Panel ── -->
-          <div class="pet-records collapsed" id="pr-seoli">
-            <div class="pr-tabs">
-              <button class="pr-tab active" onclick="switchPrTab(this,'life','seoli')">生活摘要</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'status','seoli')">狀態趨勢</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'exp','seoli')">最近體驗</button>
-            </div>
-
-            <!-- Tab 1: Life Summary with ring progress -->
-            <div class="pr-panel active" id="pr-life-seoli">
-              <div class="pr-row-label">最近7天 Top 5</div>
-              <div class="pr-events-row" id="row7-seoli"></div>
-              <div class="pr-row-label">今天 Top 5</div>
-              <div class="pr-events-row" id="rowToday-seoli"></div>
-            </div>
-
-            <!-- Tab 2: Status Trend -->
-            <div class="pr-panel" id="pr-status-seoli">
-              <div class="status-legend" id="legend-seoli"></div>
-              <div class="trend-chart-wrap">
-                <svg class="trend-svg" id="trend-svg-seoli" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
-                <div class="trend-x-labels">
-                  <span class="trend-x-label">Mon</span>
-                  <span class="trend-x-label">Tue</span>
-                  <span class="trend-x-label">Wed</span>
-                  <span class="trend-x-label">Thu</span>
-                  <span class="trend-x-label">Fri</span>
-                  <span class="trend-x-label">Sat</span>
-                  <span class="trend-x-label">今</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tab 3: Experience Cards -->
-            <div class="pr-panel" id="pr-exp-seoli">
-              <div class="exp-list" id="exp-list-seoli"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pet 2: Lele — full card, collapsed by default -->
-        <div class="pet-card">
-          <div class="pet-card-header" onclick="togglePetRecords('lele')">
-            <div class="pet-avatar-wrap">
-              <div class="pet-avatar" style="background:linear-gradient(135deg,var(--lavender),var(--sky-light));">🐱</div>
-              <div class="pet-avatar-badge" style="background:var(--coral);">♡</div>
-            </div>
-            <div class="pet-info">
-              <div class="pet-name">Lele</div>
-              <div class="pet-breed">英國短毛貓 · 女生</div>
-              <div class="pet-age-tag">🎂 5 歲 3 月</div>
-            </div>
-            <div class="pet-card-more" onclick="event.stopPropagation(); alert('Edit Lele')">✏️</div>
-          </div>
-
-          <!-- ── Health Strip: Lele ── -->
-          <div class="health-strip">
-            <div class="hs-chart">
-              <div class="hs-chart-label">活動量 · 7天</div>
-              <svg class="hs-svg" viewBox="0 0 110 44" preserveAspectRatio="none">
-                <line x1="0" y1="10" x2="110" y2="10" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="22" x2="110" y2="22" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="34" x2="110" y2="34" stroke="#EAD9C5" stroke-width="0.8"/>
-                <polyline points="4,18 20,22 36,15 52,18 68,12 84,20 100,24"
-                  fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-                <polygon points="4,18 20,22 36,15 52,18 68,12 84,20 100,24 100,44 4,44"
-                  fill="rgba(201,184,232,0.2)"/>
-                <circle cx="100" cy="24" r="3.5" fill="#A07BC8"/>
-                <circle cx="100" cy="24" r="6" fill="rgba(160,123,200,0.2)"/>
-                <text x="4"  y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">M</text>
-                <text x="17" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="33" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">W</text>
-                <text x="49" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="65" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">F</text>
-                <text x="81" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">S</text>
-                <text x="93" y="43" font-size="7" fill="#A07BC8" font-family="Nunito" font-weight="800">今</text>
-              </svg>
-            </div>
-            <div class="hs-alerts">
-              <div class="hs-alert warn">
-                <span class="hs-alert-icon">💊</span>
-                <div class="hs-alert-body">
-                  <div class="hs-alert-title">用藥提醒</div>
-                  <div class="hs-alert-sub">今天的跳蚤預防藥尚未記錄</div>
-                </div>
-              </div>
-              <div class="hs-alert ok">
-                <span class="hs-alert-icon">🍽️</span>
-                <div class="hs-alert-body">
-                  <div class="hs-alert-title">飲食正常</div>
-                  <div class="hs-alert-sub">與過去7天進食量相近</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── Pet Records: Lele ── -->
-          <div class="pet-records collapsed" id="pr-lele">
-            <div class="pr-tabs">
-              <button class="pr-tab active" onclick="switchPrTab(this,'life','lele')">生活摘要</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'status','lele')">狀態趨勢</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'exp','lele')">最近體驗</button>
-            </div>
-            <div class="pr-panel active" id="pr-life-lele">
-              <div class="pr-row-label">最近7天 Top 5</div>
-              <div class="pr-events-row" id="row7-lele"></div>
-              <div class="pr-row-label">今天 Top 5</div>
-              <div class="pr-events-row" id="rowToday-lele"></div>
-            </div>
-            <div class="pr-panel" id="pr-status-lele">
-              <div class="status-legend" id="legend-lele"></div>
-              <div class="trend-chart-wrap">
-                <svg class="trend-svg" id="trend-svg-lele" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
-                <div class="trend-x-labels">
-                  <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
-                  <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
-                  <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
-                  <span class="trend-x-label">今</span>
-                </div>
-              </div>
-            </div>
-            <div class="pr-panel" id="pr-exp-lele">
-              <div class="exp-list" id="exp-list-lele"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Shared Management -->
-        <div class="section-header">
-          <span class="section-title">共享管理</span>
-          <span class="section-more">管理 +</span>
-        </div>
-        <div class="shared-section">
-          <div style="font-size:13px;font-weight:600;color:var(--text-secondary);">與家人共享，一起陪伴寶貝們</div>
-          <div class="shared-members" style="display:flex;align-items:center;gap:0;margin:12px 0;">
-            <div class="member-avatar" style="background:#FFE4C8;margin-left:0;">👩</div>
-            <div class="member-avatar" style="background:#C8E4FF;margin-left:-8px;">👨</div>
-            <div class="member-avatar" style="background:#FFE4F8;margin-left:-8px;">👧</div>
-            <div class="add-member" style="margin-left:8px;">+</div>
-          </div>
-          <button class="invite-btn">✉️ 發送邀請</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom-nav">
-      <button class="nav-item active" onclick="location.href='Home.html'">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-item" onclick="location.href='Today.html'">
-        <span class="nav-icon">🌤️</span>
-        <span class="nav-label">Today</span>
-        <div class="today-active-indicator"></div>
-      </button>
-      <button class="nav-item" onclick="location.href='Calendar.html'">
-        <span class="nav-icon">📅</span>
-        <span class="nav-label">Calendar</span>
-      </button>
-    </div>
+    <span class="nav-title">Home</span>
+    <button class="nav-action">⚙️</button>
   </div>
-</div>
 
-</div>
+  <div class="scroll-area home-content">
+
+    <div class="section-header">
+      <span class="section-title">我的寵物</span>
+      <span class="section-more">加入 +</span>
+    </div>
+
+    <!-- Pet 1: Seoli -->
+    <div class="pet-card">
+      <div class="pet-card-header" onclick="togglePetRecords('seoli')">
+        <div class="pet-avatar-wrap">
+          <div class="pet-avatar">🐶</div>
+          <div class="pet-avatar-badge">✓</div>
+        </div>
+        <div class="pet-info">
+          <div class="pet-name">Seoli</div>
+          <div class="pet-breed">薩摩耶犬 · 男生</div>
+          <div class="pet-age-tag">🎂 4 歲 11 月</div>
+        </div>
+        <div class="pet-card-more" onclick="event.stopPropagation(); alert('Edit Seoli')">✏️</div>
+      </div>
+
+      <div class="health-strip">
+        <div class="hs-chart">
+          <div class="hs-chart-label">活動量 · 7天</div>
+          <svg class="hs-svg" viewBox="0 0 110 44" preserveAspectRatio="none">
+            <line x1="0" y1="10" x2="110" y2="10" stroke="#EAD9C5" stroke-width="0.8"/>
+            <line x1="0" y1="22" x2="110" y2="22" stroke="#EAD9C5" stroke-width="0.8"/>
+            <line x1="0" y1="34" x2="110" y2="34" stroke="#EAD9C5" stroke-width="0.8"/>
+            <polyline points="4,10 20,16 36,12 52,6 68,20 84,14 100,32"
+              fill="none" stroke="#F5A870" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+            <polygon points="4,10 20,16 36,12 52,6 68,20 84,14 100,32 100,44 4,44"
+              fill="rgba(249,201,160,0.25)"/>
+            <circle cx="100" cy="32" r="3.5" fill="#E8834A"/>
+            <circle cx="100" cy="32" r="6" fill="rgba(232,131,74,0.2)"/>
+            <text x="4"  y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">M</text>
+            <text x="17" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
+            <text x="33" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">W</text>
+            <text x="49" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
+            <text x="65" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">F</text>
+            <text x="81" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">S</text>
+            <text x="93" y="43" font-size="7" fill="#E8834A" font-family="Nunito" font-weight="800">今</text>
+          </svg>
+        </div>
+        <div class="hs-alerts">
+          <div class="hs-alert warn">
+            <span class="hs-alert-icon">🏃</span>
+            <div class="hs-alert-body">
+              <div class="hs-alert-title">活動量偏低</div>
+              <div class="hs-alert-sub">比過去7天少 40%，忘記記錄了嗎？</div>
+            </div>
+          </div>
+          <div class="hs-alert ok">
+            <span class="hs-alert-icon">🍽️</span>
+            <div class="hs-alert-body">
+              <div class="hs-alert-title">飲食正常</div>
+              <div class="hs-alert-sub">進食量與過去7天相近</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pet-records collapsed" id="pr-seoli">
+        <div class="pr-tabs">
+          <button class="pr-tab active" onclick="switchPrTab(this,'life','seoli')">生活摘要</button>
+          <button class="pr-tab" onclick="switchPrTab(this,'status','seoli')">狀態趨勢</button>
+          <button class="pr-tab" onclick="switchPrTab(this,'exp','seoli')">最近體驗</button>
+        </div>
+        <div class="pr-panel active" id="pr-life-seoli">
+          <div class="pr-row-label">最近7天 Top 5</div>
+          <div class="pr-events-row" id="row7-seoli"></div>
+          <div class="pr-row-label">今天 Top 5</div>
+          <div class="pr-events-row" id="rowToday-seoli"></div>
+        </div>
+        <div class="pr-panel" id="pr-status-seoli">
+          <div class="status-legend" id="legend-seoli"></div>
+          <div class="trend-chart-wrap">
+            <svg class="trend-svg" id="trend-svg-seoli" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
+            <div class="trend-x-labels">
+              <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
+              <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
+              <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
+              <span class="trend-x-label">今</span>
+            </div>
+          </div>
+        </div>
+        <div class="pr-panel" id="pr-exp-seoli">
+          <div class="exp-list" id="exp-list-seoli"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pet 2: Lele -->
+    <div class="pet-card">
+      <div class="pet-card-header" onclick="togglePetRecords('lele')">
+        <div class="pet-avatar-wrap">
+          <div class="pet-avatar" style="background:linear-gradient(135deg,var(--lavender),var(--sky-light));">🐱</div>
+          <div class="pet-avatar-badge" style="background:var(--coral);">♡</div>
+        </div>
+        <div class="pet-info">
+          <div class="pet-name">Lele</div>
+          <div class="pet-breed">英國短毛貓 · 女生</div>
+          <div class="pet-age-tag">🎂 5 歲 3 月</div>
+        </div>
+        <div class="pet-card-more" onclick="event.stopPropagation(); alert('Edit Lele')">✏️</div>
+      </div>
+
+      <div class="health-strip">
+        <div class="hs-chart">
+          <div class="hs-chart-label">活動量 · 7天</div>
+          <svg class="hs-svg" viewBox="0 0 110 44" preserveAspectRatio="none">
+            <line x1="0" y1="10" x2="110" y2="10" stroke="#EAD9C5" stroke-width="0.8"/>
+            <line x1="0" y1="22" x2="110" y2="22" stroke="#EAD9C5" stroke-width="0.8"/>
+            <line x1="0" y1="34" x2="110" y2="34" stroke="#EAD9C5" stroke-width="0.8"/>
+            <polyline points="4,18 20,22 36,15 52,18 68,12 84,20 100,24"
+              fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+            <polygon points="4,18 20,22 36,15 52,18 68,12 84,20 100,24 100,44 4,44"
+              fill="rgba(201,184,232,0.2)"/>
+            <circle cx="100" cy="24" r="3.5" fill="#A07BC8"/>
+            <circle cx="100" cy="24" r="6" fill="rgba(160,123,200,0.2)"/>
+            <text x="4"  y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">M</text>
+            <text x="17" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
+            <text x="33" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">W</text>
+            <text x="49" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
+            <text x="65" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">F</text>
+            <text x="81" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">S</text>
+            <text x="93" y="43" font-size="7" fill="#A07BC8" font-family="Nunito" font-weight="800">今</text>
+          </svg>
+        </div>
+        <div class="hs-alerts">
+          <div class="hs-alert warn">
+            <span class="hs-alert-icon">💊</span>
+            <div class="hs-alert-body">
+              <div class="hs-alert-title">用藥提醒</div>
+              <div class="hs-alert-sub">今天的跳蚤預防藥尚未記錄</div>
+            </div>
+          </div>
+          <div class="hs-alert ok">
+            <span class="hs-alert-icon">🍽️</span>
+            <div class="hs-alert-body">
+              <div class="hs-alert-title">飲食正常</div>
+              <div class="hs-alert-sub">與過去7天進食量相近</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pet-records collapsed" id="pr-lele">
+        <div class="pr-tabs">
+          <button class="pr-tab active" onclick="switchPrTab(this,'life','lele')">生活摘要</button>
+          <button class="pr-tab" onclick="switchPrTab(this,'status','lele')">狀態趨勢</button>
+          <button class="pr-tab" onclick="switchPrTab(this,'exp','lele')">最近體驗</button>
+        </div>
+        <div class="pr-panel active" id="pr-life-lele">
+          <div class="pr-row-label">最近7天 Top 5</div>
+          <div class="pr-events-row" id="row7-lele"></div>
+          <div class="pr-row-label">今天 Top 5</div>
+          <div class="pr-events-row" id="rowToday-lele"></div>
+        </div>
+        <div class="pr-panel" id="pr-status-lele">
+          <div class="status-legend" id="legend-lele"></div>
+          <div class="trend-chart-wrap">
+            <svg class="trend-svg" id="trend-svg-lele" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
+            <div class="trend-x-labels">
+              <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
+              <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
+              <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
+              <span class="trend-x-label">今</span>
+            </div>
+          </div>
+        </div>
+        <div class="pr-panel" id="pr-exp-lele">
+          <div class="exp-list" id="exp-list-lele"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared Management -->
+    <div class="section-header">
+      <span class="section-title">共享管理</span>
+      <span class="section-more">管理 +</span>
+    </div>
+    <div class="shared-section">
+      <div style="font-size:13px;font-weight:600;color:var(--text-secondary);">與家人共享，一起陪伴寶貝們</div>
+      <div class="shared-members" style="display:flex;align-items:center;gap:0;margin:12px 0;">
+        <div class="member-avatar" style="background:#FFE4C8;margin-left:0;">👩</div>
+        <div class="member-avatar" style="background:#C8E4FF;margin-left:-8px;">👨</div>
+        <div class="member-avatar" style="background:#FFE4F8;margin-left:-8px;">👧</div>
+        <div class="add-member" style="margin-left:8px;">+</div>
+      </div>
+      <button class="invite-btn">✉️ 發送邀請</button>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="location.href='Home.html'">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="location.href='Today.html'">
+      <span class="nav-icon">🌤️</span>
+      <span class="nav-label">Today</span>
+    </button>
+    <button class="nav-item" onclick="location.href='Calendar.html'">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">Calendar</span>
+    </button>
+  </div>
+</div><!-- /app-shell -->
 
 <script>
-// ── Toggle pet records collapse ──
 function togglePetRecords(pet) {
   const el = document.getElementById('pr-' + pet);
   if (!el) return;
   el.classList.toggle('collapsed');
 }
-
-// ── Pet Card Tab Switching ──
 function switchPrTab(btn, tab, pet) {
-  const card = btn.closest('.pet-card') || btn.closest('.pet-records').parentElement;
+  const card = btn.closest('.pet-card');
   card.querySelectorAll('.pr-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   card.querySelectorAll('.pr-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('pr-' + tab + '-' + pet);
   if (panel) panel.classList.add('active');
 }
-
-// ── Ring Progress Builder ──
 function buildRing(container, events) {
+  if (!container) return;
   container.innerHTML = '';
   const C = 2 * Math.PI * 18;
   events.forEach(ev => {
@@ -293,55 +251,17 @@ function buildRing(container, events) {
     const offset = C * (1 - pct);
     const div = document.createElement('div');
     div.className = 'pr-event';
-    div.innerHTML = `
-      <div class="pr-ring-wrap">
-        <svg class="pr-ring-svg" viewBox="0 0 44 44">
-          <circle class="pr-ring-bg" cx="22" cy="22" r="18"/>
-          <circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18"
-            stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/>
-        </svg>
-        <div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div>
-      </div>
-      <div class="pr-ring-count">${ev.done}<span>/${ev.max}</span></div>`;
+    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.done}<span>/${ev.max}</span></div>`;
     container.appendChild(div);
   });
 }
-
-// Seoli data
-const seoliWeek7 = [
-  { icon:'🥣', name:'吃飯', done:14, max:14, color:'ring-green' },
-  { icon:'😴', name:'睡眠', done:7,  max:7,  color:'ring-sky' },
-  { icon:'🚶', name:'散步', done:5,  max:7,  color:'ring-peach' },
-  { icon:'💧', name:'喝水', done:12, max:14, color:'ring-lavender' },
-  { icon:'💩', name:'排泄', done:9,  max:14, color:'ring-yellow' },
-];
-const seoliToday = [
-  { icon:'🥣', name:'吃飯', done:2, max:2,  color:'ring-green' },
-  { icon:'💧', name:'喝水', done:1, max:3,  color:'ring-lavender' },
-  { icon:'🚶', name:'散步', done:0, max:1,  color:'ring-peach' },
-  { icon:'😴', name:'睡眠', done:1, max:1,  color:'ring-sky' },
-  { icon:'🎮', name:'玩耍', done:1, max:2,  color:'ring-yellow' },
-];
-buildRing(document.getElementById('row7-seoli'), seoliWeek7);
-buildRing(document.getElementById('rowToday-seoli'), seoliToday);
-
-// ── Trend SVG Builder ──
-const trendLines = [
-  { key:'eating',  label:'飲食', color:'#6BBFAB', data:[4,5,4,5,3,5,4] },
-  { key:'excrete', label:'排泄', color:'#A8C8E8', data:[3,4,5,4,4,5,4] },
-  { key:'body',    label:'身體', color:'#C9B8E8', data:[4,4,3,4,5,4,3] },
-  { key:'activity',label:'活動', color:'#E8834A', data:[5,4,3,5,3,4,2] },
-  { key:'mood',    label:'情緒', color:'#F5A870', data:[4,5,4,5,3,4,4] },
-];
-
 function buildTrend(svgId, legendId, lines) {
   const svg = document.getElementById(svgId);
   const legend = document.getElementById(legendId);
-  const W = 290, H = 100, pad = { l: 8, r: 8, t: 8, b: 4 };
+  if (!svg || !legend) return;
+  const W = 290, H = 100, pad = { l:8, r:8, t:8, b:4 };
   const xs = [0,1,2,3,4,5,6].map(i => pad.l + i * ((W - pad.l - pad.r) / 6));
   const yScale = v => pad.t + (5 - v) / 4 * (H - pad.t - pad.b);
-
-  // grid
   svg.innerHTML = '';
   for (let v = 1; v <= 5; v++) {
     const y = yScale(v);
@@ -357,27 +277,20 @@ function buildTrend(svgId, legendId, lines) {
     t.textContent = v;
     svg.appendChild(t);
   }
-
   const lineEls = {};
   lines.forEach(ln => {
-    const pts = ln.data.map((v, i) => `${xs[i]},${yScale(v)}`).join(' ');
+    const pts = ln.data.map((v,i) => `${xs[i]},${yScale(v)}`).join(' ');
     const el = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-    el.setAttribute('points', pts);
-    el.setAttribute('fill', 'none');
-    el.setAttribute('stroke', ln.color);
-    el.setAttribute('stroke-width', '2');
-    el.setAttribute('stroke-linejoin', 'round');
-    el.setAttribute('stroke-linecap', 'round');
+    el.setAttribute('points', pts); el.setAttribute('fill', 'none');
+    el.setAttribute('stroke', ln.color); el.setAttribute('stroke-width', '2');
+    el.setAttribute('stroke-linejoin', 'round'); el.setAttribute('stroke-linecap', 'round');
     svg.appendChild(el);
-    // end dot
     const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
     dot.setAttribute('cx', xs[6]); dot.setAttribute('cy', yScale(ln.data[6]));
     dot.setAttribute('r', '3'); dot.setAttribute('fill', ln.color);
     svg.appendChild(dot);
     lineEls[ln.key] = [el, dot];
   });
-
-  // legend
   legend.innerHTML = '';
   lines.forEach(ln => {
     const item = document.createElement('div');
@@ -391,128 +304,37 @@ function buildTrend(svgId, legendId, lines) {
     legend.appendChild(item);
   });
 }
-buildTrend('trend-svg-seoli', 'legend-seoli', trendLines);
-
-// ── Experience Cards Builder ──
 function buildExpCards(containerId, exps) {
   const c = document.getElementById(containerId);
+  if (!c) return;
   c.innerHTML = '';
   exps.forEach(ex => {
     const card = document.createElement('div');
     card.className = 'exp-card-v2';
-    card.innerHTML = `
-      <div class="exp-map">
-        <svg class="exp-map-svg" viewBox="0 0 340 80" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="mg${ex.id}" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="${ex.mapC1}"/>
-              <stop offset="100%" stop-color="${ex.mapC2}"/>
-            </linearGradient>
-          </defs>
-          <rect width="340" height="80" fill="url(#mg${ex.id})"/>
-          <!-- fake grid roads -->
-          <line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-          <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-          <line x1="80"  y1="0" x2="80"  y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-          <line x1="180" y1="0" x2="180" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-          <line x1="260" y1="0" x2="260" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-          <!-- GPS route -->
-          <polyline points="${ex.path}" fill="none" stroke="${ex.routeColor}" stroke-width="3"
-            stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>
-          <!-- start dot -->
-          <circle cx="${ex.startX}" cy="${ex.startY}" r="5" fill="white" opacity="0.9"/>
-          <circle cx="${ex.startX}" cy="${ex.startY}" r="3" fill="${ex.routeColor}"/>
-          <!-- end dot -->
-          <circle cx="${ex.endX}" cy="${ex.endY}" r="5" fill="white" opacity="0.9"/>
-          <circle cx="${ex.endX}" cy="${ex.endY}" r="3" fill="#E8834A"/>
-        </svg>
-        <div class="exp-map-badge">${ex.icon} ${ex.type}</div>
-      </div>
-      <div class="exp-card-body">
-        <div class="exp-card-left">
-          <div class="exp-card-title">${ex.name}</div>
-          <div class="exp-card-date">${ex.date} · ${ex.weather}</div>
-        </div>
-        <div class="exp-card-stats">
-          <div class="exp-stat"><span class="exp-stat-val">${ex.duration}</span><span class="exp-stat-label">時長</span></div>
-          <div class="exp-stat"><span class="exp-stat-val">${ex.steps}</span><span class="exp-stat-label">步數</span></div>
-          <div class="exp-stat"><span class="exp-stat-val">${ex.temp}</span><span class="exp-stat-label">氣溫</span></div>
-        </div>
-      </div>`;
+    card.innerHTML = `<div class="exp-map"><svg class="exp-map-svg" viewBox="0 0 340 80" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="mg${ex.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${ex.mapC1}"/><stop offset="100%" stop-color="${ex.mapC2}"/></linearGradient></defs><rect width="340" height="80" fill="url(#mg${ex.id})"/><line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="80" y1="0" x2="80" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="180" y1="0" x2="180" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="260" y1="0" x2="260" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><polyline points="${ex.path}" fill="none" stroke="${ex.routeColor}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/><circle cx="${ex.startX}" cy="${ex.startY}" r="5" fill="white" opacity="0.9"/><circle cx="${ex.startX}" cy="${ex.startY}" r="3" fill="${ex.routeColor}"/><circle cx="${ex.endX}" cy="${ex.endY}" r="5" fill="white" opacity="0.9"/><circle cx="${ex.endX}" cy="${ex.endY}" r="3" fill="#E8834A"/></svg><div class="exp-map-badge">${ex.icon} ${ex.type}</div></div><div class="exp-card-body"><div class="exp-card-left"><div class="exp-card-title">${ex.name}</div><div class="exp-card-date">${ex.date} · ${ex.weather}</div></div><div class="exp-card-stats"><div class="exp-stat"><span class="exp-stat-val">${ex.duration}</span><span class="exp-stat-label">時長</span></div><div class="exp-stat"><span class="exp-stat-val">${ex.steps}</span><span class="exp-stat-label">步數</span></div><div class="exp-stat"><span class="exp-stat-val">${ex.temp}</span><span class="exp-stat-label">氣溫</span></div></div></div>`;
     c.appendChild(card);
   });
 }
-
-buildExpCards('exp-list-seoli', [
-  {
-    id:'a', name:'公園晨走', type:'Walk', icon:'🚶', date:'3/5 週三',
-    weather:'☀️ 晴', duration:'32min', steps:'3,820', temp:'21°C',
-    mapC1:'#C8E4D4', mapC2:'#C4DCE8',
-    routeColor:'#6BBFAB',
-    path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28',
-    startX:30, startY:55, endX:300, endY:28,
-  },
-  {
-    id:'b', name:'河濱公園跑步', type:'Run', icon:'🏃', date:'3/4 週二',
-    weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C',
-    mapC1:'#D4D4F0', mapC2:'#D4E8F0',
-    routeColor:'#9898D8',
-    path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40',
-    startX:20, startY:60, endX:310, endY:40,
-  },
-  {
-    id:'c', name:'海邊游泳', type:'Swim', icon:'🏊', date:'2/28 上週',
-    weather:'☀️ 晴', duration:'55min', steps:'—', temp:'24°C',
-    mapC1:'#B8D8F0', mapC2:'#A8C8E8',
-    routeColor:'#4890C8',
-    path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42',
-    startX:40, startY:40, endX:290, endY:42,
-  },
-]);
-
-// ── Lele data ──
-const leleWeek7 = [
-  { icon:'🥣', name:'吃飯', done:13, max:14, color:'ring-lavender' },
-  { icon:'😴', name:'睡眠', done:7,  max:7,  color:'ring-sky' },
-  { icon:'💊', name:'藥物', done:6,  max:7,  color:'ring-peach' },
-  { icon:'💧', name:'喝水', done:10, max:14, color:'ring-green' },
-  { icon:'🎮', name:'玩耍', done:4,  max:7,  color:'ring-yellow' },
-];
-const leleToday = [
-  { icon:'🥣', name:'吃飯', done:2, max:2,  color:'ring-lavender' },
-  { icon:'💧', name:'喝水', done:2, max:3,  color:'ring-green' },
-  { icon:'💊', name:'藥物', done:0, max:1,  color:'ring-peach' },
-  { icon:'😴', name:'睡眠', done:1, max:1,  color:'ring-sky' },
-  { icon:'🎮', name:'玩耍', done:0, max:2,  color:'ring-yellow' },
-];
-buildRing(document.getElementById('row7-lele'), leleWeek7);
-buildRing(document.getElementById('rowToday-lele'), leleToday);
-
-const leleTrendLines = [
-  { key:'eating',  label:'飲食', color:'#6BBFAB', data:[4,5,5,4,4,5,4] },
-  { key:'excrete', label:'排泄', color:'#A8C8E8', data:[4,4,4,5,4,4,3] },
-  { key:'body',    label:'身體', color:'#C9B8E8', data:[3,4,4,3,4,4,4] },
-  { key:'activity',label:'活動', color:'#A07BC8', data:[3,3,4,3,4,3,3] },
-  { key:'mood',    label:'情緒', color:'#F5A870', data:[5,4,5,4,5,4,4] },
-];
-buildTrend('trend-svg-lele', 'legend-lele', leleTrendLines);
-
-buildExpCards('exp-list-lele', [
-  {
-    id:'d', name:'客廳追逐遊戲', type:'Play', icon:'🎮', date:'3/5 週三',
-    weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C',
-    mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'#A07BC8',
-    path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38',
-    startX:20, startY:40, endX:250, endY:38,
-  },
-  {
-    id:'e', name:'陽台曬太陽', type:'Rest', icon:'☀️', date:'3/4 週二',
-    weather:'☀️ 晴', duration:'45min', steps:'—', temp:'22°C',
-    mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040',
-    path:'60,40 100,38 140,42 180,38 220,40 260,38',
-    startX:60, startY:40, endX:260, endY:38,
-  },
-]);
+const seoli = {
+  week7:  [{ icon:'🥣',name:'吃飯',done:14,max:14,color:'ring-green'},{icon:'😴',name:'睡眠',done:7,max:7,color:'ring-sky'},{icon:'🚶',name:'散步',done:5,max:7,color:'ring-peach'},{icon:'💧',name:'喝水',done:12,max:14,color:'ring-lavender'},{icon:'💩',name:'排泄',done:9,max:14,color:'ring-yellow'}],
+  today:  [{ icon:'🥣',name:'吃飯',done:2,max:2,color:'ring-green'},{icon:'💧',name:'喝水',done:1,max:3,color:'ring-lavender'},{icon:'🚶',name:'散步',done:0,max:1,color:'ring-peach'},{icon:'😴',name:'睡眠',done:1,max:1,color:'ring-sky'},{icon:'🎮',name:'玩耍',done:1,max:2,color:'ring-yellow'}],
+  trend:  [{key:'eating',label:'飲食',color:'#6BBFAB',data:[4,5,4,5,3,5,4]},{key:'excrete',label:'排泄',color:'#A8C8E8',data:[3,4,5,4,4,5,4]},{key:'body',label:'身體',color:'#C9B8E8',data:[4,4,3,4,5,4,3]},{key:'activity',label:'活動',color:'#E8834A',data:[5,4,3,5,3,4,2]},{key:'mood',label:'情緒',color:'#F5A870',data:[4,5,4,5,3,4,4]}],
+  exps:   [{id:'a',name:'公園晨走',type:'Walk',icon:'🚶',date:'3/5 週三',weather:'☀️ 晴',duration:'32min',steps:'3,820',temp:'21°C',mapC1:'#C8E4D4',mapC2:'#C4DCE8',routeColor:'#6BBFAB',path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28',startX:30,startY:55,endX:300,endY:28},{id:'b',name:'河濱公園跑步',type:'Run',icon:'🏃',date:'3/4 週二',weather:'🌤 多雲',duration:'48min',steps:'6,210',temp:'19°C',mapC1:'#D4D4F0',mapC2:'#D4E8F0',routeColor:'#9898D8',path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40',startX:20,startY:60,endX:310,endY:40},{id:'c',name:'海邊游泳',type:'Swim',icon:'🏊',date:'2/28 上週',weather:'☀️ 晴',duration:'55min',steps:'—',temp:'24°C',mapC1:'#B8D8F0',mapC2:'#A8C8E8',routeColor:'#4890C8',path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42',startX:40,startY:40,endX:290,endY:42}],
+};
+const lele = {
+  week7:  [{icon:'🥣',name:'吃飯',done:13,max:14,color:'ring-lavender'},{icon:'😴',name:'睡眠',done:7,max:7,color:'ring-sky'},{icon:'💊',name:'藥物',done:6,max:7,color:'ring-peach'},{icon:'💧',name:'喝水',done:10,max:14,color:'ring-green'},{icon:'🎮',name:'玩耍',done:4,max:7,color:'ring-yellow'}],
+  today:  [{icon:'🥣',name:'吃飯',done:2,max:2,color:'ring-lavender'},{icon:'💧',name:'喝水',done:2,max:3,color:'ring-green'},{icon:'💊',name:'藥物',done:0,max:1,color:'ring-peach'},{icon:'😴',name:'睡眠',done:1,max:1,color:'ring-sky'},{icon:'🎮',name:'玩耍',done:0,max:2,color:'ring-yellow'}],
+  trend:  [{key:'eating',label:'飲食',color:'#6BBFAB',data:[4,5,5,4,4,5,4]},{key:'excrete',label:'排泄',color:'#A8C8E8',data:[4,4,4,5,4,4,3]},{key:'body',label:'身體',color:'#C9B8E8',data:[3,4,4,3,4,4,4]},{key:'activity',label:'活動',color:'#A07BC8',data:[3,3,4,3,4,3,3]},{key:'mood',label:'情緒',color:'#F5A870',data:[5,4,5,4,5,4,4]}],
+  exps:   [{id:'d',name:'客廳追逐遊戲',type:'Play',icon:'🎮',date:'3/5 週三',weather:'🌙 室內',duration:'20min',steps:'—',temp:'24°C',mapC1:'#E8E0F8',mapC2:'#D8E8F8',routeColor:'#A07BC8',path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38',startX:20,startY:40,endX:250,endY:38},{id:'e',name:'陽台曬太陽',type:'Rest',icon:'☀️',date:'3/4 週二',weather:'☀️ 晴',duration:'45min',steps:'—',temp:'22°C',mapC1:'#FFF0D4',mapC2:'#FFE4C0',routeColor:'#E8C040',path:'60,40 100,38 140,42 180,38 220,40 260,38',startX:60,startY:40,endX:260,endY:38}],
+};
+function initPet(id, data) {
+  buildRing(document.getElementById('row7-' + id), data.week7);
+  buildRing(document.getElementById('rowToday-' + id), data.today);
+  buildTrend('trend-svg-' + id, 'legend-' + id, data.trend);
+  buildExpCards('exp-list-' + id, data.exps);
+}
+initPet('seoli', seoli);
+initPet('lele', lele);
 </script>
 </body>
 </html>

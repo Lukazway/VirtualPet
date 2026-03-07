@@ -1,206 +1,157 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>PawLife — Pet Health App</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PawLife — Calendar</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="pages-container">
-
-<!-- ======== CALENDAR PAGE ======== -->
-<div class="page-wrapper">
-  <div class="phone-label">📅 Calendar</div>
-  <div class="phone" style="position:relative;">
-    <div class="status-bar">
-      <span class="status-time">9:41</span>
-      <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+<div class="app-shell">
+  <div class="top-nav">
+    <div class="nav-logo">
+      <div class="logo-icon">🐾</div>
     </div>
-    <div class="page active">
-      <div class="top-nav">
-        <div class="nav-logo">
-          <div class="logo-icon">🐾</div>
-          <!-- <span class="logo-text">PawLife</span> -->
-        </div>
-        <span class="nav-title">Calendar</span>
-        <button class="nav-action">🔍</button>
-      </div>
-      <div class="scroll-area">
-        <div class="cal-header">
-          <div class="cal-month-nav">
-            <button class="cal-arrow">‹</button>
-            <span class="cal-month">March 2026</span>
-            <button class="cal-arrow">›</button>
-          </div>
-
-          <!-- Legend -->
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);">
-              <div class="day-dot dot-life" style="width:8px;height:8px;"></div>Life
-            </div>
-            <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);">
-              <div class="day-dot dot-health" style="width:8px;height:8px;"></div>Health
-            </div>
-            <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);">
-              <div class="day-dot dot-exp" style="width:8px;height:8px;"></div>Activity
-            </div>
-            <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);">
-              <div class="day-dot dot-todo" style="width:8px;height:8px;"></div>Todo
-            </div>
-          </div>
-        </div>
-
-        <!-- Calendar Grid -->
-        <div class="cal-grid">
-          <div class="cal-weekdays">
-            <div class="cal-weekday">S</div><div class="cal-weekday">M</div>
-            <div class="cal-weekday">T</div><div class="cal-weekday">W</div>
-            <div class="cal-weekday">T</div><div class="cal-weekday">F</div>
-            <div class="cal-weekday">S</div>
-          </div>
-          <div class="cal-days" id="calGrid"></div>
-        </div>
-
-        <!-- Daily Records -->
-        <div class="daily-records">
-          <div class="record-date-header">📋 March 6 — Today</div>
-          <div class="record-list">
-            <div class="record-item">
-              <span class="record-time">07:30</span>
-              <div class="record-type-dot dot-life"></div>
-              <div class="record-content">
-                <div class="record-name">Morning Breakfast</div>
-                <div class="record-sub">200g dry food · Mochi</div>
-              </div>
-              <span class="record-emoji">🥣</span>
-            </div>
-            <div class="record-item">
-              <span class="record-time">08:15</span>
-              <div class="record-type-dot dot-exp"></div>
-              <div class="record-content">
-                <div class="record-name">Morning Walk</div>
-                <div class="record-sub">0.8 km · 18 min · Sunny</div>
-              </div>
-              <span class="record-emoji">🚶</span>
-            </div>
-            <div class="record-item">
-              <span class="record-time">09:00</span>
-              <div class="record-type-dot dot-health"></div>
-              <div class="record-content">
-                <div class="record-name">Health Check</div>
-                <div class="record-sub">Eating: Good · Mood: Happy</div>
-              </div>
-              <span class="record-emoji">💚</span>
-            </div>
-            <div class="record-item">
-              <span class="record-time">12:00</span>
-              <div class="record-type-dot dot-life"></div>
-              <div class="record-content">
-                <div class="record-name">Lunch</div>
-                <div class="record-sub">150g wet food · Luna</div>
-              </div>
-              <span class="record-emoji">🍱</span>
-            </div>
-            <div class="record-item">
-              <span class="record-time">18:00</span>
-              <div class="record-type-dot dot-todo"></div>
-              <div class="record-content">
-                <div class="record-name">Evening Walk (pending)</div>
-                <div class="record-sub">Reminder: 30 min walk · Mochi</div>
-              </div>
-              <span class="record-emoji">⏰</span>
-            </div>
-            <div class="record-item">
-              <span class="record-time">20:00</span>
-              <div class="record-type-dot dot-todo"></div>
-              <div class="record-content">
-                <div class="record-name">Luna's Medication (pending)</div>
-                <div class="record-sub">Flea prevention due today</div>
-              </div>
-              <span class="record-emoji">💊</span>
-            </div>
-          </div>
-        </div>
-        <div style="height:32px;"></div>
-      </div>
-    </div>
-
-    <!-- FAB -->
-    <button class="cal-fab">➕</button>
-
-    <div class="bottom-nav">
-      <button class="nav-item" onclick="location.href='Home.html'">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-item" onclick="location.href='Today.html'">
-        <span class="nav-icon">🌤️</span>
-        <span class="nav-label">Today</span>
-      </button>
-      <button class="nav-item active" onclick="location.href='Calendar.html'">
-        <span class="nav-icon">📅</span>
-        <span class="nav-label">Calendar</span>
-      </button>
-    </div>
+    <span class="nav-title">Calendar</span>
+    <button class="nav-action">🔍</button>
   </div>
-</div>
 
-</div>
+  <div class="scroll-area">
+    <div class="cal-header">
+      <div class="cal-month-nav">
+        <button class="cal-arrow">‹</button>
+        <span class="cal-month">March 2026</span>
+        <button class="cal-arrow">›</button>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-life" style="width:8px;height:8px;"></div>生活</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-health" style="width:8px;height:8px;"></div>健康</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-exp" style="width:8px;height:8px;"></div>活動</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-todo" style="width:8px;height:8px;"></div>待辦</div>
+      </div>
+    </div>
+
+    <div class="cal-grid">
+      <div class="cal-weekdays">
+        <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
+        <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
+        <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
+        <div class="cal-weekday">六</div>
+      </div>
+      <div class="cal-days" id="calGrid"></div>
+    </div>
+
+    <div class="daily-records">
+      <div class="record-date-header">📋 3月6日 — 今天</div>
+      <div class="record-list">
+        <div class="record-item">
+          <span class="record-time">07:30</span>
+          <div class="record-type-dot dot-life"></div>
+          <div class="record-content">
+            <div class="record-name">早餐</div>
+            <div class="record-sub">乾飼料 200g · Seoli</div>
+          </div>
+          <span class="record-emoji">🥣</span>
+        </div>
+        <div class="record-item">
+          <span class="record-time">08:15</span>
+          <div class="record-type-dot dot-exp"></div>
+          <div class="record-content">
+            <div class="record-name">晨間散步</div>
+            <div class="record-sub">0.8 km · 18 分鐘 · 晴天</div>
+          </div>
+          <span class="record-emoji">🚶</span>
+        </div>
+        <div class="record-item">
+          <span class="record-time">09:00</span>
+          <div class="record-type-dot dot-health"></div>
+          <div class="record-content">
+            <div class="record-name">健康狀態確認</div>
+            <div class="record-sub">飲食：正常 · 情緒：開心</div>
+          </div>
+          <span class="record-emoji">💚</span>
+        </div>
+        <div class="record-item">
+          <span class="record-time">12:00</span>
+          <div class="record-type-dot dot-life"></div>
+          <div class="record-content">
+            <div class="record-name">午餐</div>
+            <div class="record-sub">濕糧 150g · Lele</div>
+          </div>
+          <span class="record-emoji">🍱</span>
+        </div>
+        <div class="record-item">
+          <span class="record-time">18:00</span>
+          <div class="record-type-dot dot-todo"></div>
+          <div class="record-content">
+            <div class="record-name">傍晚散步（待辦）</div>
+            <div class="record-sub">提醒：30 分鐘 · Seoli</div>
+          </div>
+          <span class="record-emoji">⏰</span>
+        </div>
+        <div class="record-item">
+          <span class="record-time">20:00</span>
+          <div class="record-type-dot dot-todo"></div>
+          <div class="record-content">
+            <div class="record-name">Lele 用藥（待辦）</div>
+            <div class="record-sub">跳蚤預防藥今天到期</div>
+          </div>
+          <span class="record-emoji">💊</span>
+        </div>
+      </div>
+    </div>
+    <div style="height:32px;"></div>
+  </div><!-- /scroll-area -->
+
+  <button class="cal-fab">➕</button>
+
+  <div class="bottom-nav">
+    <button class="nav-item" onclick="location.href='Home.html'">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="location.href='Today.html'">
+      <span class="nav-icon">🌤️</span>
+      <span class="nav-label">Today</span>
+    </button>
+    <button class="nav-item active">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">Calendar</span>
+    </button>
+  </div>
+</div><!-- /app-shell -->
 
 <script>
-// Generate calendar
 const calGrid = document.getElementById('calGrid');
-const totalDays = 31;
-const startDay = 0; // Sunday
-
-// data for dots
 const dotData = {
-  1: ['life','health'],
-  2: ['life','exp'],
-  3: ['life','health','exp'],
-  4: ['life','todo'],
-  5: ['life','health','exp','todo'],
-  6: ['life','health','todo'],
-  7: ['life','exp'],
-  8: ['life','health'],
-  9: ['life'],
-  10: ['life','health','exp'],
-  12: ['life','todo'],
-  14: ['life','health'],
-  15: ['life','exp'],
-  18: ['life','health'],
-  20: ['life','exp'],
-  22: ['health','todo'],
-  25: ['life'],
-  28: ['life','health','exp'],
+  1:['life','health'], 2:['life','exp'], 3:['life','health','exp'],
+  4:['life','todo'], 5:['life','health','exp','todo'], 6:['life','health','todo'],
+  7:['life','exp'], 8:['life','health'], 9:['life'], 10:['life','health','exp'],
+  12:['life','todo'], 14:['life','health'], 15:['life','exp'],
+  18:['life','health'], 20:['life','exp'], 22:['health','todo'],
+  25:['life'], 28:['life','health','exp'],
 };
-
-// Empty cells
-for(let i=0;i<startDay;i++){
-  const empty = document.createElement('div');
-  empty.className = 'cal-day empty';
-  calGrid.appendChild(empty);
+// March 2026 starts on Sunday (0)
+for (let i = 0; i < 0; i++) {
+  const e = document.createElement('div');
+  e.className = 'cal-day empty';
+  calGrid.appendChild(e);
 }
-
-for(let d=1;d<=totalDays;d++){
+for (let d = 1; d <= 31; d++) {
   const day = document.createElement('div');
-  day.className = 'cal-day' + (d===6?' today':'') + (d===5?' selected':'');
+  day.className = 'cal-day' + (d === 6 ? ' today' : '') + (d === 5 ? ' selected' : '');
   const num = document.createElement('div');
   num.className = 'day-num';
   num.textContent = d;
   day.appendChild(num);
   const dots = document.createElement('div');
   dots.className = 'day-dots';
-  if(dotData[d]){
-    dotData[d].forEach(type=>{
-      const dot = document.createElement('div');
-      dot.className = 'day-dot dot-'+type;
-      dots.appendChild(dot);
-    });
-  }
+  (dotData[d] || []).forEach(type => {
+    const dot = document.createElement('div');
+    dot.className = 'day-dot dot-' + type;
+    dots.appendChild(dot);
+  });
   day.appendChild(dots);
   calGrid.appendChild(day);
 }
