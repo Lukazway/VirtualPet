@@ -3,243 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>PawLife — Overview</title>
+<title>Eko — Overview</title>
 <style>
-/* ============================================================
-   PawLife — Shared Stylesheet
-   Imported by: Home.html, Today.html, Calendar.html
-   (Overview.html is self-contained with its own embedded CSS)
-   ============================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
-
-/* ── Design Tokens ── */
-:root {
-  --cream: #FFF8F0;
-  --warm-white: #FFFCF8;
-  --sand: #F5EDE0;
-  --sand-dark: #EAD9C5;
-  --peach: #F9C9A0;
-  --peach-mid: #F5A870;
-  --peach-deep: #E8834A;
-  --coral: #F07B5A;
-  --mint: #A8D8C8;
-  --mint-light: #D4EDE6;
-  --mint-deep: #6BBFAB;
-  --lavender: #C9B8E8;
-  --lavender-light: #E8E0F5;
-  --sky: #A8C8E8;
-  --sky-light: #D4E8F5;
-  --yellow: #F5D97A;
-  --yellow-light: #FBF0C0;
-  --rose: #F0A0A0;
-  --rose-light: #F8D8D8;
-  --brown: #8B5E3C;
-  --brown-mid: #A8744E;
-  --text-primary: #3D2B1F;
-  --text-secondary: #7A5C48;
-  --text-muted: #B09880;
-  --card-bg: #FFFFFF;
-  --card-shadow: 0 4px 20px rgba(139,94,60,0.08);
-  --card-shadow-hover: 0 8px 32px rgba(139,94,60,0.15);
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --font-display: 'Nunito', sans-serif;
-  --font-body: 'Quicksand', sans-serif;
-}
-
-/* ── Reset ── */
+/* ============================================================ 
+Eko — Shared Stylesheet
+Imported by:
+Home.html, Today.html, Calendar.html
+(Overview.html is self-contained with its own embedded CSS)
+============================================================ */ 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400; 500; 600; 700; 800; 900&family=Quicksand:wght@400; 500; 600; 700&display=swap'); /* ── Design Tokens ── */ :root { --cream: #FFF8F0; --warm-white: #FFFCF8; --sand: #F5EDE0; --sand-dark: #EAD9C5; --peach: #F9C9A0; --peach-mid: #F5A870; --peach-deep: #E8834A; --coral: #F07B5A; --mint: #A8D8C8; --mint-light: #D4EDE6; --mint-deep: #6BBFAB; --lavender: #C9B8E8; --lavender-light: #E8E0F5; --sky: #A8C8E8; --sky-light: #D4E8F5; --yellow: #F5D97A; --yellow-light: #FBF0C0; --rose: #F0A0A0; --rose-light: #F8D8D8; --brown: #8B5E3C; --brown-mid: #A8744E; --text-primary: #3D2B1F; --text-secondary: #7A5C48; --text-muted: #B09880; --card-bg: #FFFFFF; --card-shadow: 0 4px 20px rgba(139,94,60,0.08); --card-shadow-hover: 0 8px 32px rgba(139,94,60,0.15); --radius-sm: 12px; --radius-md: 18px; --radius-lg: 24px; --radius-xl: 32px; --font-display: 'Nunito', sans-serif; --font-body: 'Quicksand', sans-serif; }
+/* ── Reset ── */ 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-/* ── Body ── */
-body {
-  font-family: var(--font-body);
-  background: var(--cream);
-  height: 100%;
-  overflow: hidden;
-}
+/* ── Body ── */ 
+body { font-family: var(--font-body); background: var(--cream); height: 100%; overflow: hidden; }
 html { height: 100%; }
-
-/* ── App Shell — fixes Safari safe-area layout ── */
-.app-shell {
-  display: flex;
-  flex-direction: column;
-  height: 100dvh;
-  width: 100%;
-  background: var(--cream);
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-/* ── Top Nav — always visible, never scrolls away ── */
-.top-nav {
-  padding: 12px 24px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--cream);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
+/* ── App Shell — fixes Safari safe-area layout ── */ 
+.app-shell { display: flex; flex-direction: column; height: 100dvh; width: 100%; background: var(--cream); overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
+/* ── Top Nav — always visible, never scrolls away ── */ 
+.top-nav { padding: 8px 24px 8px; display: flex; align-items: center; justify-content: space-between; background: var(--cream); flex-shrink: 0; position: relative; z-index: 10; }
 .nav-logo { display: flex; align-items: center; gap: 8px; }
-.logo-icon {
-  width: 36px; height: 36px;
-  background: linear-gradient(135deg, var(--peach-deep), var(--coral));
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-}
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--peach-deep), var(--coral)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 .nav-title { font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--text-primary); }
 .nav-action { width: 40px; height: 40px; background: var(--sand); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: none; }
-
-/* ── Scroll area — fills remaining space between top-nav and bottom-nav ── */
-.scroll-area {
-  flex: 1;
-  overflow-y: scroll;
-  min-height: 0;
-  scrollbar-width: none;
-  overscroll-behavior-y: none;
-  touch-action: pan-y;
-  will-change: scroll-position;
-  -webkit-overflow-scrolling: auto;
-}
+/* ── Scroll area — fills remaining space between top-nav and bottom-nav ── */ 
+.scroll-area { flex: 1; overflow-y: scroll; min-height: 0; scrollbar-width: none; overscroll-behavior-y: none; touch-action: pan-y; will-change: scroll-position; -webkit-overflow-scrolling: auto; }
 .scroll-area::-webkit-scrollbar { display: none; }
-
-/* ── Bottom Navigation — always visible, never scrolls away ── */
-.bottom-nav {
-  height: 60px;
-  background: rgba(255,255,255,0.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(234,217,197,0.6);
-  display: flex;
-  align-items: stretch;
-  padding: 0 8px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-}
-.nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  cursor: pointer;
-  border: none;
-  background: none;
-  padding: 0 4px;
-  border-radius: 12px;
-  transition: all 0.2s;
-  position: relative;
-  /* Safari: explicit height so centering is never recalculated */
-  height: 60px;
-  box-sizing: border-box;
-}
+/* ── Bottom Navigation — always visible, never scrolls away ── */ 
+.bottom-nav { height: 60px; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(234,217,197,0.6); display: flex; align-items: stretch; padding: 0 8px; position: absolute; bottom: 0; left: 0; right: 0; z-index: 10; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; border: none; background: none; padding: 0 4px; border-radius: 12px; transition: all 0.2s; position: relative; /* Safari: explicit height so centering is never recalculated */ height: 60px; box-sizing: border-box; }
 .nav-item.active { background: var(--sand); }
 .nav-icon { font-size: 20px; line-height: 1; }
 .nav-label { font-family: var(--font-display); font-weight: 700; font-size: 10px; color: var(--text-muted); }
 .nav-item.active .nav-label { color: var(--peach-deep); }
-
-/* ── Page content helpers (used in Overview phone frames) ── */
+/* ── Page content helpers (used in Overview phone frames) ── */ 
 .page { display: none; flex-direction: column; min-height: 0; }
-.page.active {
-  display: flex;
-  overflow: hidden;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  right: 0;
-  bottom: 60px;
-}
+.page.active { display: flex; overflow: hidden; position: absolute; top: 50px; left: 0; right: 0; bottom: 60px; }
 
-/* ══════════════════════════════════
-   HOME PAGE
-══════════════════════════════════ */
+
+
+/* ══════════════════════════════════ HOME PAGE ══════════════════════════════════ */ 
 .home-content { padding: 0 20px 24px; }
-
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .section-title { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: var(--text-primary); }
 .section-more { font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--peach-deep); }
-
-/* Pet Card */
-.pet-card {
-  background: var(--card-bg);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--card-shadow);
-  margin-bottom: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
+/* Pet Card */ 
+.pet-card { background: var(--card-bg); border-radius: var(--radius-xl); box-shadow: var(--card-shadow); margin-bottom: 20px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
 .pet-card:active { transform: scale(0.98); box-shadow: var(--card-shadow-hover); }
-
-.pet-card-header {
-  padding: 20px 16px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  user-select: none;
-}
+.pet-card-header { padding: 20px 16px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
 .pet-avatar-wrap { position: relative; width: 110px; height: 110px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.pet-avatar {
-  width: 80px; height: 80px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, var(--peach), var(--sand-dark));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 44px;
-}
-.pet-avatar-badge {
-  position: absolute; bottom: 13px; right: 13px;
-  width: 22px; height: 22px;
-  background: var(--mint-deep); border-radius: 8px; border: 2px solid white;
-  display: flex; align-items: center; justify-content: center; font-size: 10px;
-}
+.pet-avatar { width: 80px; height: 80px; border-radius: 24px; background: linear-gradient(135deg, var(--peach), var(--sand-dark)); display: flex; align-items: center; justify-content: center; font-size: 44px; }
+.pet-avatar-badge { position: absolute; bottom: 13px; right: 13px; width: 22px; height: 22px; background: var(--mint-deep); border-radius: 8px; border: 2px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px; }
 .pet-info { flex: 1; }
 .pet-name { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--text-primary); }
 .pet-breed { font-weight: 500; font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.pet-age-tag {
-  background: var(--yellow-light); color: var(--brown);
-  font-family: var(--font-display); font-weight: 700; font-size: 12px;
-  padding: 4px 10px; border-radius: 20px; margin-top: 6px; display: inline-block;
-}
-.pet-card-more {
-  width: 32px; height: 32px;
-  background: var(--sand); border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; color: var(--text-muted);
-  flex-shrink: 0; cursor: pointer; align-self: center;
-}
-
-/* ── Health Strip (Insight Panel) ── */
-.health-strip {
-  border-top: 1px solid var(--sand);
-  border-bottom: 1px solid var(--sand);
-  padding: 12px 16px;
-  display: flex;
-  gap: 12px;
-  align-items: stretch;
-  background: var(--warm-white);
-}
+.pet-age-tag { background: var(--yellow-light); color: var(--brown); font-family: var(--font-display); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 20px; margin-top: 6px; display: inline-block; }
+.pet-card-more { width: 32px; height: 32px; background: var(--sand); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--text-muted); flex-shrink: 0; cursor: pointer; align-self: center; }
+/* ── Health Strip (Insight Panel) ── */ 
+.health-strip { border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); padding: 12px 16px; display: flex; gap: 12px; align-items: stretch; background: var(--warm-white); }
 .hs-chart { flex: 0 0 110px; display: flex; flex-direction: column; gap: 4px; }
 .hs-chart-label { font-size: 9px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.4px; text-transform: uppercase; }
 .hs-svg { width: 100%; flex: 1; overflow: visible; }
 .hs-alerts { flex: 1; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
-.hs-alert {
-  display: flex; align-items: flex-start; gap: 6px;
-  background: var(--sand); border-radius: 10px; padding: 6px 8px;
-}
+.hs-alert { display: flex; align-items: flex-start; gap: 6px; background: var(--sand); border-radius: 10px; padding: 6px 8px; }
 .hs-alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 .hs-alert-body { flex: 1; }
 .hs-alert-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: var(--text-primary); line-height: 1.3; }
@@ -248,26 +73,16 @@ html { height: 100%; }
 .hs-alert.warn .hs-alert-title { color: var(--peach-deep); }
 .hs-alert.ok { background: var(--mint-light); }
 .hs-alert.ok .hs-alert-title { color: var(--mint-deep); }
-
-/* ── Pet Records Tabs ── */
+/* ── Pet Records Tabs ── */ 
 .pet-records { padding: 0; }
 .pet-records.collapsed .pr-panel { display: none !important; }
 .pet-records.collapsed .pr-tabs { border-bottom: none; border-radius: 0 0 var(--radius-xl) var(--radius-xl); overflow: hidden; }
-
 .pr-tabs { display: flex; border-bottom: 1px solid var(--sand); background: var(--warm-white); }
-.pr-tab {
-  flex: 1; padding: 10px 4px;
-  font-family: var(--font-display); font-weight: 700; font-size: 11px;
-  color: var(--text-muted); text-align: center; cursor: pointer;
-  border: none; background: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.18s; letter-spacing: 0.2px;
-}
+.pr-tab { flex: 1; padding: 10px 4px; font-family: var(--font-display); font-weight: 700; font-size: 11px; color: var(--text-muted); text-align: center; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.18s; letter-spacing: 0.2px; }
 .pr-tab.active { color: var(--peach-deep); border-bottom-color: var(--peach-deep); }
 .pr-panel { display: none; padding: 16px 16px 20px; }
 .pr-panel.active { display: block; }
-
-/* Ring progress */
+/* Ring progress */ 
 .pr-row-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
 .pr-events-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 .pr-event { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 0 0 calc(20% - 7px); min-width: 48px; }
@@ -280,16 +95,11 @@ html { height: 100%; }
 .ring-sky { stroke: var(--sky); }
 .ring-lavender { stroke: #A07BC8; }
 .ring-yellow { stroke: #C8A030; }
-.pr-ring-center {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; font-size: 16px; line-height: 1;
-}
+.pr-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 16px; line-height: 1; }
 .pr-ring-center .pr-ring-label { font-family: var(--font-display); font-weight: 700; font-size: 8px; color: var(--text-secondary); line-height: 1; white-space: nowrap; }
 .pr-ring-count { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: var(--text-primary); white-space: nowrap; line-height: 1; }
 .pr-ring-count span { font-size: 10px; font-weight: 600; color: var(--text-muted); }
-
-/* Status Trend */
+/* Status Trend */ 
 .status-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; color: var(--text-secondary); cursor: pointer; padding: 3px 8px; border-radius: 8px; transition: background 0.15s; }
 .legend-item.dimmed { opacity: 0.35; }
@@ -298,8 +108,7 @@ html { height: 100%; }
 .trend-svg { width: 100%; overflow: visible; display: block; }
 .trend-x-labels { display: flex; justify-content: space-between; padding: 4px 2px 0; }
 .trend-x-label { font-size: 9px; color: var(--text-muted); font-weight: 600; text-align: center; flex: 1; }
-
-/* Experience Cards */
+/* Experience Cards */ 
 .exp-list { display: flex; flex-direction: column; gap: 10px; }
 .exp-card-v2 { background: var(--card-bg); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 2px 10px rgba(139,94,60,0.07); display: flex; flex-direction: column; }
 .exp-map { height: 80px; background: linear-gradient(135deg, #D4E8D8 0%, #C8DDE8 50%, #D8D4E8 100%); position: relative; overflow: hidden; }
@@ -312,8 +121,7 @@ html { height: 100%; }
 .exp-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
 .exp-stat-val { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: var(--text-primary); }
 .exp-stat-label { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-
-/* Shared Management */
+/* Shared Management */ 
 .shared-section { background: var(--card-bg); border-radius: var(--radius-xl); padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 20px; }
 .shared-members { display: flex; align-items: center; gap: -8px; margin: 12px 0; }
 .member-avatar { width: 36px; height: 36px; border-radius: 12px; border: 2px solid white; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-left: -8px; }
@@ -321,9 +129,9 @@ html { height: 100%; }
 .add-member { width: 36px; height: 36px; border-radius: 12px; background: var(--sand); border: 2px dashed var(--sand-dark); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted); margin-left: 4px; cursor: pointer; }
 .invite-btn { background: var(--peach-deep); color: white; font-family: var(--font-display); font-weight: 700; font-size: 14px; padding: 10px 20px; border-radius: var(--radius-md); border: none; cursor: pointer; width: 100%; margin-top: 4px; }
 
-/* ══════════════════════════════════
-   TODAY PAGE — immersive split (Overview custom)
-══════════════════════════════════ */
+
+
+/* ══════════════════════════════════ TODAY PAGE — immersive split (Overview custom) ══════════════════════════════════ */ 
 .today-scene { position: relative; flex: 1; overflow: hidden; display: flex; flex-direction: column; }
 .today-split { position: relative; z-index: 2; display: flex; flex: 1; height: 100%; overflow: hidden; }
 .today-left { width: 50%; display: flex; flex-direction: column; padding: 16px 8px 16px 14px; gap: 8px; overflow: hidden; }
@@ -335,7 +143,7 @@ html { height: 100%; }
 .sky-tip { font-size: 10px; font-weight: 600; color: rgba(40,120,80,0.95); margin-top: 5px; line-height: 1.4; text-shadow: 0 1px 3px rgba(255,255,255,0.6); }
 .pet-3d-area { flex: 1; display: flex; align-items: flex-end; justify-content: center; position: relative; padding-bottom: 8px; overflow: visible; }
 .pet-3d-shadow { position: absolute; bottom: 4px; width: 70px; height: 14px; background: rgba(30,60,20,0.25); border-radius: 50%; filter: blur(8px); }
-@keyframes petFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+@keyframes petFloat { 0%, 100% { transform: translateY(0px); }50% { transform: translateY(-10px); } }
 .pet-mood-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); border-radius: 16px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: rgba(30,30,60,0.85); white-space: nowrap; }
 .today-right { width: 50%; display: flex; flex-direction: column; padding: 16px 14px 16px 8px; gap: 8px; overflow-y: auto; scrollbar-width: none; }
 .today-right::-webkit-scrollbar { display: none; }
@@ -345,7 +153,7 @@ html { height: 100%; }
 .todo-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 .todo-dot-warn { background: #F07B5A; }
 .todo-dot-info { background: #6BBFAB; }
-.todo-dot-med  { background: #A07BC8; }
+.todo-dot-med { background: #A07BC8; }
 .todo-row-text { flex: 1; }
 .todo-row-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: rgba(20,20,50,0.95); line-height: 1.3; }
 .todo-row-sub { font-size: 9.5px; font-weight: 500; color: rgba(40,40,80,0.75); margin-top: 1px; line-height: 1.3; }
@@ -355,12 +163,11 @@ html { height: 100%; }
 .insight-row-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: rgba(20,20,50,0.95); margin-bottom: 2px; }
 .insight-row-text { font-size: 9.5px; font-weight: 500; color: rgba(40,40,80,0.75); line-height: 1.4; }
 .virtual-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(123,94,167,0.35); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(180,150,220,0.5); border-radius: 16px; padding: 10px 12px; font-family: var(--font-display); font-weight: 800; font-size: 11px; color: rgba(255,255,255,0.95); cursor: pointer; box-shadow: 0 2px 16px rgba(123,94,167,0.25), inset 0 1px 0 rgba(255,255,255,0.3); margin-top: auto; flex-shrink: 0; }
-
-/* Bottom Sheet */
+/* Bottom Sheet */ 
 .sheet-overlay { position: fixed; inset: 0; background: rgba(61,43,31,0.4); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 100; display: none; align-items: flex-end; }
 .sheet-overlay.open { display: flex; }
 .bottom-sheet { width: 100%; height: 400px; background: var(--warm-white); border-radius: 28px 28px 0 0; animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); display: flex; flex-direction: column; overflow: hidden; }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes slideUp { from { transform: translateY(100%); }to { transform: translateY(0); } }
 .sheet-handle { width: 36px; height: 4px; background: var(--sand-dark); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
 .sheet-title { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--text-primary); padding: 16px 24px 8px; flex-shrink: 0; }
 .sheet-tabs { display: flex; gap: 8px; padding: 0 24px 16px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
@@ -369,6 +176,8 @@ html { height: 100%; }
 .sheet-tab.active { background: var(--peach-deep); color: white; }
 .sheet-tab-content { flex: 1; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; min-height: 0; }
 .sheet-tab-content::-webkit-scrollbar { display: none; }
+.sheet-tab-cal { flex-shrink: 0; padding: 8px 18px; border-radius: 20px; font-family: var(--font-display); font-weight: 700; font-size: 13px; cursor: pointer; border: none; background: var(--sand); color: var(--text-secondary); transition: all 0.15s; }
+.sheet-tab-cal.active { background: var(--peach-deep); color: white; }
 .sheet-save { padding: 12px 24px 16px; flex-shrink: 0; }
 .sheet-save-btn { width: 100%; background: var(--peach-deep); color: white; font-family: var(--font-display); font-weight: 800; font-size: 16px; padding: 14px; border-radius: 18px; border: none; cursor: pointer; }
 .sheet-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 24px 8px; }
@@ -385,9 +194,9 @@ html { height: 100%; }
 .rating-slider { width: 100%; height: 6px; border-radius: 3px; background: var(--sand); appearance: none; outline: none; cursor: pointer; }
 .rating-slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--peach-deep); box-shadow: 0 2px 8px rgba(232,131,74,0.4); }
 
-/* ══════════════════════════════════
-   CALENDAR PAGE
-══════════════════════════════════ */
+
+
+/* ══════════════════════════════════ CALENDAR PAGE ══════════════════════════════════ */ 
 .cal-header { padding: 0 24px 16px; }
 .cal-month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .cal-month { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--text-primary); }
@@ -420,87 +229,68 @@ html { height: 100%; }
 .record-emoji { font-size: 18px; }
 .cal-fab { position: fixed; bottom: 96px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--peach-deep), var(--coral)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; box-shadow: 0 8px 24px rgba(232,131,74,0.4); cursor: pointer; border: none; z-index: 10; }
 
-/* ── Overview body — phone frames on tan background ── */
-body.overview-mode {
-  background: #E8D8C8;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 24px 16px;
-  gap: 32px;
-  flex-wrap: wrap;
-  overflow: visible;
-  height: auto;
-  position: static;
-}
-html:has(body.overview-mode) {
-  height: auto;
-  overflow: auto;
-}
-html:has(body.overview-mode) body {
-  height: auto;
-  overflow: visible;
-}
 
-/* ── Phone frame ── */
-.phone {
-  width: 393px;
-  height: 852px;
-  background: var(--cream);
-  border-radius: 50px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 32px 80px rgba(61,43,31,0.3), 0 0 0 10px #2A1A0E, inset 0 0 0 1px rgba(255,255,255,0.2);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  /* Safari: GPU layer so momentum scroll on overview page can't shift phone internals */
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-.phone-label {
-  text-align: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 15px;
-  color: var(--brown);
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
-}
+
+/* ── Overview body — phone frames on tan background ── */ 
+body.overview-mode { background: #E8D8C8; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 24px 16px; gap: 32px; flex-wrap: wrap; overflow: visible; height: auto; position: static; }
+html:has(body.overview-mode) { height: auto; overflow: auto; }
+html:has(body.overview-mode) body { height: auto; overflow: visible; }
+/* ── Phone frame ── */ 
+.phone { width: 393px; height: 852px; background: var(--cream); border-radius: 50px; overflow: hidden; position: relative; box-shadow: 0 32px 80px rgba(61,43,31,0.3), 0 0 0 10px #2A1A0E, inset 0 0 0 1px rgba(255,255,255,0.2); display: flex; flex-direction: column; flex-shrink: 0; /* Safari: GPU layer so momentum scroll on overview page can't shift phone internals */ will-change: transform; transform: translateZ(0); -webkit-transform: translateZ(0); }
+.phone-label { text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--brown); margin-bottom: 12px; letter-spacing: 0.5px; }
 .page-wrapper { display: flex; flex-direction: column; align-items: center; }
 .pages-container { display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; }
-
-/* ── Status Bar (Overview phone sim only) ── */
-.status-bar {
-  height: 50px;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  /* Anchor to top of phone frame */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-}
+/* ── Status Bar (Overview phone sim only) ── */ 
+.status-bar { height: 50px; background: var(--cream); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; /* Anchor to top of phone frame */ position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
 .status-time { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-primary); }
 .status-icons { display: flex; gap: 6px; align-items: center; }
 .status-icons span { font-size: 13px; color: var(--text-primary); }
-
-/* ── Today active indicator (Overview demo only) ── */
-
-/* ── Override app-shell inside phone frame ── */
-.phone .app-shell,
-.phone .page.active {
-  position: static;
-  height: 100%;
-}
-
+/* ── Today active indicator (Overview demo only) ── */ /* ── Override app-shell inside phone frame ── */ 
+.phone .app-shell, .phone .page.active { position: static; height: 100%; }
+/* ── Overview phone-frame overrides ── */ 
+.phone .status-bar { position:relative; z-index:10; background:rgba(0,0,0,0.18); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); flex-shrink:0; }
+.phone .status-time { color:rgba(255,255,255,0.92); text-shadow:0 1px 4px rgba(0,0,0,0.5); }
+.phone .status-icons { color:rgba(255,255,255,0.88); }
+.phone.ov-today { position:relative; display:flex; flex-direction:column; overflow:hidden; }
+.phone .top-nav.ov-glass { position:relative; z-index:10; background:rgba(0,0,0,0.15); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); flex-shrink:0; }
+.phone .top-nav.ov-glass .logo-icon { background:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.38); }
+.phone .top-nav.ov-glass .nav-title { color:white; text-shadow:0 1px 6px rgba(0,0,0,0.5); }
+.phone .top-nav.ov-glass .nav-action { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.30); color:white; }
+.phone .bottom-nav.ov-glass { position:relative; z-index:10; background:rgba(0,0,0,0.15); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid rgba(255,255,255,0.18); flex-shrink:0; }
+.phone .bottom-nav.ov-glass .nav-label { color:rgba(255,255,255,0.88); }
+.phone .bottom-nav.ov-glass .nav-item.active { background:rgba(255,255,255,0.20); }
+.phone .bottom-nav.ov-glass .nav-item.active .nav-label { color:white; font-weight:800; }
+.phone .today-right { width:50%; padding:8px 10px 8px 5px; }
+.phone .today-left-label { font-size:9px; }
+.phone .today-right-label { font-size:9px; }
+.phone .today-right-label.mt { font-size:9px; margin-top:3px; }
+.phone .sky-date { font-size:10px; margin-bottom:4px; }
+.phone .sky-info { flex-wrap:nowrap; }
+.phone .sky-tag { font-size:9px; padding:3px 7px; }
+.phone .sky-tip { font-size:8.5px; margin-top:4px; }
+.phone .pet-mood-badge { font-size:8px; padding:3px 7px; top:4px; left:50%; transform:translateX(-50%); }
+.phone .pet-3d-shadow { width:60px; bottom:2px; }
+.phone .lg-card.sm { padding:7px 9px; }
+.phone .lg-card.xs { padding:6px 8px; }
+.phone .insight-row-icon { font-size:11px; }
+.phone .insight-row-title { font-size:9.5px; }
+.phone .insight-row-text { font-size:8.5px; }
+.phone .todo-row-title { font-size:9.5px; }
+.phone .todo-row-sub { font-size:8px; }
+.phone .virtual-btn { font-size:9px; padding:6px 8px; margin-top:auto; }
+.phone .sheet-overlay { position:absolute; }
+.phone .cal-fab { position:absolute; bottom:96px; }
+.phone .shared-members { display:flex; align-items:center; gap:0; margin:12px 0; }
+.phone .member-avatar:first-child { background:#FFE4C8; margin-left:0; }
+.phone .member-avatar:nth-child(2) { background:#C8E4FF; margin-left:-8px; }
+.phone .member-avatar:nth-child(3) { background:#FFE4F8; margin-left:-8px; }
+.phone .add-member { margin-left:8px; }
+.phone .shared-section > div:first-child { font-size:13px; font-weight:600; color:var(--text-secondary); }
+.phone .pet-avatar.lele { background:linear-gradient(135deg,var(--lavender),var(--sky-light)); }
+.phone .pet-avatar-badge.female { background:var(--coral); }
+.phone .sheet-item.exp { padding:20px 16px; }
+.phone .sheet-item.exp .sheet-item-icon { font-size:32px; }
+.phone .sheet-item.exp .sheet-item-label { font-size:13px; }
 </style>
 </head>
 <body class="overview-mode">
@@ -583,8 +373,8 @@ html:has(body.overview-mode) body {
         <div class="pet-card">
           <div class="pet-card-header" onclick="togglePetRecords('lele')">
             <div class="pet-avatar-wrap">
-              <div class="pet-avatar" style="background:linear-gradient(135deg,var(--lavender),var(--sky-light));">🐱</div>
-              <div class="pet-avatar-badge" style="background:var(--coral);">♡</div>
+              <div class="pet-avatar lele">🐱</div>
+              <div class="pet-avatar-badge female">♡</div>
             </div>
             <div class="pet-info">
               <div class="pet-name">Lele</div>
@@ -633,11 +423,11 @@ html:has(body.overview-mode) body {
         <div class="section-header"><span class="section-title">共享管理</span><span class="section-more">管理 +</span></div>
         <div class="shared-section">
           <div style="font-size:13px;font-weight:600;color:var(--text-secondary);">與家人共享，一起陪伴寶貝們</div>
-          <div class="shared-members" style="display:flex;align-items:center;gap:0;margin:12px 0;">
-            <div class="member-avatar" style="background:#FFE4C8;margin-left:0;">👩</div>
-            <div class="member-avatar" style="background:#C8E4FF;margin-left:-8px;">👨</div>
-            <div class="member-avatar" style="background:#FFE4F8;margin-left:-8px;">👧</div>
-            <div class="add-member" style="margin-left:8px;">+</div>
+          <div class="shared-members">
+            <div class="member-avatar">👩</div>
+            <div class="member-avatar">👨</div>
+            <div class="member-avatar">👧</div>
+            <div class="add-member">+</div>
           </div>
           <button class="invite-btn">✉️ 發送邀請</button>
         </div>
@@ -654,62 +444,62 @@ html:has(body.overview-mode) body {
 <!-- ======== TODAY ======== -->
 <div class="page-wrapper">
   <div class="phone-label">🌤️ Today</div>
-  <div class="phone" style="position:relative;display:flex;flex-direction:column;overflow:hidden;">
+  <div class="phone ov-today">
     <div style="position:absolute;inset:0;z-index:0;background-image:url('today_background.png');background-size:cover;background-position:center 40%;"></div>
     <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.04) 35%,rgba(0,10,0,0.12) 100%);pointer-events:none;"></div>
     <!-- Status bar -->
-    <div class="status-bar" style="position:relative;z-index:10;background:rgba(0,0,0,0.18);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);flex-shrink:0;">
-      <span class="status-time" style="color:rgba(255,255,255,0.92);text-shadow:0 1px 4px rgba(0,0,0,0.5);">02:00</span>
-      <div class="status-icons" style="color:rgba(255,255,255,0.88);"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+    <div class="status-bar">
+      <span class="status-time">02:00</span>
+      <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
     </div>
     <!-- Top nav -->
-    <div class="top-nav" style="position:relative;z-index:10;background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-shrink:0;">
-      <div class="nav-logo"><div class="logo-icon" style="background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);">🐾</div></div>
-      <span class="nav-title" style="color:white;text-shadow:0 1px 6px rgba(0,0,0,0.5);">Today</span>
-      <button class="nav-action" style="background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.30);color:white;">🔔</button>
+    <div class="top-nav ov-glass">
+      <div class="nav-logo"><div class="logo-icon">🐾</div></div>
+      <span class="nav-title">Today</span>
+      <button class="nav-action">🔔</button>
     </div>
     <!-- Content -->
     <div style="position:relative;z-index:5;flex:1;display:flex;overflow:hidden;">
       <!-- Left -->
       <div style="width:50%;display:flex;flex-direction:column;padding:8px 5px 8px 10px;gap:8px;overflow:hidden;">
-        <div class="today-left-label" style="font-size:9px;">今日天氣</div>
+        <div class="today-left-label">今日天氣</div>
         <div class="today-sky">
-          <div class="sky-date" style="font-size:10px;margin-bottom:4px;">March 8, 2026</div>
-          <div class="sky-info" style="flex-wrap:nowrap;">
-            <div class="sky-tag" style="font-size:9px;padding:3px 7px;">☀️ 晴天</div>
-            <div class="sky-tag" style="font-size:9px;padding:3px 7px;">🌡️ 23°C</div>
+          <div class="sky-date">March 8, 2026</div>
+          <div class="sky-info">
+            <div class="sky-tag">☀️ 晴天</div>
+            <div class="sky-tag">🌡️ 23°C</div>
           </div>
-          <div class="sky-tip" style="font-size:8.5px;margin-top:4px;">🐾 適合帶 Seoli 散步！</div>
+          <div class="sky-tip">🐾 適合帶 Seoli 散步！</div>
         </div>
-        <div style="flex:1;display:flex;align-items:flex-end;justify-content:center;position:relative;padding-bottom:6px;overflow:hidden;">
-          <div class="pet-mood-badge" style="font-size:8px;padding:3px 7px;top:4px;left:50%;transform:translateX(-50%);">😊 Happy</div>
+        <div style="flex:1;display:flex;align-items:flex-end;justify-content:center;position:relative;padding-bottom:6px;">
+          <div class="pet-mood-badge">😊 Happy</div>
           <img src="Seoli_the_Samoyed.png"
                alt="Seoli"
-               style="width:100%;max-width:180px;height:auto;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,40,0,0.4));animation:petFloat 4s ease-in-out infinite;position:relative;z-index:2;">
-          <div class="pet-3d-shadow" style="width:60px;bottom:2px;"></div>
+               style="width:100%;max-width:180px;height:auto;object-fit:contain;animation:petFloat 4s ease-in-out infinite;position:relative;z-index:2;">
+          <div class="pet-3d-shadow"></div>
         </div>
       </div>
       <!-- Right -->
-      <div class="today-right" style="width:50%;padding:8px 10px 8px 5px;">
-        <div class="today-right-label" style="font-size:9px;">健康建議</div>
-        <div class="lg-card" style="padding:7px 9px;">
-          <div class="insight-row"><span class="insight-row-icon" style="font-size:11px;">💡</span><div><div class="insight-row-title" style="font-size:9.5px;">本週健康摘要</div><div class="insight-row-text" style="font-size:8.5px;">活動量偏低，試試輕鬆散步！</div></div></div>
+      <div class="today-right">
+        <div class="today-right-label">健康建議</div>
+        <div class="lg-card sm">
+          <div class="insight-row"><span class="insight-row-icon">💡</span><div><div class="insight-row-title">本週健康摘要</div><div class="insight-row-text">活動量偏低，試試輕鬆散步！</div></div></div>
         </div>
-        <div class="today-right-label" style="font-size:9px;margin-top:3px;">今日提醒</div>
-        <div class="lg-card" style="padding:6px 8px;"><div class="todo-row"><div class="todo-dot todo-dot-warn"></div><div class="todo-row-text"><div class="todo-row-title" style="font-size:9.5px;">尚未散步</div><div class="todo-row-sub" style="font-size:8px;">建議 30 分鐘散步</div></div><span class="todo-row-arrow">›</span></div></div>
-        <div class="lg-card" style="padding:6px 8px;"><div class="todo-row"><div class="todo-dot todo-dot-info"></div><div class="todo-row-text"><div class="todo-row-title" style="font-size:9.5px;">飲水量偏低</div><div class="todo-row-sub" style="font-size:8px;">今天需要多喝水</div></div><span class="todo-row-arrow">›</span></div></div>
-        <div class="lg-card" style="padding:6px 8px;"><div class="todo-row"><div class="todo-dot todo-dot-med"></div><div class="todo-row-text"><div class="todo-row-title" style="font-size:9.5px;">Lele 用藥</div><div class="todo-row-sub" style="font-size:8px;">跳蚤預防藥到期</div></div><span class="todo-row-arrow">›</span></div></div>
-        <button class="virtual-btn" style="font-size:9px;padding:6px 8px;margin-top:auto;">🌐 虛擬世界</button>
+        <div class="today-right-label mt">今日提醒</div>
+        <div class="lg-card xs"><div class="todo-row"><div class="todo-dot todo-dot-warn"></div><div class="todo-row-text"><div class="todo-row-title">尚未散步</div><div class="todo-row-sub">建議 30 分鐘散步</div></div><span class="todo-row-arrow">›</span></div></div>
+        <div class="lg-card xs"><div class="todo-row"><div class="todo-dot todo-dot-info"></div><div class="todo-row-text"><div class="todo-row-title">飲水量偏低</div><div class="todo-row-sub">今天需要多喝水</div></div><span class="todo-row-arrow">›</span></div></div>
+        <div class="lg-card xs"><div class="todo-row"><div class="todo-dot todo-dot-med"></div><div class="todo-row-text"><div class="todo-row-title">Lele 用藥</div><div class="todo-row-sub">跳蚤預防藥到期</div></div><span class="todo-row-arrow">›</span></div></div>
+        <button class="virtual-btn">🌐 虛擬世界</button>
       </div>
     </div>
     <!-- Bottom nav -->
-    <div class="bottom-nav" style="position:relative;z-index:10;background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.18);flex-shrink:0;">
-      <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label" style="color:rgba(255,255,255,0.88);">Home</span></button>
-      <button class="nav-item active" style="background:rgba(255,255,255,0.20);" onclick="openSheet()"><span class="nav-icon">➕</span><span class="nav-label" style="color:white;font-weight:800;">Today</span></button>
-      <button class="nav-item"><span class="nav-icon">📅</span><span class="nav-label" style="color:rgba(255,255,255,0.88);">Calendar</span></button>
+    <div class="bottom-nav ov-glass">
+      <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-item active" onclick="openSheet()"><span class="nav-icon">➕</span><span class="nav-label">Today</span></button>
+      <button class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></button>
     </div>
     <!-- Bottom Sheet -->
-    <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)" style="position:absolute;">
+    <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
       <div class="bottom-sheet">
         <div class="sheet-handle"></div>
         <div class="sheet-title">快速記錄</div>
@@ -812,10 +602,10 @@ html:has(body.overview-mode) body {
           <!-- Tab: 體驗記錄 -->
           <div id="tab-exp" style="display:none;">
             <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
-              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🚶</span><span class="sheet-item-label" style="font-size:13px;">散步</span></button>
-              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏃</span><span class="sheet-item-label" style="font-size:13px;">公園跑步</span></button>
-              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏊</span><span class="sheet-item-label" style="font-size:13px;">游泳</span></button>
-              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🎮</span><span class="sheet-item-label" style="font-size:13px;">遊戲</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園跑步</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">遊戲</span></button>
             </div>
           </div>
         </div>
@@ -831,7 +621,7 @@ html:has(body.overview-mode) body {
 <!-- ======== CALENDAR ======== -->
 <div class="page-wrapper">
   <div class="phone-label">📅 Calendar</div>
-  <div class="phone" style="position:relative;">
+  <div class="phone">
     <div class="status-bar">
       <span class="status-time">02:00</span>
       <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
@@ -846,7 +636,7 @@ html:has(body.overview-mode) body {
         <div class="cal-header">
           <div class="cal-month-nav">
             <button class="cal-arrow">‹</button>
-            <span class="cal-month">March 2026</span>
+            <span class="cal-month"></span>
             <button class="cal-arrow">›</button>
           </div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
@@ -866,7 +656,7 @@ html:has(body.overview-mode) body {
           <div class="cal-days" id="calGrid"></div>
         </div>
         <div class="daily-records">
-          <div class="record-date-header">📋 3月6日 — 今天</div>
+          <div class="record-date-header"></div>
           <div class="record-list">
             <div class="record-item"><span class="record-time">07:30</span><div class="record-type-dot dot-life"></div><div class="record-content"><div class="record-name">早餐</div><div class="record-sub">乾飼料 200g · Seoli</div></div><span class="record-emoji">🥣</span></div>
             <div class="record-item"><span class="record-time">08:15</span><div class="record-type-dot dot-exp"></div><div class="record-content"><div class="record-name">晨間散步</div><div class="record-sub">0.8 km · 18 分鐘 · 晴天</div></div><span class="record-emoji">🚶</span></div>
@@ -879,18 +669,138 @@ html:has(body.overview-mode) body {
         <div style="height:32px;"></div>
       </div>
     </div>
-    <button class="cal-fab" style="position:absolute;bottom:96px;">➕</button>
+    <button class="cal-fab" onclick="openSheetCal()">➕</button>
     <div class="bottom-nav">
       <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
       <button class="nav-item"><span class="nav-icon">🌤️</span><span class="nav-label">Today</span></button>
       <button class="nav-item active"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></button>
+    </div>
+    <!-- Bottom Sheet -->
+    <div class="sheet-overlay" id="sheetOverlayCal" onclick="closeSheetCal(event)">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">快速記錄</div>
+        <div class="sheet-tabs">
+          <button class="sheet-tab-cal active" onclick="switchTabCal(this,'life')">生活記錄</button>
+          <button class="sheet-tab-cal" onclick="switchTabCal(this,'status')">狀態評分</button>
+          <button class="sheet-tab-cal" onclick="switchTabCal(this,'exp')">體驗記錄</button>
+        </div>
+
+        <div class="sheet-tab-content">
+          <!-- Tab: 生活記錄 -->
+          <div id="tab-cal-life">
+            <div class="sheet-grid">
+              <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">藥物</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">美容</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
+            </div>
+          </div>
+
+          <!-- Tab: 狀態評分 -->
+          <div id="tab-cal-status" style="display:none;">
+            <div class="rating-list">
+              <div class="rating-item">
+                <div class="rating-header">
+                  <span class="rating-name">🍽️ 飲食</span>
+                  <div class="rating-emojis">
+                    <span class="rating-emoji" data-v="1">😣</span>
+                    <span class="rating-emoji" data-v="2">😕</span>
+                    <span class="rating-emoji selected" data-v="3">😊</span>
+                    <span class="rating-emoji" data-v="4">😄</span>
+                    <span class="rating-emoji" data-v="5">🤩</span>
+                  </div>
+                </div>
+                <input type="range" class="rating-slider" min="1" max="5" value="3">
+              </div>
+              <div class="rating-item">
+                <div class="rating-header">
+                  <span class="rating-name">💩 排泄</span>
+                  <div class="rating-emojis">
+                    <span class="rating-emoji" data-v="1">😣</span>
+                    <span class="rating-emoji" data-v="2">😕</span>
+                    <span class="rating-emoji" data-v="3">😊</span>
+                    <span class="rating-emoji selected" data-v="4">😄</span>
+                    <span class="rating-emoji" data-v="5">🤩</span>
+                  </div>
+                </div>
+                <input type="range" class="rating-slider" min="1" max="5" value="4">
+              </div>
+              <div class="rating-item">
+                <div class="rating-header">
+                  <span class="rating-name">🩺 身體</span>
+                  <div class="rating-emojis">
+                    <span class="rating-emoji" data-v="1">😣</span>
+                    <span class="rating-emoji" data-v="2">😕</span>
+                    <span class="rating-emoji selected" data-v="3">😊</span>
+                    <span class="rating-emoji" data-v="4">😄</span>
+                    <span class="rating-emoji" data-v="5">🤩</span>
+                  </div>
+                </div>
+                <input type="range" class="rating-slider" min="1" max="5" value="3">
+              </div>
+              <div class="rating-item">
+                <div class="rating-header">
+                  <span class="rating-name">🏃 活動</span>
+                  <div class="rating-emojis">
+                    <span class="rating-emoji selected" data-v="1">😣</span>
+                    <span class="rating-emoji" data-v="2">😕</span>
+                    <span class="rating-emoji" data-v="3">😊</span>
+                    <span class="rating-emoji" data-v="4">😄</span>
+                    <span class="rating-emoji" data-v="5">🤩</span>
+                  </div>
+                </div>
+                <input type="range" class="rating-slider" min="1" max="5" value="1">
+              </div>
+              <div class="rating-item">
+                <div class="rating-header">
+                  <span class="rating-name">😊 情緒</span>
+                  <div class="rating-emojis">
+                    <span class="rating-emoji" data-v="1">😣</span>
+                    <span class="rating-emoji" data-v="2">😕</span>
+                    <span class="rating-emoji" data-v="3">😊</span>
+                    <span class="rating-emoji selected" data-v="4">😄</span>
+                    <span class="rating-emoji" data-v="5">🤩</span>
+                  </div>
+                </div>
+                <input type="range" class="rating-slider" min="1" max="5" value="4">
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: 體驗記錄 -->
+          <div id="tab-cal-exp" style="display:none;">
+            <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
+              <button class="sheet-item exp"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園跑步</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
+              <button class="sheet-item exp"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">遊戲</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-save">
+          <button class="sheet-save-btn">儲存記錄</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 </div><!-- /pages-container -->
 
-<script>// ── Home ──
+<script src="dayjs/dayjs.min.js"></script>
+<script src="dayjs/zh-tw.min.js"></script>
+<script>
+// ── Home ──
 function togglePetRecords(pet) {
   const el = document.getElementById('pr-' + pet);
   if (!el) return;
@@ -1027,7 +937,12 @@ document.querySelectorAll('.rating-item').forEach(item => {
 
 
 // ── Calendar ──
+dayjs.locale('zh-tw');
 const calGrid = document.getElementById('calGrid');
+const calMonthEl = document.querySelector('.cal-month');
+const recordDate = document.querySelector('.record-date-header');
+const prevBtn = document.querySelectorAll('.cal-arrow')[0];
+const nextBtn = document.querySelectorAll('.cal-arrow')[1];
 const dotData = {
   1:['life','health'], 2:['life','exp'], 3:['life','health','exp'],
   4:['life','todo'], 5:['life','health','exp','todo'], 6:['life','health','todo'],
@@ -1036,29 +951,96 @@ const dotData = {
   18:['life','health'], 20:['life','exp'], 22:['health','todo'],
   25:['life'], 28:['life','health','exp'],
 };
-// March 2026 starts on Sunday (0)
-for (let i = 0; i < 0; i++) {
-  const e = document.createElement('div');
-  e.className = 'cal-day empty';
-  calGrid.appendChild(e);
+let currentDate = dayjs();
+let selectedDayEl = null;
+
+function renderCalendar(date) {
+  calGrid.innerHTML = '';
+
+  // 月份顯示
+  calMonthEl.textContent = date.format('YYYY MMMM')
+  recordDate.textContent = date.format('M/D dddd');
+  const startOfMonth = date.startOf('month');
+  const endOfMonth = date.endOf('month');
+  const startWeekDay = startOfMonth.day();
+
+  // 空格
+  for (let i = 0; i < startWeekDay; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'cal-day empty';
+    calGrid.appendChild(empty);
+  }
+
+  // 日期
+  for (let d = 1; d <= endOfMonth.date(); d++) {
+    const dayEl = document.createElement('div');
+
+    const dayDate = dayjs(new Date(date.year(), date.month(), d));
+    const today = dayDate.isSame(dayjs(), 'day');
+
+    dayEl.className = 'cal-day' + (today ? ' today' : '');
+    const num = document.createElement('div');
+    num.className = 'day-num';
+    num.textContent = d;
+    dayEl.appendChild(num);
+
+    const dots = document.createElement('div');
+    dots.className = 'day-dots';
+    (dotData[d] || []).forEach(type => {
+      const dot = document.createElement('div');
+      dot.className = 'day-dot dot-' + type;
+      dots.appendChild(dot);
+    });
+    dayEl.appendChild(dots);
+
+    dayEl.addEventListener('click', () => {
+      if (selectedDayEl) selectedDayEl.classList.remove('selected');
+      dayEl.classList.add('selected');
+      selectedDayEl = dayEl;
+      recordDate.textContent = dayDate.format('M/D dddd');
+    });
+
+    calGrid.appendChild(dayEl);
+  }
 }
-for (let d = 1; d <= 31; d++) {
-  const day = document.createElement('div');
-  day.className = 'cal-day' + (d === 6 ? ' today' : '') + (d === 5 ? ' selected' : '');
-  const num = document.createElement('div');
-  num.className = 'day-num';
-  num.textContent = d;
-  day.appendChild(num);
-  const dots = document.createElement('div');
-  dots.className = 'day-dots';
-  (dotData[d] || []).forEach(type => {
-    const dot = document.createElement('div');
-    dot.className = 'day-dot dot-' + type;
-    dots.appendChild(dot);
+
+// 上一個月
+prevBtn.addEventListener('click', () => {
+  currentDate = currentDate.subtract(1, 'month');
+  renderCalendar(currentDate);
+});
+
+// 下一個月
+nextBtn.addEventListener('click', () => {
+  currentDate = currentDate.add(1, 'month');
+  renderCalendar(currentDate);
+});
+
+renderCalendar(currentDate);
+
+function openSheetCal() { document.getElementById('sheetOverlayCal').classList.add('open'); }
+function closeSheetCal(e) {
+  if (e.target === document.getElementById('sheetOverlayCal'))
+    document.getElementById('sheetOverlayCal').classList.remove('open');
+}
+function switchTabCal(btn, tab) {
+  document.querySelectorAll('.sheet-tab-cal').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  ['life','status','exp'].forEach(t => {
+    const el = document.getElementById('tab-cal-'+t);
+    if (el) el.style.display = t === tab ? 'block' : 'none';
   });
-  day.appendChild(dots);
-  calGrid.appendChild(day);
 }
+document.querySelectorAll('.rating-item').forEach(item => {
+  const slider = item.querySelector('.rating-slider');
+  const emojis = item.querySelectorAll('.rating-emoji');
+  function sync(v) {
+    emojis.forEach(e => e.classList.toggle('selected', parseInt(e.dataset.v) === v));
+    slider.value = v;
+  }
+  slider.addEventListener('input', () => sync(parseInt(slider.value)));
+  emojis.forEach(e => e.addEventListener('click', () => sync(parseInt(e.dataset.v))));
+});
 </script>
 </body>
 </html>
