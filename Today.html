@@ -8,26 +8,42 @@
 </head>
 <body class="today-page">
 
-<!-- Background -->
 <div class="today-bg-photo"></div>
 <div class="today-bg-overlay"></div>
 
 <div class="app-shell">
 
-  <!-- Top nav -->
   <div class="top-nav">
     <div class="nav-logo"><div class="logo-icon">🐾</div></div>
     <span class="nav-title">Today</span>
-    <button class="nav-action">🔔</button>
+    <button class="nav-action" onclick="openTaskCenter()">
+      🔔
+      <span class="notif-badge" id="notifBadge">3</span>
+    </button>
   </div>
 
-  <!-- Scene -->
   <div class="today-scene">
     <div class="today-split">
 
-      <!-- Left: weather + pet -->
+      <!-- Left: status card + pet -->
       <div class="today-left">
-        <div class="today-left-label">今日天氣</div>
+        <div class="today-left-label">今日狀態</div>
+        <div class="today-status-card">
+          <div class="status-unrated" id="statusUnrated">
+            <div class="status-unrated-text">尚未評估今日狀態</div>
+            <button class="status-start-btn">開始評估</button>
+          </div>
+        </div>
+        <div class="pet-3d-area">
+          <div class="pet-mood-badge">😊 Happy</div>
+          <img class="dog-photo" src="Seoli_the_Samoyed.png" alt="Seoli">
+          <div class="pet-3d-shadow"></div>
+        </div>
+      </div>
+
+      <!-- Right: weather + health observations -->
+      <div class="today-right">
+        <div class="today-right-label">今日天氣</div>
         <div class="today-sky">
           <div class="sky-date">March 8, 2026</div>
           <div class="sky-info">
@@ -36,65 +52,39 @@
           </div>
           <div class="sky-tip">🐾 今天很適合帶 Seoli 出去散步！</div>
         </div>
-        <div class="pet-3d-area">
-          <div class="pet-mood-badge">😊 Happy</div>
-          <img class="dog-photo"
-            src="Seoli_the_Samoyed.png"
-            alt="Seoli">
-          <div class="pet-3d-shadow"></div>
-        </div>
-      </div>
-
-      <!-- Right: notifications -->
-      <div class="today-right">
-        <div class="today-right-label">健康建議</div>
+        <div class="today-right-label" style="margin-top:8px;">健康觀察</div>
         <div class="lg-card">
           <div class="insight-row">
             <span class="insight-row-icon">💡</span>
             <div class="insight-row-body">
-              <div class="insight-row-title">本週健康摘要</div>
+              <div class="insight-row-title">健康摘要</div>
               <div class="insight-row-text">Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！</div>
             </div>
           </div>
         </div>
-        <div class="today-right-label" style="margin-top:8px;">今日提醒</div>
         <div class="lg-card">
-          <div class="todo-row">
-            <div class="todo-dot todo-dot-warn"></div>
-            <div class="todo-row-text">
-              <div class="todo-row-title">Seoli 尚未散步</div>
-              <div class="todo-row-sub">建議：30 分鐘戶外散步</div>
+          <div class="insight-row">
+            <span class="insight-row-icon">💧</span>
+            <div class="insight-row-body">
+              <div class="insight-row-title">飲水量偏低</div>
+              <div class="insight-row-text">Seoli 今天的飲水量低於建議標準</div>
             </div>
-            <span class="todo-row-arrow">›</span>
           </div>
         </div>
         <div class="lg-card">
-          <div class="todo-row">
-            <div class="todo-dot todo-dot-info"></div>
-            <div class="todo-row-text">
-              <div class="todo-row-title">飲水量偏低</div>
-              <div class="todo-row-sub">Seoli 今天需要多喝水</div>
+          <div class="insight-row">
+            <span class="insight-row-icon">💊</span>
+            <div class="insight-row-body">
+              <div class="insight-row-title">Lele 用藥提醒</div>
+              <div class="insight-row-text">跳蚤預防藥今天到期，請至任務中心查看</div>
             </div>
-            <span class="todo-row-arrow">›</span>
           </div>
         </div>
-        <div class="lg-card">
-          <div class="todo-row">
-            <div class="todo-dot todo-dot-med"></div>
-            <div class="todo-row-text">
-              <div class="todo-row-title">Lele 用藥提醒</div>
-              <div class="todo-row-sub">跳蚤預防藥 — 今天到期</div>
-            </div>
-            <span class="todo-row-arrow">›</span>
-          </div>
-        </div>
-        <button class="virtual-btn">🌐 進入虛擬世界</button>
       </div>
 
     </div>
   </div>
 
-  <!-- Bottom nav -->
   <div class="bottom-nav">
     <button class="nav-item" onclick="location.href='Home.html'">
       <span class="nav-icon">🏠</span>
@@ -112,6 +102,59 @@
 
 </div>
 
+<!-- Task Center -->
+<div class="task-overlay" id="taskOverlay">
+  <div class="task-center">
+    <div class="top-nav task-center-nav">
+      <div class="nav-logo"><div class="logo-icon">🐾</div></div>
+      <span class="nav-title">Tasks</span>
+      <button class="nav-action" onclick="closeTaskCenter()">✕</button>
+    </div>
+    <div class="task-tabs">
+      <button class="task-tab active" onclick="switchTaskTab(this,'pending')">待完成 <span class="task-tab-count" id="pendingCount">3</span></button>
+      <button class="task-tab" onclick="switchTaskTab(this,'done')">已完成</button>
+    </div>
+    <div class="task-list" id="tab-pending">
+      <div class="task-item" id="task-1">
+        <div class="task-dot task-dot-warn"></div>
+        <div class="task-item-body">
+          <div class="task-item-title">Seoli 尚未散步</div>
+          <div class="task-item-sub">建議：30 分鐘戶外散步</div>
+        </div>
+        <div class="task-item-actions">
+          <button class="task-action-btn task-done-btn" onclick="completeTask('task-1')">✔</button>
+          <button class="task-action-btn task-delay-btn" onclick="delayTask('task-1')">⏰</button>
+        </div>
+      </div>
+      <div class="task-item" id="task-2">
+        <div class="task-dot task-dot-info"></div>
+        <div class="task-item-body">
+          <div class="task-item-title">補充飲水量</div>
+          <div class="task-item-sub">Seoli 今天需要多喝水</div>
+        </div>
+        <div class="task-item-actions">
+          <button class="task-action-btn task-done-btn" onclick="completeTask('task-2')">✔</button>
+          <button class="task-action-btn task-delay-btn" onclick="delayTask('task-2')">⏰</button>
+        </div>
+      </div>
+      <div class="task-item" id="task-3">
+        <div class="task-dot task-dot-med"></div>
+        <div class="task-item-body">
+          <div class="task-item-title">Lele 用藥提醒</div>
+          <div class="task-item-sub">跳蚤預防藥 — 今天到期</div>
+        </div>
+        <div class="task-item-actions">
+          <button class="task-action-btn task-done-btn" onclick="completeTask('task-3')">✔</button>
+          <button class="task-action-btn task-delay-btn" onclick="delayTask('task-3')">⏰</button>
+        </div>
+      </div>
+    </div>
+    <div class="task-list" id="tab-done" style="display:none;">
+      <div class="task-done-empty" id="doneEmpty">目前沒有已完成的任務</div>
+    </div>
+  </div>
+</div>
+
 <!-- Bottom Sheet -->
 <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
   <div class="bottom-sheet">
@@ -119,101 +162,41 @@
     <div class="sheet-title">快速記錄</div>
     <div class="sheet-tabs">
       <button class="sheet-tab active" onclick="switchTab(this,'life')">生活記錄</button>
-      <button class="sheet-tab" onclick="switchTab(this,'status')">狀態評分</button>
       <button class="sheet-tab" onclick="switchTab(this,'exp')">體驗記錄</button>
     </div>
-
     <div class="sheet-tab-content">
-      <!-- Tab: 生活記錄 -->
       <div id="tab-life">
+        <div class="sheet-section-label">生活</div>
         <div class="sheet-grid">
           <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">藥物</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">用藥</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">美容</span></button>
+          <button class="sheet-item"><span class="sheet-item-icon">🪮</span><span class="sheet-item-label">清潔</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
           <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
         </div>
-      </div>
-
-      <!-- Tab: 狀態評分 -->
-      <div id="tab-status" style="display:none;">
-        <div class="rating-list">
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">🍽️ 飲食</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji selected" data-v="3">😊</span>
-                <span class="rating-emoji" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="3">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">💩 排泄</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji" data-v="3">😊</span>
-                <span class="rating-emoji selected" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="4">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">🩺 身體</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji selected" data-v="3">😊</span>
-                <span class="rating-emoji" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="3">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">🏃 活動</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji selected" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji" data-v="3">😊</span>
-                <span class="rating-emoji" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="1">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">😊 情緒</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji" data-v="3">😊</span>
-                <span class="rating-emoji selected" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="4">
-          </div>
+        <div class="sheet-section-label sheet-section-label-health">健康</div>
+        <div class="sheet-grid">
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤮</span><span class="sheet-item-label">嘔吐</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚽</span><span class="sheet-item-label">拉肚子 / 便秘</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔴</span><span class="sheet-item-label">尿失禁 / 排尿異常</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">⚡</span><span class="sheet-item-label">癲癇 / 抽搐</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😮‍💨</span><span class="sheet-item-label">咳嗽 / 呼吸困難</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦵</span><span class="sheet-item-label">跛腳 / 行走異常</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🩹</span><span class="sheet-item-label">持續搔癢 / 局部紅腫</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦷</span><span class="sheet-item-label">扣牙 / 咀嚼異常</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😪</span><span class="sheet-item-label">嗜睡 / 異常安靜</span></button>
+          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😤</span><span class="sheet-item-label">焦躁 / 吠叫異常</span></button>
         </div>
       </div>
-
-      <!-- Tab: 體驗記錄 -->
       <div id="tab-exp" style="display:none;">
         <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
           <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🚶</span><span class="sheet-item-label" style="font-size:13px;">散步</span></button>
@@ -223,7 +206,6 @@
         </div>
       </div>
     </div>
-
     <div class="sheet-save">
       <button class="sheet-save-btn">儲存記錄</button>
     </div>
@@ -231,6 +213,7 @@
 </div>
 
 <script>
+// ── Sheet ──
 function openSheet() { document.getElementById('sheetOverlay').classList.add('open'); }
 function closeSheet(e) {
   if (e.target === document.getElementById('sheetOverlay'))
@@ -239,21 +222,49 @@ function closeSheet(e) {
 function switchTab(btn, tab) {
   document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  ['life','status','exp'].forEach(t => {
+  ['life','exp'].forEach(t => {
     const el = document.getElementById('tab-'+t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
   });
 }
-document.querySelectorAll('.rating-item').forEach(item => {
-  const slider = item.querySelector('.rating-slider');
-  const emojis = item.querySelectorAll('.rating-emoji');
-  function sync(v) {
-    emojis.forEach(e => e.classList.toggle('selected', parseInt(e.dataset.v) === v));
-    slider.value = v;
-  }
-  slider.addEventListener('input', () => sync(parseInt(slider.value)));
-  emojis.forEach(e => e.addEventListener('click', () => sync(parseInt(e.dataset.v))));
-});
+
+// ── Task Center ──
+let pendingCount = 3;
+
+function openTaskCenter() { document.getElementById('taskOverlay').classList.add('open'); }
+function closeTaskCenter() { document.getElementById('taskOverlay').classList.remove('open'); }
+function switchTaskTab(btn, tab) {
+  document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-pending').style.display = tab === 'pending' ? 'flex' : 'none';
+  document.getElementById('tab-done').style.display = tab === 'done' ? 'flex' : 'none';
+}
+function completeTask(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const title = el.querySelector('.task-item-title').textContent;
+  el.classList.add('task-removing');
+  setTimeout(() => {
+    el.remove();
+    pendingCount = Math.max(0, pendingCount - 1);
+    document.getElementById('pendingCount').textContent = pendingCount;
+    const badge = document.getElementById('notifBadge');
+    badge.textContent = pendingCount;
+    if (pendingCount === 0) badge.style.display = 'none';
+    const empty = document.getElementById('doneEmpty');
+    if (empty) empty.style.display = 'none';
+    const item = document.createElement('div');
+    item.className = 'task-done-item';
+    item.innerHTML = `<span class="task-done-check">✔</span><span class="task-done-title">${title}</span>`;
+    document.getElementById('tab-done').appendChild(item);
+  }, 280);
+}
+function delayTask(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('task-delayed');
+  setTimeout(() => el.classList.remove('task-delayed'), 600);
+}
 </script>
 </body>
 </html>

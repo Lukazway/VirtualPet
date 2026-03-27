@@ -104,7 +104,7 @@
     <div style="height:32px;"></div>
   </div><!-- /scroll-area -->
 
-  <button class="cal-fab" onclick="openSheet()">➕</button>
+  <button class="cal-fab">➕</button>
 
   <div class="bottom-nav">
     <button class="nav-item" onclick="location.href='Home.html'">
@@ -121,124 +121,6 @@
     </button>
   </div>
 </div><!-- /app-shell -->
-
-<!-- Bottom Sheet -->
-<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
-  <div class="bottom-sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title">快速記錄</div>
-    <div class="sheet-tabs">
-      <button class="sheet-tab active" onclick="switchTab(this,'life')">生活記錄</button>
-      <button class="sheet-tab" onclick="switchTab(this,'status')">狀態評分</button>
-      <button class="sheet-tab" onclick="switchTab(this,'exp')">體驗記錄</button>
-    </div>
-
-    <div class="sheet-tab-content">
-      <!-- Tab: 生活記錄 -->
-      <div id="tab-life">
-        <div class="sheet-grid">
-          <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">藥物</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">美容</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
-        </div>
-      </div>
-
-      <!-- Tab: 狀態評分 -->
-      <div id="tab-status" style="display:none;">
-        <div class="rating-list">
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">🍽️ 飲食</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji selected" data-v="3">😊</span>
-                <span class="rating-emoji" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="3">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">💩 排泄</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji" data-v="3">😊</span>
-                <span class="rating-emoji selected" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="4">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">🩺 身體</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji selected" data-v="3">😊</span>
-                <span class="rating-emoji" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="3">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">🏃 活動</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji selected" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji" data-v="3">😊</span>
-                <span class="rating-emoji" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="1">
-          </div>
-          <div class="rating-item">
-            <div class="rating-header">
-              <span class="rating-name">😊 情緒</span>
-              <div class="rating-emojis">
-                <span class="rating-emoji" data-v="1">😣</span>
-                <span class="rating-emoji" data-v="2">😕</span>
-                <span class="rating-emoji" data-v="3">😊</span>
-                <span class="rating-emoji selected" data-v="4">😄</span>
-                <span class="rating-emoji" data-v="5">🤩</span>
-              </div>
-            </div>
-            <input type="range" class="rating-slider" min="1" max="5" value="4">
-          </div>
-        </div>
-      </div>
-
-      <!-- Tab: 體驗記錄 -->
-      <div id="tab-exp" style="display:none;">
-        <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
-          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🚶</span><span class="sheet-item-label" style="font-size:13px;">散步</span></button>
-          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏃</span><span class="sheet-item-label" style="font-size:13px;">公園跑步</span></button>
-          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏊</span><span class="sheet-item-label" style="font-size:13px;">游泳</span></button>
-          <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🎮</span><span class="sheet-item-label" style="font-size:13px;">遊戲</span></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="sheet-save">
-      <button class="sheet-save-btn">儲存記錄</button>
-    </div>
-  </div>
-</div>
 
 <script src="dayjs/dayjs.min.js"></script>
 <script src="dayjs/zh-tw.min.js"></script>
@@ -323,30 +205,6 @@ nextBtn.addEventListener('click', () => {
 });
 
 renderCalendar(currentDate);
-
-function openSheet() { document.getElementById('sheetOverlay').classList.add('open'); }
-function closeSheet(e) {
-  if (e.target === document.getElementById('sheetOverlay'))
-    document.getElementById('sheetOverlay').classList.remove('open');
-}
-function switchTab(btn, tab) {
-  document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  ['life','status','exp'].forEach(t => {
-    const el = document.getElementById('tab-'+t);
-    if (el) el.style.display = t === tab ? 'block' : 'none';
-  });
-}
-document.querySelectorAll('.rating-item').forEach(item => {
-  const slider = item.querySelector('.rating-slider');
-  const emojis = item.querySelectorAll('.rating-emoji');
-  function sync(v) {
-    emojis.forEach(e => e.classList.toggle('selected', parseInt(e.dataset.v) === v));
-    slider.value = v;
-  }
-  slider.addEventListener('input', () => sync(parseInt(slider.value)));
-  emojis.forEach(e => e.addEventListener('click', () => sync(parseInt(e.dataset.v))));
-});
 </script>
 </body>
 </html>

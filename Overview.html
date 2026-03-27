@@ -21,10 +21,13 @@ html { height: 100%; }
 .app-shell { display: flex; flex-direction: column; height: 100dvh; width: 100%; background: var(--cream); overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
 /* ── Top Nav — always visible, never scrolls away ── */ 
 .top-nav { padding: 8px 24px 8px; display: flex; align-items: center; justify-content: space-between; background: var(--cream); flex-shrink: 0; position: relative; z-index: 10; }
+.top-nav-today { background: rgba(0,0,0,0.15); }
 .nav-logo { display: flex; align-items: center; gap: 8px; }
 .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--peach-deep), var(--coral)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.logo-icon-today { background: rgba(255,255,255,0.22); }
 .nav-title { font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--text-primary); }
 .nav-action { width: 40px; height: 40px; background: var(--sand); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: none; }
+.nav-action-today { background: rgba(255,255,255,0.20); }
 /* ── Scroll area — fills remaining space between top-nav and bottom-nav ── */ 
 .scroll-area { flex: 1; overflow-y: scroll; min-height: 0; scrollbar-width: none; overscroll-behavior-y: none; touch-action: pan-y; will-change: scroll-position; -webkit-overflow-scrolling: auto; }
 .scroll-area::-webkit-scrollbar { display: none; }
@@ -46,8 +49,14 @@ html { height: 100%; }
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .section-title { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: var(--text-primary); }
 .section-more { font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--peach-deep); }
-/* Pet Card */ 
-.pet-card { background: var(--card-bg); border-radius: var(--radius-xl); box-shadow: var(--card-shadow); margin-bottom: 20px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.pet-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+.pet-card { background: var(--card-bg); border-radius: var(--radius-xl); box-shadow: var(--card-shadow); margin-bottom: 20px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; max-width: 600px; flex: 0 1 600px; }
 .pet-card:active { transform: scale(0.98); box-shadow: var(--card-shadow-hover); }
 .pet-card-header { padding: 20px 16px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
 .pet-avatar-wrap { position: relative; width: 110px; height: 110px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
@@ -58,14 +67,12 @@ html { height: 100%; }
 .pet-breed { font-weight: 500; font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
 .pet-age-tag { background: var(--yellow-light); color: var(--brown); font-family: var(--font-display); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 20px; margin-top: 6px; display: inline-block; }
 .pet-card-more { width: 32px; height: 32px; background: var(--sand); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--text-muted); flex-shrink: 0; cursor: pointer; align-self: center; }
-/* ── Health Strip (Insight Panel) ── */ 
-.health-strip { border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); padding: 12px 16px; display: flex; gap: 12px; align-items: stretch; background: var(--warm-white); }
-.hs-chart { flex: 0 0 110px; display: flex; flex-direction: column; gap: 4px; }
-.hs-chart-label { font-size: 9px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.4px; text-transform: uppercase; }
-.hs-svg { width: 100%; flex: 1; overflow: visible; }
-.hs-alerts { flex: 1; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
-.hs-alert { display: flex; align-items: flex-start; gap: 6px; background: var(--sand); border-radius: 10px; padding: 6px 8px; }
-.hs-alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+.health-strip { border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); padding: 8px 16px 8px 27px; background: var(--warm-white); max-height: 100px; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; }
+.health-strip::-webkit-scrollbar { display: none; }
+.hs-alerts { display: flex; flex-direction: column; gap: 6px; }
+.hs-alert { display: flex; align-items: flex-start; gap: 10px; background: var(--sand); border-radius: 10px; padding: 6px 10px 6px 0; }
+.hs-alert-icon { font-size: 20px; flex-shrink: 0; width: 110px; display: flex; align-items: center; justify-content: center; }
 .hs-alert-body { flex: 1; }
 .hs-alert-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: var(--text-primary); line-height: 1.3; }
 .hs-alert-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; line-height: 1.3; }
@@ -73,18 +80,20 @@ html { height: 100%; }
 .hs-alert.warn .hs-alert-title { color: var(--peach-deep); }
 .hs-alert.ok { background: var(--mint-light); }
 .hs-alert.ok .hs-alert-title { color: var(--mint-deep); }
-/* ── Pet Records Tabs ── */ 
+
 .pet-records { padding: 0; }
 .pet-records.collapsed .pr-panel { display: none !important; }
 .pet-records.collapsed .pr-tabs { border-bottom: none; border-radius: 0 0 var(--radius-xl) var(--radius-xl); overflow: hidden; }
 .pr-tabs { display: flex; border-bottom: 1px solid var(--sand); background: var(--warm-white); }
 .pr-tab { flex: 1; padding: 10px 4px; font-family: var(--font-display); font-weight: 700; font-size: 11px; color: var(--text-muted); text-align: center; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.18s; letter-spacing: 0.2px; }
 .pr-tab.active { color: var(--peach-deep); border-bottom-color: var(--peach-deep); }
-.pr-panel { display: none; padding: 16px 16px 20px; }
-.pr-panel.active { display: block; }
-/* Ring progress */ 
-.pr-row-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-.pr-events-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.pr-panel { display: none; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; padding: 16px 16px 16px; }
+.pr-panel::-webkit-scrollbar { display: none; }
+.pr-panel.active { display: flex; flex-direction: column; }
+.pr-panel.active.pr-panel-scroll { justify-content: flex-start; max-height: 300px; }
+
+.pr-row-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; flex-shrink: 0; }
+.pr-events-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .pr-event { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 0 0 calc(20% - 7px); min-width: 48px; }
 .pr-ring-wrap { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
 .pr-ring-svg { width: 48px; height: 48px; transform: rotate(-90deg); }
@@ -98,32 +107,37 @@ html { height: 100%; }
 .pr-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 16px; line-height: 1; }
 .pr-ring-center .pr-ring-label { font-family: var(--font-display); font-weight: 700; font-size: 8px; color: var(--text-secondary); line-height: 1; white-space: nowrap; }
 .pr-ring-count { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: var(--text-primary); white-space: nowrap; line-height: 1; }
-.pr-ring-count span { font-size: 10px; font-weight: 600; color: var(--text-muted); }
-/* Status Trend */ 
-.status-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; color: var(--text-secondary); cursor: pointer; padding: 3px 8px; border-radius: 8px; transition: background 0.15s; }
+.pr-ring-count span { font-size: 9px; font-weight: 600; color: var(--text-muted); }
+
+.status-legend { display: flex; flex-wrap: nowrap; gap: 4px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+.status-legend::-webkit-scrollbar { display: none; }
+.legend-item { display: flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 700; color: var(--text-secondary); cursor: pointer; padding: 3px 6px; border-radius: 8px; transition: background 0.15s; white-space: nowrap; flex-shrink: 0; }
 .legend-item.dimmed { opacity: 0.35; }
-.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.trend-chart-wrap { background: var(--sand); border-radius: var(--radius-md); padding: 12px 10px 8px; position: relative; }
+.legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.trend-chart-wrap { background: var(--sand); border-radius: var(--radius-md); padding: 12px 10px 8px; position: relative; flex-shrink: 0; }
+.trend-chart-clickable { cursor: pointer; transition: box-shadow 0.15s; }
+.trend-chart-clickable:active { box-shadow: 0 2px 12px rgba(139,94,60,0.15); }
+.trend-chart-hint { font-family: var(--font-display); font-weight: 600; font-size: 10px; color: var(--text-muted); text-align: right; margin-top: 4px; padding-right: 2px; }
 .trend-svg { width: 100%; overflow: visible; display: block; }
 .trend-x-labels { display: flex; justify-content: space-between; padding: 4px 2px 0; }
 .trend-x-label { font-size: 9px; color: var(--text-muted); font-weight: 600; text-align: center; flex: 1; }
-/* Experience Cards */ 
+
 .exp-list { display: flex; flex-direction: column; gap: 10px; }
-.exp-card-v2 { background: var(--card-bg); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 2px 10px rgba(139,94,60,0.07); display: flex; flex-direction: column; }
+.exp-card-v2 { background: var(--card-bg); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 2px 10px rgba(139,94,60,0.07); display: flex; flex-direction: column; flex-shrink: 0; }
 .exp-map { height: 80px; background: linear-gradient(135deg, #D4E8D8 0%, #C8DDE8 50%, #D8D4E8 100%); position: relative; overflow: hidden; }
 .exp-map-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .exp-map-badge { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); border-radius: 8px; padding: 3px 8px; font-family: var(--font-display); font-weight: 700; font-size: 10px; color: var(--text-primary); display: flex; align-items: center; gap: 3px; }
 .exp-card-body { padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; }
+.exp-card-left {}
 .exp-card-title { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: var(--text-primary); }
 .exp-card-date { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 1px; }
 .exp-card-stats { display: flex; gap: 12px; }
 .exp-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
 .exp-stat-val { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: var(--text-primary); }
 .exp-stat-label { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-/* Shared Management */ 
+
 .shared-section { background: var(--card-bg); border-radius: var(--radius-xl); padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 20px; }
-.shared-members { display: flex; align-items: center; gap: -8px; margin: 12px 0; }
+.shared-members { display: flex; align-items: center; margin: 12px 0; }
 .member-avatar { width: 36px; height: 36px; border-radius: 12px; border: 2px solid white; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-left: -8px; }
 .member-avatar:first-child { margin-left: 0; }
 .add-member { width: 36px; height: 36px; border-radius: 12px; background: var(--sand); border: 2px dashed var(--sand-dark); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted); margin-left: 4px; cursor: pointer; }
@@ -149,15 +163,6 @@ html { height: 100%; }
 .today-right::-webkit-scrollbar { display: none; }
 .today-right-label { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.3); padding-left: 2px; flex-shrink: 0; }
 .lg-card { background: rgba(255,255,255,0.20); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255,255,255,0.42); border-radius: 16px; padding: 10px 12px; box-shadow: 0 2px 16px rgba(60,80,120,0.10), inset 0 1px 0 rgba(255,255,255,0.55); flex-shrink: 0; }
-.todo-row { display: flex; align-items: center; gap: 8px; }
-.todo-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.todo-dot-warn { background: #F07B5A; }
-.todo-dot-info { background: #6BBFAB; }
-.todo-dot-med { background: #A07BC8; }
-.todo-row-text { flex: 1; }
-.todo-row-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: rgba(20,20,50,0.95); line-height: 1.3; }
-.todo-row-sub { font-size: 9.5px; font-weight: 500; color: rgba(40,40,80,0.75); margin-top: 1px; line-height: 1.3; }
-.todo-row-arrow { font-size: 12px; color: rgba(40,40,80,0.45); flex-shrink: 0; }
 .insight-row { display: flex; align-items: flex-start; gap: 7px; }
 .insight-row-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 .insight-row-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: rgba(20,20,50,0.95); margin-bottom: 2px; }
@@ -193,6 +198,73 @@ html { height: 100%; }
 .rating-emoji.selected { opacity: 1; transform: scale(1.2); }
 .rating-slider { width: 100%; height: 6px; border-radius: 3px; background: var(--sand); appearance: none; outline: none; cursor: pointer; }
 .rating-slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--peach-deep); box-shadow: 0 2px 8px rgba(232,131,74,0.4); }
+
+/* TODAY — STATUS CARD */
+.today-status-card { background: rgba(255,255,255,0.22); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,0.45); border-radius: 20px; padding: 14px; box-shadow: 0 4px 24px rgba(60,80,120,0.10), inset 0 1px 0 rgba(255,255,255,0.6); flex-shrink: 0; }
+.status-unrated { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.status-unrated-text { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: rgba(30,30,60,0.7); text-align: center; }
+.status-start-btn { background: var(--peach-deep); color: white; font-family: var(--font-display); font-weight: 800; font-size: 12px; padding: 8px 20px; border-radius: 14px; border: none; cursor: pointer; }
+.status-rated { display: flex; align-items: center; gap: 10px; }
+.status-rated-icon { font-size: 28px; flex-shrink: 0; }
+.status-rated-body { flex: 1; }
+.status-rated-title { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: rgba(20,20,50,0.95); }
+.status-rated-sub { font-size: 10px; font-weight: 600; color: rgba(40,40,80,0.7); margin-top: 3px; }
+
+/* TODAY — NOTIFICATION BADGE */
+.nav-action { position: relative; }
+.notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: #F07B5A; color: white; font-family: var(--font-display); font-weight: 800; font-size: 10px; border-radius: 9px; border: 2px solid rgba(255,255,255,0.6); display: flex; align-items: center; justify-content: center; padding: 0 3px; pointer-events: none; }
+.today-page .notif-badge { border-color: rgba(0,0,0,0.2); }
+
+/* TASK CENTER */
+.task-overlay { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 200; 
+  display: none; 
+  flex-direction: column; 
+  backdrop-filter: blur(20px) saturate(160%); 
+  -webkit-backdrop-filter: blur(20px) saturate(160%); 
+}
+.task-overlay.open { display: flex; }
+.task-center { flex: 1; display: flex; flex-direction: column; overflow: hidden; animation: taskFadeIn 0.22s ease; }
+@keyframes taskFadeIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+.task-center-nav { background: rgba(0,0,0,0.15) !important; backdrop-filter: blur(24px) saturate(180%) !important; -webkit-backdrop-filter: blur(24px) saturate(180%) !important; }
+.task-center-nav .nav-title { color: white; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+.task-center-nav .logo-icon { background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.38); }
+.task-center-nav .nav-action { background: rgba(255,255,255,0.20); border: 1px solid rgba(255,255,255,0.32); color: white; font-size: 14px; font-weight: 700; }
+.task-tabs { display: flex; gap: 8px; padding: 16px 24px 8px; flex-shrink: 0; }
+.task-tab { padding: 8px 18px; border-radius: 20px; font-family: var(--font-display); font-weight: 700; font-size: 13px; cursor: pointer; border: none; background: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+.task-tab.active { background: rgba(255,255,255,0.92); color: var(--text-primary); }
+.task-tab-count { background: rgba(240,123,90,0.25); border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: 800; }
+.task-tab.active .task-tab-count { background: rgba(232,131,74,0.18); color: var(--peach-deep); }
+.task-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 24px 32px; scrollbar-width: none; }
+.task-list::-webkit-scrollbar { display: none; }
+.task-item { background: rgba(255,255,255,0.88); border-radius: var(--radius-md); padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.12); transition: all 0.28s cubic-bezier(0.32,0.72,0,1); }
+.task-item.task-removing { opacity: 0; transform: translateX(60px); }
+.task-item.task-delayed { background: var(--yellow-light); }
+.task-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.task-dot-warn { background: #F07B5A; }
+.task-dot-info { background: #6BBFAB; }
+.task-dot-med { background: #A07BC8; }
+.task-item-body { flex: 1; }
+.task-item-title { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--text-primary); line-height: 1.3; }
+.task-item-sub { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-top: 2px; }
+.task-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.task-action-btn { width: 34px; height: 34px; border-radius: 10px; border: none; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.task-done-btn { background: var(--mint-light); color: var(--mint-deep); }
+.task-done-btn:active { background: var(--mint-deep); color: white; }
+.task-delay-btn { background: var(--yellow-light); color: #C8A030; }
+.task-delay-btn:active { background: var(--yellow); color: var(--brown); }
+.task-done-empty { padding: 40px 0; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: rgba(255,255,255,0.7); }
+.task-done-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: rgba(255,255,255,0.75); border-radius: var(--radius-md); }
+.task-done-check { width: 24px; height: 24px; background: var(--mint-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--mint-deep); flex-shrink: 0; }
+.task-done-title { font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+
+/* SHEET — SECTION LABELS & HEALTH ITEMS */
+.sheet-section-label { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: var(--text-muted); letter-spacing: 0.6px; text-transform: uppercase; padding: 12px 24px 6px; }
+.sheet-section-label-health { color: var(--coral); }
+.sheet-item-health { background: var(--rose-light); }
+.sheet-item-health:active { background: var(--rose); }
 
 
 
@@ -260,10 +332,8 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
 .phone .bottom-nav.ov-glass .nav-label { color:rgba(255,255,255,0.88); }
 .phone .bottom-nav.ov-glass .nav-item.active { background:rgba(255,255,255,0.20); }
 .phone .bottom-nav.ov-glass .nav-item.active .nav-label { color:white; font-weight:800; }
-.phone .today-right { width:50%; padding:8px 10px 8px 5px; }
 .phone .today-left-label { font-size:9px; }
 .phone .today-right-label { font-size:9px; }
-.phone .today-right-label.mt { font-size:9px; margin-top:3px; }
 .phone .sky-date { font-size:10px; margin-bottom:4px; }
 .phone .sky-info { flex-wrap:nowrap; }
 .phone .sky-tag { font-size:9px; padding:3px 7px; }
@@ -275,9 +345,6 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
 .phone .insight-row-icon { font-size:11px; }
 .phone .insight-row-title { font-size:9.5px; }
 .phone .insight-row-text { font-size:8.5px; }
-.phone .todo-row-title { font-size:9.5px; }
-.phone .todo-row-sub { font-size:8px; }
-.phone .virtual-btn { font-size:9px; padding:6px 8px; margin-top:auto; }
 .phone .sheet-overlay { position:absolute; }
 .phone .cal-fab { position:absolute; bottom:96px; }
 .phone .shared-members { display:flex; align-items:center; gap:0; margin:12px 0; }
@@ -318,120 +385,179 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
           <span class="section-more">加入 +</span>
         </div>
 
-        <!-- Pet 1: Seoli -->
-        <div class="pet-card">
-          <div class="pet-card-header" onclick="togglePetRecords('seoli')">
-            <div class="pet-avatar-wrap">
-              <div class="pet-avatar">🐶</div>
-              <div class="pet-avatar-badge">✓</div>
+        <div class="pet-card-grid">
+          <!-- Pet 1: Seoli -->
+          <div class="pet-card">
+            <div class="pet-card-header" onclick="togglePetRecords('seoli')">
+              <div class="pet-avatar-wrap">
+                  <img class="pet-avatar" src="face_seoli.png">
+                <div class="pet-avatar-badge">✓</div>
+              </div>
+              <div class="pet-info">
+                <div class="pet-name">Seoli</div>
+                <div class="pet-breed">薩摩耶犬 · 男生</div>
+                <div class="pet-age-tag">🎂 4 歲 11 月</div>
+              </div>
+              <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 Seoli')">✏️</div>
             </div>
-            <div class="pet-info">
-              <div class="pet-name">Seoli</div>
-              <div class="pet-breed">薩摩耶犬 · 男生</div>
-              <div class="pet-age-tag">🎂 4 歲 11 月</div>
+
+            <div class="health-strip">
+              <div class="hs-alerts">
+                <div class="hs-alert warn">
+                  <span class="hs-alert-icon">🏃</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">活動量偏低</div>
+                    <div class="hs-alert-sub">比過去7天少 40%</div>
+                  </div>
+                </div>
+                <div class="hs-alert ok">
+                  <span class="hs-alert-icon">🍽️</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">飲食正常</div>
+                    <div class="hs-alert-sub">進食量與過去7天相近</div>
+                  </div>
+                </div>
+                <div class="hs-alert ok">
+                  <span class="hs-alert-icon">💧</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">飲水正常</div>
+                    <div class="hs-alert-sub">飲水量達標</div>
+                  </div>
+                </div>
+                <div class="hs-alert warn">
+                  <span class="hs-alert-icon">😴</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">睡眠略少</div>
+                    <div class="hs-alert-sub">比過去7天平均少 1 小時</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="pet-card-more" onclick="event.stopPropagation(); alert('Edit Seoli')">✏️</div>
+
+            <div class="pet-records collapsed" id="pr-seoli">
+              <div class="pr-tabs">
+                <button class="pr-tab active" onclick="switchPrTab(this,'life','seoli')">生活摘要</button>
+                <button class="pr-tab" onclick="switchPrTab(this,'status','seoli')">狀態趨勢</button>
+                <button class="pr-tab" onclick="switchPrTab(this,'exp','seoli')">最近體驗</button>
+              </div>
+              <div class="pr-panel active" id="pr-life-seoli">
+                <div class="pr-row-label">7天 Top 10 · 今天 / 7天均值</div>
+                <div class="pr-events-row" id="row7-seoli"></div>
+              </div>
+              <div class="pr-panel pr-panel-scroll" id="pr-status-seoli">
+                <div class="status-legend" id="legend-seoli"></div>
+                <div class="trend-chart-wrap trend-chart-clickable" onclick="">
+                  <svg class="trend-svg" id="trend-svg-seoli" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
+                  <div class="trend-x-labels">
+                    <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
+                    <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
+                    <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
+                    <span class="trend-x-label">今</span>
+                  </div>
+                  <div class="trend-chart-hint">點擊查看完整健康數據 ›</div>
+                </div>
+              </div>
+              <div class="pr-panel pr-panel-scroll" id="pr-exp-seoli">
+                <div class="exp-list" id="exp-list-seoli"></div>
+              </div>
+            </div>
           </div>
-          <div class="health-strip">
-            <div class="hs-chart">
-              <div class="hs-chart-label">活動量 · 7天</div>
-              <svg class="hs-svg" viewBox="0 0 110 44" preserveAspectRatio="none">
-                <line x1="0" y1="10" x2="110" y2="10" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="22" x2="110" y2="22" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="34" x2="110" y2="34" stroke="#EAD9C5" stroke-width="0.8"/>
-                <polyline points="4,10 20,16 36,12 52,6 68,20 84,14 100,32" fill="none" stroke="#F5A870" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-                <polygon points="4,10 20,16 36,12 52,6 68,20 84,14 100,32 100,44 4,44" fill="rgba(249,201,160,0.25)"/>
-                <circle cx="100" cy="32" r="3.5" fill="#E8834A"/>
-                <circle cx="100" cy="32" r="6" fill="rgba(232,131,74,0.2)"/>
-                <text x="4"  y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">M</text>
-                <text x="17" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="33" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">W</text>
-                <text x="49" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="65" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">F</text>
-                <text x="81" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">S</text>
-                <text x="93" y="43" font-size="7" fill="#E8834A" font-family="Nunito" font-weight="800">今</text>
-              </svg>
+
+          <!-- Pet 2: Lele -->
+          <div class="pet-card">
+            <div class="pet-card-header" onclick="togglePetRecords('lele')">
+              <div class="pet-avatar-wrap">
+                  <img class="pet-avatar" src="face_lele.png">
+                <div class="pet-avatar-badge" style="background:var(--coral);">♡</div>
+              </div>
+              <div class="pet-info">
+                <div class="pet-name">Lele</div>
+                <div class="pet-breed">馬爾濟斯犬 · 男生</div>
+                <div class="pet-age-tag">🎂 13 歲 11 月</div>
+              </div>
+              <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 Lele')">✏️</div>
             </div>
-            <div class="hs-alerts">
-              <div class="hs-alert warn"><span class="hs-alert-icon">🏃</span><div class="hs-alert-body"><div class="hs-alert-title">活動量偏低</div><div class="hs-alert-sub">比過去7天少 40%，忘記記錄了嗎？</div></div></div>
-              <div class="hs-alert ok"><span class="hs-alert-icon">🍽️</span><div class="hs-alert-body"><div class="hs-alert-title">飲食正常</div><div class="hs-alert-sub">進食量與過去7天相近</div></div></div>
+
+            <div class="health-strip">
+              <div class="hs-alerts">
+                <div class="hs-alert warn">
+                  <span class="hs-alert-icon">💊</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">用藥提醒</div>
+                    <div class="hs-alert-sub">今天的跳蚤預防藥尚未記錄</div>
+                  </div>
+                </div>
+                <div class="hs-alert ok">
+                  <span class="hs-alert-icon">🍽️</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">飲食正常</div>
+                    <div class="hs-alert-sub">與過去7天進食量相近</div>
+                  </div>
+                </div>
+                <div class="hs-alert ok">
+                  <span class="hs-alert-icon">🏃</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">活動量正常</div>
+                    <div class="hs-alert-sub">與過去7天相近</div>
+                  </div>
+                </div>
+                <div class="hs-alert warn">
+                  <span class="hs-alert-icon">💧</span>
+                  <div class="hs-alert-body">
+                    <div class="hs-alert-title">飲水偏少</div>
+                    <div class="hs-alert-sub">今天飲水量低於7天均值</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="pet-records collapsed" id="pr-seoli">
-            <div class="pr-tabs">
-              <button class="pr-tab active" onclick="switchPrTab(this,'life','seoli')">生活摘要</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'status','seoli')">狀態趨勢</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'exp','seoli')">最近體驗</button>
+
+            <div class="pet-records collapsed" id="pr-lele">
+              <div class="pr-tabs">
+                <button class="pr-tab active" onclick="switchPrTab(this,'life','lele')">生活摘要</button>
+                <button class="pr-tab" onclick="switchPrTab(this,'status','lele')">狀態趨勢</button>
+                <button class="pr-tab" onclick="switchPrTab(this,'exp','lele')">最近體驗</button>
+              </div>
+              <div class="pr-panel active" id="pr-life-lele">
+                <div class="pr-row-label">7天 Top 10 · 今天 / 7天均值</div>
+                <div class="pr-events-row" id="row7-lele"></div>
+              </div>
+              <div class="pr-panel pr-panel-scroll" id="pr-status-lele">
+                <div class="status-legend" id="legend-lele"></div>
+                <div class="trend-chart-wrap trend-chart-clickable" onclick="">
+                  <svg class="trend-svg" id="trend-svg-lele" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
+                  <div class="trend-x-labels">
+                    <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
+                    <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
+                    <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
+                    <span class="trend-x-label">今</span>
+                  </div>
+                  <div class="trend-chart-hint">點擊查看完整健康數據 ›</div>
+                </div>
+              </div>
+              <div class="pr-panel pr-panel-scroll" id="pr-exp-lele">
+                <div class="exp-list" id="exp-list-lele"></div>
+              </div>
             </div>
-            <div class="pr-panel active" id="pr-life-seoli"><div class="pr-row-label">最近7天 Top 5</div><div class="pr-events-row" id="row7-seoli"></div><div class="pr-row-label">今天 Top 5</div><div class="pr-events-row" id="rowToday-seoli"></div></div>
-            <div class="pr-panel" id="pr-status-seoli"><div class="status-legend" id="legend-seoli"></div><div class="trend-chart-wrap"><svg class="trend-svg" id="trend-svg-seoli" viewBox="0 0 290 100" preserveAspectRatio="none"></svg><div class="trend-x-labels"><span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span><span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span><span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span><span class="trend-x-label">今</span></div></div></div>
-            <div class="pr-panel" id="pr-exp-seoli"><div class="exp-list" id="exp-list-seoli"></div></div>
           </div>
         </div>
 
-        <!-- Pet 2: Lele -->
-        <div class="pet-card">
-          <div class="pet-card-header" onclick="togglePetRecords('lele')">
-            <div class="pet-avatar-wrap">
-              <div class="pet-avatar lele">🐱</div>
-              <div class="pet-avatar-badge female">♡</div>
-            </div>
-            <div class="pet-info">
-              <div class="pet-name">Lele</div>
-              <div class="pet-breed">英國短毛貓 · 女生</div>
-              <div class="pet-age-tag">🎂 5 歲 3 月</div>
-            </div>
-            <div class="pet-card-more" onclick="event.stopPropagation(); alert('Edit Lele')">✏️</div>
-          </div>
-          <div class="health-strip">
-            <div class="hs-chart">
-              <div class="hs-chart-label">活動量 · 7天</div>
-              <svg class="hs-svg" viewBox="0 0 110 44" preserveAspectRatio="none">
-                <line x1="0" y1="10" x2="110" y2="10" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="22" x2="110" y2="22" stroke="#EAD9C5" stroke-width="0.8"/>
-                <line x1="0" y1="34" x2="110" y2="34" stroke="#EAD9C5" stroke-width="0.8"/>
-                <polyline points="4,18 20,22 36,15 52,18 68,12 84,20 100,24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-                <polygon points="4,18 20,22 36,15 52,18 68,12 84,20 100,24 100,44 4,44" fill="rgba(201,184,232,0.2)"/>
-                <circle cx="100" cy="24" r="3.5" fill="#A07BC8"/>
-                <circle cx="100" cy="24" r="6" fill="rgba(160,123,200,0.2)"/>
-                <text x="4"  y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">M</text>
-                <text x="17" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="33" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">W</text>
-                <text x="49" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">T</text>
-                <text x="65" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">F</text>
-                <text x="81" y="43" font-size="7" fill="#B09880" font-family="Nunito" font-weight="700">S</text>
-                <text x="93" y="43" font-size="7" fill="#A07BC8" font-family="Nunito" font-weight="800">今</text>
-              </svg>
-            </div>
-            <div class="hs-alerts">
-              <div class="hs-alert warn"><span class="hs-alert-icon">💊</span><div class="hs-alert-body"><div class="hs-alert-title">用藥提醒</div><div class="hs-alert-sub">今天的跳蚤預防藥尚未記錄</div></div></div>
-              <div class="hs-alert ok"><span class="hs-alert-icon">🍽️</span><div class="hs-alert-body"><div class="hs-alert-title">飲食正常</div><div class="hs-alert-sub">與過去7天進食量相近</div></div></div>
-            </div>
-          </div>
-          <div class="pet-records collapsed" id="pr-lele">
-            <div class="pr-tabs">
-              <button class="pr-tab active" onclick="switchPrTab(this,'life','lele')">生活摘要</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'status','lele')">狀態趨勢</button>
-              <button class="pr-tab" onclick="switchPrTab(this,'exp','lele')">最近體驗</button>
-            </div>
-            <div class="pr-panel active" id="pr-life-lele"><div class="pr-row-label">最近7天 Top 5</div><div class="pr-events-row" id="row7-lele"></div><div class="pr-row-label">今天 Top 5</div><div class="pr-events-row" id="rowToday-lele"></div></div>
-            <div class="pr-panel" id="pr-status-lele"><div class="status-legend" id="legend-lele"></div><div class="trend-chart-wrap"><svg class="trend-svg" id="trend-svg-lele" viewBox="0 0 290 100" preserveAspectRatio="none"></svg><div class="trend-x-labels"><span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span><span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span><span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span><span class="trend-x-label">今</span></div></div></div>
-            <div class="pr-panel" id="pr-exp-lele"><div class="exp-list" id="exp-list-lele"></div></div>
-          </div>
+        <!-- Shared Management -->
+        <div class="section-header">
+          <span class="section-title">共享管理</span>
+          <span class="section-more">管理 +</span>
         </div>
-
-        <div class="section-header"><span class="section-title">共享管理</span><span class="section-more">管理 +</span></div>
         <div class="shared-section">
           <div style="font-size:13px;font-weight:600;color:var(--text-secondary);">與家人共享，一起陪伴寶貝們</div>
-          <div class="shared-members">
-            <div class="member-avatar">👩</div>
-            <div class="member-avatar">👨</div>
-            <div class="member-avatar">👧</div>
-            <div class="add-member">+</div>
+          <div class="shared-members" style="display:flex;align-items:center;gap:0;margin:12px 0;">
+            <div class="member-avatar" style="background:#FFE4C8;margin-left:0;">👩</div>
+            <div class="member-avatar" style="background:#C8E4FF;margin-left:-8px;">👨</div>
+            <div class="member-avatar" style="background:#FFE4F8;margin-left:-8px;">👧</div>
+            <div class="add-member" style="margin-left:8px;">+</div>
           </div>
           <button class="invite-btn">✉️ 發送邀請</button>
         </div>
-      </div>
+
+      </div><!-- /scroll-area -->
     </div>
     <div class="bottom-nav">
       <button class="nav-item active"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
@@ -453,43 +579,126 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
       <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
     </div>
     <!-- Top nav -->
-    <div class="top-nav ov-glass">
-      <div class="nav-logo"><div class="logo-icon">🐾</div></div>
+    <div class="top-nav top-nav-today">
+      <div class="nav-logo"><div class="logo-icon logo-icon-today">🐾</div></div>
       <span class="nav-title">Today</span>
-      <button class="nav-action">🔔</button>
+      <button class="nav-action nav-action-today" onclick="openTaskCenter()">
+        🔔
+        <span class="notif-badge" id="notifBadge">3</span>
+      </button>
     </div>
     <!-- Content -->
     <div style="position:relative;z-index:5;flex:1;display:flex;overflow:hidden;">
       <!-- Left -->
-      <div style="width:50%;display:flex;flex-direction:column;padding:8px 5px 8px 10px;gap:8px;overflow:hidden;">
-        <div class="today-left-label">今日天氣</div>
+      <div class="today-left">
+        <div class="today-left-label">今日狀態</div>
+        <div class="today-status-card">
+          <div class="status-unrated" id="statusUnrated">
+            <div class="status-unrated-text">尚未評估今日狀態</div>
+            <button class="status-start-btn">開始評估</button>
+          </div>
+        </div>
+        <div class="pet-3d-area">
+          <div class="pet-mood-badge">😊 Happy</div>
+          <img class="dog-photo" src="Seoli_the_Samoyed.png" alt="Seoli" style="width:100%;max-width:180px;height:auto;object-fit:contain;animation:petFloat 4s ease-in-out infinite;position:relative;z-index:2;">
+          <div class="pet-3d-shadow"></div>
+        </div>
+      </div>
+      <!-- Right -->
+      <div class="today-right">
+        <div class="today-right-label">今日天氣</div>
         <div class="today-sky">
           <div class="sky-date">March 8, 2026</div>
           <div class="sky-info">
             <div class="sky-tag">☀️ 晴天</div>
             <div class="sky-tag">🌡️ 23°C</div>
           </div>
-          <div class="sky-tip">🐾 適合帶 Seoli 散步！</div>
+          <div class="sky-tip">🐾 今天很適合帶 Seoli 出去散步！</div>
         </div>
-        <div style="flex:1;display:flex;align-items:flex-end;justify-content:center;position:relative;padding-bottom:6px;">
-          <div class="pet-mood-badge">😊 Happy</div>
-          <img src="Seoli_the_Samoyed.png"
-               alt="Seoli"
-               style="width:100%;max-width:180px;height:auto;object-fit:contain;animation:petFloat 4s ease-in-out infinite;position:relative;z-index:2;">
-          <div class="pet-3d-shadow"></div>
+        <div class="today-right-label" style="margin-top:8px;">健康觀察</div>
+        <div class="lg-card">
+          <div class="insight-row">
+            <span class="insight-row-icon">💡</span>
+            <div class="insight-row-body">
+              <div class="insight-row-title">健康摘要</div>
+              <div class="insight-row-text">Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！</div>
+            </div>
+          </div>
+        </div>
+        <div class="lg-card">
+          <div class="insight-row">
+            <span class="insight-row-icon">💧</span>
+            <div class="insight-row-body">
+              <div class="insight-row-title">飲水量偏低</div>
+              <div class="insight-row-text">Seoli 今天的飲水量低於建議標準</div>
+            </div>
+          </div>
+        </div>
+        <div class="lg-card">
+          <div class="insight-row">
+            <span class="insight-row-icon">💊</span>
+            <div class="insight-row-body">
+              <div class="insight-row-title">Lele 用藥提醒</div>
+              <div class="insight-row-text">跳蚤預防藥今天到期，請至任務中心查看</div>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- Right -->
-      <div class="today-right">
-        <div class="today-right-label">健康建議</div>
-        <div class="lg-card sm">
-          <div class="insight-row"><span class="insight-row-icon">💡</span><div><div class="insight-row-title">本週健康摘要</div><div class="insight-row-text">活動量偏低，試試輕鬆散步！</div></div></div>
+    </div>
+    <!-- Task Center -->
+    <div class="task-overlay" id="taskOverlay">
+      <div class="status-bar">
+        <span class="status-time">02:00</span>
+        <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+      </div>
+      <div class="task-center">
+        <div class="top-nav task-center-nav">
+          <div class="nav-logo"><div class="logo-icon">🐾</div></div>
+          <span class="nav-title">Tasks</span>
+          <button class="nav-action" onclick="closeTaskCenter()">✕</button>
         </div>
-        <div class="today-right-label mt">今日提醒</div>
-        <div class="lg-card xs"><div class="todo-row"><div class="todo-dot todo-dot-warn"></div><div class="todo-row-text"><div class="todo-row-title">尚未散步</div><div class="todo-row-sub">建議 30 分鐘散步</div></div><span class="todo-row-arrow">›</span></div></div>
-        <div class="lg-card xs"><div class="todo-row"><div class="todo-dot todo-dot-info"></div><div class="todo-row-text"><div class="todo-row-title">飲水量偏低</div><div class="todo-row-sub">今天需要多喝水</div></div><span class="todo-row-arrow">›</span></div></div>
-        <div class="lg-card xs"><div class="todo-row"><div class="todo-dot todo-dot-med"></div><div class="todo-row-text"><div class="todo-row-title">Lele 用藥</div><div class="todo-row-sub">跳蚤預防藥到期</div></div><span class="todo-row-arrow">›</span></div></div>
-        <button class="virtual-btn">🌐 虛擬世界</button>
+        <div class="task-tabs">
+          <button class="task-tab active" onclick="switchTaskTab(this,'pending')">待完成 <span class="task-tab-count" id="pendingCount">3</span></button>
+          <button class="task-tab" onclick="switchTaskTab(this,'done')">已完成</button>
+        </div>
+        <div class="task-list" id="tab-pending">
+          <div class="task-item" id="task-1">
+            <div class="task-dot task-dot-warn"></div>
+            <div class="task-item-body">
+              <div class="task-item-title">Seoli 尚未散步</div>
+              <div class="task-item-sub">建議：30 分鐘戶外散步</div>
+            </div>
+            <div class="task-item-actions">
+              <button class="task-action-btn task-done-btn" onclick="completeTask('task-1')">✔</button>
+              <button class="task-action-btn task-delay-btn" onclick="delayTask('task-1')">⏰</button>
+            </div>
+          </div>
+          <div class="task-item" id="task-2">
+            <div class="task-dot task-dot-info"></div>
+            <div class="task-item-body">
+              <div class="task-item-title">補充飲水量</div>
+              <div class="task-item-sub">Seoli 今天需要多喝水</div>
+            </div>
+            <div class="task-item-actions">
+              <button class="task-action-btn task-done-btn" onclick="completeTask('task-2')">✔</button>
+              <button class="task-action-btn task-delay-btn" onclick="delayTask('task-2')">⏰</button>
+            </div>
+          </div>
+          <div class="task-item" id="task-3">
+            <div class="task-dot task-dot-med"></div>
+            <div class="task-item-body">
+              <div class="task-item-title">Lele 用藥提醒</div>
+              <div class="task-item-sub">跳蚤預防藥 — 今天到期</div>
+            </div>
+            <div class="task-item-actions">
+              <button class="task-action-btn task-done-btn" onclick="completeTask('task-3')">✔</button>
+              <button class="task-action-btn task-delay-btn" onclick="delayTask('task-3')">⏰</button>
+            </div>
+          </div>
+        </div>
+        <div class="task-list" id="tab-done" style="display:none;">
+          <div class="task-done-empty" id="doneEmpty">目前沒有已完成的任務</div>
+        </div>
       </div>
     </div>
     <!-- Bottom nav -->
@@ -498,6 +707,7 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
       <button class="nav-item active" onclick="openSheet()"><span class="nav-icon">➕</span><span class="nav-label">Today</span></button>
       <button class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></button>
     </div>
+
     <!-- Bottom Sheet -->
     <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
       <div class="bottom-sheet">
@@ -505,111 +715,50 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
         <div class="sheet-title">快速記錄</div>
         <div class="sheet-tabs">
           <button class="sheet-tab active" onclick="switchTab(this,'life')">生活記錄</button>
-          <button class="sheet-tab" onclick="switchTab(this,'status')">狀態評分</button>
           <button class="sheet-tab" onclick="switchTab(this,'exp')">體驗記錄</button>
         </div>
-
         <div class="sheet-tab-content">
-          <!-- Tab: 生活記錄 -->
           <div id="tab-life">
+            <div class="sheet-section-label">生活</div>
             <div class="sheet-grid">
               <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">藥物</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">用藥</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">美容</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🪮</span><span class="sheet-item-label">清潔</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
             </div>
-          </div>
-
-          <!-- Tab: 狀態評分 -->
-          <div id="tab-status" style="display:none;">
-            <div class="rating-list">
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">🍽️ 飲食</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji selected" data-v="3">😊</span>
-                    <span class="rating-emoji" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="3">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">💩 排泄</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji" data-v="3">😊</span>
-                    <span class="rating-emoji selected" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="4">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">🩺 身體</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji selected" data-v="3">😊</span>
-                    <span class="rating-emoji" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="3">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">🏃 活動</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji selected" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji" data-v="3">😊</span>
-                    <span class="rating-emoji" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="1">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">😊 情緒</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji" data-v="3">😊</span>
-                    <span class="rating-emoji selected" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="4">
-              </div>
+            <div class="sheet-section-label sheet-section-label-health">健康</div>
+            <div class="sheet-grid">
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤮</span><span class="sheet-item-label">嘔吐</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚽</span><span class="sheet-item-label">拉肚子 / 便秘</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔴</span><span class="sheet-item-label">尿失禁 / 排尿異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">⚡</span><span class="sheet-item-label">癲癇 / 抽搐</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😮‍💨</span><span class="sheet-item-label">咳嗽 / 呼吸困難</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦵</span><span class="sheet-item-label">跛腳 / 行走異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🩹</span><span class="sheet-item-label">持續搔癢 / 局部紅腫</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦷</span><span class="sheet-item-label">扣牙 / 咀嚼異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😪</span><span class="sheet-item-label">嗜睡 / 異常安靜</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😤</span><span class="sheet-item-label">焦躁 / 吠叫異常</span></button>
             </div>
           </div>
-
-          <!-- Tab: 體驗記錄 -->
           <div id="tab-exp" style="display:none;">
             <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
-              <button class="sheet-item exp"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
-              <button class="sheet-item exp"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園跑步</span></button>
-              <button class="sheet-item exp"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
-              <button class="sheet-item exp"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">遊戲</span></button>
+              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🚶</span><span class="sheet-item-label" style="font-size:13px;">散步</span></button>
+              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏃</span><span class="sheet-item-label" style="font-size:13px;">公園跑步</span></button>
+              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏊</span><span class="sheet-item-label" style="font-size:13px;">游泳</span></button>
+              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🎮</span><span class="sheet-item-label" style="font-size:13px;">遊戲</span></button>
             </div>
           </div>
         </div>
-
         <div class="sheet-save">
           <button class="sheet-save-btn">儲存記錄</button>
         </div>
@@ -669,129 +818,13 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
         <div style="height:32px;"></div>
       </div>
     </div>
-    <button class="cal-fab" onclick="openSheetCal()">➕</button>
+    <button class="cal-fab">➕</button>
     <div class="bottom-nav">
       <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
       <button class="nav-item"><span class="nav-icon">🌤️</span><span class="nav-label">Today</span></button>
       <button class="nav-item active"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></button>
     </div>
-    <!-- Bottom Sheet -->
-    <div class="sheet-overlay" id="sheetOverlayCal" onclick="closeSheetCal(event)">
-      <div class="bottom-sheet">
-        <div class="sheet-handle"></div>
-        <div class="sheet-title">快速記錄</div>
-        <div class="sheet-tabs">
-          <button class="sheet-tab-cal active" onclick="switchTabCal(this,'life')">生活記錄</button>
-          <button class="sheet-tab-cal" onclick="switchTabCal(this,'status')">狀態評分</button>
-          <button class="sheet-tab-cal" onclick="switchTabCal(this,'exp')">體驗記錄</button>
-        </div>
 
-        <div class="sheet-tab-content">
-          <!-- Tab: 生活記錄 -->
-          <div id="tab-cal-life">
-            <div class="sheet-grid">
-              <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">藥物</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">✂️</span><span class="sheet-item-label">美容</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
-            </div>
-          </div>
-
-          <!-- Tab: 狀態評分 -->
-          <div id="tab-cal-status" style="display:none;">
-            <div class="rating-list">
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">🍽️ 飲食</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji selected" data-v="3">😊</span>
-                    <span class="rating-emoji" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="3">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">💩 排泄</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji" data-v="3">😊</span>
-                    <span class="rating-emoji selected" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="4">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">🩺 身體</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji selected" data-v="3">😊</span>
-                    <span class="rating-emoji" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="3">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">🏃 活動</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji selected" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji" data-v="3">😊</span>
-                    <span class="rating-emoji" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="1">
-              </div>
-              <div class="rating-item">
-                <div class="rating-header">
-                  <span class="rating-name">😊 情緒</span>
-                  <div class="rating-emojis">
-                    <span class="rating-emoji" data-v="1">😣</span>
-                    <span class="rating-emoji" data-v="2">😕</span>
-                    <span class="rating-emoji" data-v="3">😊</span>
-                    <span class="rating-emoji selected" data-v="4">😄</span>
-                    <span class="rating-emoji" data-v="5">🤩</span>
-                  </div>
-                </div>
-                <input type="range" class="rating-slider" min="1" max="5" value="4">
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab: 體驗記錄 -->
-          <div id="tab-cal-exp" style="display:none;">
-            <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
-              <button class="sheet-item exp"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
-              <button class="sheet-item exp"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園跑步</span></button>
-              <button class="sheet-item exp"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
-              <button class="sheet-item exp"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">遊戲</span></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="sheet-save">
-          <button class="sheet-save-btn">儲存記錄</button>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -819,11 +852,12 @@ function buildRing(container, events) {
   container.innerHTML = '';
   const C = 2 * Math.PI * 18;
   events.forEach(ev => {
-    const pct = Math.min(ev.done / ev.max, 1);
-    const offset = C * (1 - pct);
+    const pct = Math.min(ev.today / ev.avg7, 1.5);
+    const fillPct = Math.min(pct / 1.5, 1);
+    const offset = C * (1 - fillPct);
     const div = document.createElement('div');
     div.className = 'pr-event';
-    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.done}<span>/${ev.max}</span></div>`;
+    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.today}<span>/均${ev.avg7}</span></div>`;
     container.appendChild(div);
   });
 }
@@ -887,21 +921,64 @@ function buildExpCards(containerId, exps) {
     c.appendChild(card);
   });
 }
+
+function avg7(total) { return Math.ceil(total / 7); }
+
 const seoli = {
-  week7:  [{ icon:'🥣',name:'吃飯',done:14,max:14,color:'ring-green'},{icon:'😴',name:'睡眠',done:7,max:7,color:'ring-sky'},{icon:'🚶',name:'散步',done:5,max:7,color:'ring-peach'},{icon:'💧',name:'喝水',done:12,max:14,color:'ring-lavender'},{icon:'💩',name:'排泄',done:9,max:14,color:'ring-yellow'}],
-  today:  [{ icon:'🥣',name:'吃飯',done:2,max:2,color:'ring-green'},{icon:'💧',name:'喝水',done:1,max:3,color:'ring-lavender'},{icon:'🚶',name:'散步',done:0,max:1,color:'ring-peach'},{icon:'😴',name:'睡眠',done:1,max:1,color:'ring-sky'},{icon:'🎮',name:'玩耍',done:1,max:2,color:'ring-yellow'}],
-  trend:  [{key:'eating',label:'飲食',color:'#6BBFAB',data:[4,5,4,5,3,5,4]},{key:'excrete',label:'排泄',color:'#A8C8E8',data:[3,4,5,4,4,5,4]},{key:'body',label:'身體',color:'#C9B8E8',data:[4,4,3,4,5,4,3]},{key:'activity',label:'活動',color:'#E8834A',data:[5,4,3,5,3,4,2]},{key:'mood',label:'情緒',color:'#F5A870',data:[4,5,4,5,3,4,4]}],
-  exps:   [{id:'a',name:'公園晨走',type:'Walk',icon:'🚶',date:'3/5 週三',weather:'☀️ 晴',duration:'32min',steps:'3,820',temp:'21°C',mapC1:'#C8E4D4',mapC2:'#C4DCE8',routeColor:'#6BBFAB',path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28',startX:30,startY:55,endX:300,endY:28},{id:'b',name:'河濱公園跑步',type:'Run',icon:'🏃',date:'3/4 週二',weather:'🌤 多雲',duration:'48min',steps:'6,210',temp:'19°C',mapC1:'#D4D4F0',mapC2:'#D4E8F0',routeColor:'#9898D8',path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40',startX:20,startY:60,endX:310,endY:40},{id:'c',name:'海邊游泳',type:'Swim',icon:'🏊',date:'2/28 上週',weather:'☀️ 晴',duration:'55min',steps:'—',temp:'24°C',mapC1:'#B8D8F0',mapC2:'#A8C8E8',routeColor:'#4890C8',path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42',startX:40,startY:40,endX:290,endY:42}],
+  week7: [
+    { icon:'🥣', name:'吃飯',   today:2, avg7:avg7(14), color:'ring-green'    },
+    { icon:'😴', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
+    { icon:'🚶', name:'散步',   today:0, avg7:avg7(5),  color:'ring-peach'    },
+    { icon:'💧', name:'喝水',   today:1, avg7:avg7(12), color:'ring-lavender' },
+    { icon:'💩', name:'排泄',   today:2, avg7:avg7(9),  color:'ring-yellow'   },
+    { icon:'🎮', name:'玩耍',   today:1, avg7:avg7(8),  color:'ring-lavender' },
+    { icon:'🦴', name:'零食',   today:0, avg7:avg7(4),  color:'ring-peach'    },
+    { icon:'💊', name:'用藥',   today:1, avg7:avg7(7),  color:'ring-green'    },
+    { icon:'✂️', name:'美容',   today:0, avg7:avg7(1),  color:'ring-sky'      },
+    { icon:'🛁', name:'洗澡',   today:0, avg7:avg7(2),  color:'ring-yellow'   },
+  ],
+  trend: [
+    { key:'activity',  label:'活動',   color:'#E8834A', data:[5,4,3,5,3,4,2] },
+    { key:'eating',    label:'飲食',   color:'#6BBFAB', data:[4,5,4,5,3,5,4] },
+    { key:'sleep',     label:'睡眠',   color:'#A8C8E8', data:[4,4,4,3,4,5,3] },
+    { key:'hydration', label:'飲水',   color:'#7BC8E8', data:[3,4,5,4,4,4,3] },
+    { key:'excrete',   label:'排泄',   color:'#C9B8E8', data:[3,4,5,4,4,5,4] },
+    { key:'mood',      label:'情緒',   color:'#F5A870', data:[4,5,4,5,3,4,4] },
+  ],
+  exps: [
+    { id:'a', name:'公園晨走',    type:'Walk', icon:'🚶', date:'3/5 週三', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'#6BBFAB', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 },
+    { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏃', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
+    { id:'c', name:'海邊游泳',    type:'Swim', icon:'🏊', date:'2/28 上週', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', mapC1:'#B8D8F0', mapC2:'#A8C8E8', routeColor:'#4890C8', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 },
+  ],
 };
 const lele = {
-  week7:  [{icon:'🥣',name:'吃飯',done:13,max:14,color:'ring-lavender'},{icon:'😴',name:'睡眠',done:7,max:7,color:'ring-sky'},{icon:'💊',name:'藥物',done:6,max:7,color:'ring-peach'},{icon:'💧',name:'喝水',done:10,max:14,color:'ring-green'},{icon:'🎮',name:'玩耍',done:4,max:7,color:'ring-yellow'}],
-  today:  [{icon:'🥣',name:'吃飯',done:2,max:2,color:'ring-lavender'},{icon:'💧',name:'喝水',done:2,max:3,color:'ring-green'},{icon:'💊',name:'藥物',done:0,max:1,color:'ring-peach'},{icon:'😴',name:'睡眠',done:1,max:1,color:'ring-sky'},{icon:'🎮',name:'玩耍',done:0,max:2,color:'ring-yellow'}],
-  trend:  [{key:'eating',label:'飲食',color:'#6BBFAB',data:[4,5,5,4,4,5,4]},{key:'excrete',label:'排泄',color:'#A8C8E8',data:[4,4,4,5,4,4,3]},{key:'body',label:'身體',color:'#C9B8E8',data:[3,4,4,3,4,4,4]},{key:'activity',label:'活動',color:'#A07BC8',data:[3,3,4,3,4,3,3]},{key:'mood',label:'情緒',color:'#F5A870',data:[5,4,5,4,5,4,4]}],
-  exps:   [{id:'d',name:'客廳追逐遊戲',type:'Play',icon:'🎮',date:'3/5 週三',weather:'🌙 室內',duration:'20min',steps:'—',temp:'24°C',mapC1:'#E8E0F8',mapC2:'#D8E8F8',routeColor:'#A07BC8',path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38',startX:20,startY:40,endX:250,endY:38},{id:'e',name:'陽台曬太陽',type:'Rest',icon:'☀️',date:'3/4 週二',weather:'☀️ 晴',duration:'45min',steps:'—',temp:'22°C',mapC1:'#FFF0D4',mapC2:'#FFE4C0',routeColor:'#E8C040',path:'60,40 100,38 140,42 180,38 220,40 260,38',startX:60,startY:40,endX:260,endY:38}],
+  week7: [
+    { icon:'🥣', name:'吃飯',   today:2, avg7:avg7(13), color:'ring-lavender' },
+    { icon:'😴', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
+    { icon:'💊', name:'藥物',   today:0, avg7:avg7(6),  color:'ring-peach'    },
+    { icon:'💧', name:'喝水',   today:2, avg7:avg7(10), color:'ring-green'    },
+    { icon:'🎮', name:'玩耍',   today:0, avg7:avg7(4),  color:'ring-yellow'   },
+    { icon:'🥣', name:'零食',   today:1, avg7:avg7(5),  color:'ring-lavender' },
+    { icon:'💩', name:'排泄',   today:1, avg7:avg7(7),  color:'ring-yellow'   },
+    { icon:'✂️', name:'美容',   today:0, avg7:avg7(1),  color:'ring-sky'      },
+    { icon:'🛁', name:'洗澡',   today:0, avg7:avg7(1),  color:'ring-peach'    },
+    { icon:'🚶', name:'散步',   today:0, avg7:avg7(3),  color:'ring-green'    },
+  ],
+  trend: [
+    { key:'eating',    label:'飲食',   color:'#6BBFAB', data:[4,5,5,4,4,5,4] },
+    { key:'activity',  label:'活動',   color:'#A07BC8', data:[3,3,4,3,4,3,3] },
+    { key:'sleep',     label:'睡眠',   color:'#A8C8E8', data:[5,5,4,5,4,5,4] },
+    { key:'hydration', label:'飲水',   color:'#7BC8E8', data:[4,3,4,4,3,4,3] },
+    { key:'excrete',   label:'排泄',   color:'#C9B8E8', data:[4,4,4,5,4,4,3] },
+    { key:'mood',      label:'情緒',   color:'#F5A870', data:[5,4,5,4,5,4,4] },
+  ],
+  exps: [
+    { id:'d', name:'客廳追逐遊戲', type:'Play', icon:'🎮', date:'3/5 週三', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'#A07BC8', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 },
+    { id:'e', name:'陽台曬太陽',   type:'Rest', icon:'☀️', date:'3/4 週二', weather:'☀️ 晴',  duration:'45min', steps:'—', temp:'22°C', mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040', path:'60,40 100,38 140,42 180,38 220,40 260,38', startX:60, startY:40, endX:260, endY:38 },
+  ],
 };
 function initPet(id, data) {
   buildRing(document.getElementById('row7-' + id), data.week7);
-  buildRing(document.getElementById('rowToday-' + id), data.today);
   buildTrend('trend-svg-' + id, 'legend-' + id, data.trend);
   buildExpCards('exp-list-' + id, data.exps);
 }
@@ -935,6 +1012,43 @@ document.querySelectorAll('.rating-item').forEach(item => {
   emojis.forEach(e => e.addEventListener('click', () => sync(parseInt(e.dataset.v))));
 });
 
+// ── Task Center ──
+let pendingCount = 3;
+
+function openTaskCenter() { document.getElementById('taskOverlay').classList.add('open'); }
+function closeTaskCenter() { document.getElementById('taskOverlay').classList.remove('open'); }
+function switchTaskTab(btn, tab) {
+  document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-pending').style.display = tab === 'pending' ? 'flex' : 'none';
+  document.getElementById('tab-done').style.display = tab === 'done' ? 'flex' : 'none';
+}
+function completeTask(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const title = el.querySelector('.task-item-title').textContent;
+  el.classList.add('task-removing');
+  setTimeout(() => {
+    el.remove();
+    pendingCount = Math.max(0, pendingCount - 1);
+    document.getElementById('pendingCount').textContent = pendingCount;
+    const badge = document.getElementById('notifBadge');
+    badge.textContent = pendingCount;
+    if (pendingCount === 0) badge.style.display = 'none';
+    const empty = document.getElementById('doneEmpty');
+    if (empty) empty.style.display = 'none';
+    const item = document.createElement('div');
+    item.className = 'task-done-item';
+    item.innerHTML = `<span class="task-done-check">✔</span><span class="task-done-title">${title}</span>`;
+    document.getElementById('tab-done').appendChild(item);
+  }, 280);
+}
+function delayTask(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('task-delayed');
+  setTimeout(() => el.classList.remove('task-delayed'), 600);
+}
 
 // ── Calendar ──
 dayjs.locale('zh-tw');
@@ -1017,30 +1131,6 @@ nextBtn.addEventListener('click', () => {
 });
 
 renderCalendar(currentDate);
-
-function openSheetCal() { document.getElementById('sheetOverlayCal').classList.add('open'); }
-function closeSheetCal(e) {
-  if (e.target === document.getElementById('sheetOverlayCal'))
-    document.getElementById('sheetOverlayCal').classList.remove('open');
-}
-function switchTabCal(btn, tab) {
-  document.querySelectorAll('.sheet-tab-cal').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  ['life','status','exp'].forEach(t => {
-    const el = document.getElementById('tab-cal-'+t);
-    if (el) el.style.display = t === tab ? 'block' : 'none';
-  });
-}
-document.querySelectorAll('.rating-item').forEach(item => {
-  const slider = item.querySelector('.rating-slider');
-  const emojis = item.querySelectorAll('.rating-emoji');
-  function sync(v) {
-    emojis.forEach(e => e.classList.toggle('selected', parseInt(e.dataset.v) === v));
-    slider.value = v;
-  }
-  slider.addEventListener('input', () => sync(parseInt(slider.value)));
-  emojis.forEach(e => e.addEventListener('click', () => sync(parseInt(e.dataset.v))));
-});
 </script>
 </body>
 </html>
