@@ -68,14 +68,14 @@ html { height: 100%; }
 .pet-age-tag { background: var(--yellow-light); color: var(--brown); font-family: var(--font-display); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 20px; margin-top: 6px; display: inline-block; }
 .pet-card-more { width: 32px; height: 32px; background: var(--sand); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--text-muted); flex-shrink: 0; cursor: pointer; align-self: center; }
 
-.health-strip { border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); padding: 8px 16px 8px 27px; background: var(--warm-white); max-height: 100px; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; }
-.health-strip::-webkit-scrollbar { display: none; }
-.hs-alerts { display: flex; flex-direction: column; gap: 6px; }
-.hs-alert { display: flex; align-items: flex-start; gap: 10px; background: var(--sand); border-radius: 10px; padding: 6px 10px 6px 0; }
-.hs-alert-icon { font-size: 20px; flex-shrink: 0; width: 110px; display: flex; align-items: center; justify-content: center; }
-.hs-alert-body { flex: 1; }
+.health-strip { border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); background: var(--warm-white); padding: 10px 0 10px 16px; overflow: hidden; }
+.hs-alerts { display: flex; flex-direction: row; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-right: 16px; }
+.hs-alerts::-webkit-scrollbar { display: none; }
+.hs-alert { flex: 0 0 calc(50%); scroll-snap-align: start; display: flex; align-items: center; gap: 4px; background: var(--sand); border-radius: 12px; padding: 8px 10px; }
+.hs-alert-icon { font-size: 22px; flex-shrink: 0; }
+.hs-alert-body { flex: 1; min-width: 0; }
 .hs-alert-title { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: var(--text-primary); line-height: 1.3; }
-.hs-alert-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; line-height: 1.3; }
+.hs-alert-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hs-alert.warn { background: #FEF0E8; }
 .hs-alert.warn .hs-alert-title { color: var(--peach-deep); }
 .hs-alert.ok { background: var(--mint-light); }
@@ -153,12 +153,12 @@ html { height: 100%; }
 .today-sky { background: rgba(255,255,255,0.22); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,0.45); border-radius: 20px; padding: 12px 14px; box-shadow: 0 4px 24px rgba(60,80,120,0.10), inset 0 1px 0 rgba(255,255,255,0.6); flex-shrink: 0; }
 .sky-date { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: rgba(30,30,60,0.9); margin-bottom: 6px; }
 .sky-info { display: flex; flex-direction: row; flex-wrap: wrap; gap: 5px; }
-.sky-tag { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.35); border-radius: 12px; padding: 4px 10px; font-weight: 600; font-size: 11px; color: rgba(30,30,60,0.85); border: 1px solid rgba(255,255,255,0.5); }
+.sky-tag { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.35); border-radius: 12px; padding: 4px 10px; font-weight: 600; font-size: 10px; color: rgba(30,30,60,0.85); border: 1px solid rgba(255,255,255,0.5); }
 .sky-tip { font-size: 10px; font-weight: 600; color: rgba(40,120,80,0.95); margin-top: 5px; line-height: 1.4; text-shadow: 0 1px 3px rgba(255,255,255,0.6); }
 .pet-3d-area { flex: 1; display: flex; align-items: flex-end; justify-content: center; position: relative; padding-bottom: 8px; overflow: visible; }
 .pet-3d-shadow { position: absolute; bottom: 4px; width: 70px; height: 14px; background: rgba(30,60,20,0.25); border-radius: 50%; filter: blur(8px); }
 @keyframes petFloat { 0%, 100% { transform: translateY(0px); }50% { transform: translateY(-10px); } }
-.pet-mood-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); border-radius: 16px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: rgba(30,30,60,0.85); white-space: nowrap; }
+.pet-mood-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); border-radius: 16px; padding: 4px 10px; font-size: 10px; font-weight: 700; color: rgba(30,30,60,0.85); white-space: nowrap; }
 .today-right { width: 50%; display: flex; flex-direction: column; padding: 16px 14px 16px 8px; gap: 8px; overflow-y: auto; scrollbar-width: none; }
 .today-right::-webkit-scrollbar { display: none; }
 .today-right-label { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.3); padding-left: 2px; flex-shrink: 0; }
@@ -183,32 +183,17 @@ html { height: 100%; }
 .sheet-tab-content::-webkit-scrollbar { display: none; }
 .sheet-tab-cal { flex-shrink: 0; padding: 8px 18px; border-radius: 20px; font-family: var(--font-display); font-weight: 700; font-size: 13px; cursor: pointer; border: none; background: var(--sand); color: var(--text-secondary); transition: all 0.15s; }
 .sheet-tab-cal.active { background: var(--peach-deep); color: white; }
-.sheet-save { padding: 12px 24px 16px; flex-shrink: 0; }
-.sheet-save-btn { width: 100%; background: var(--peach-deep); color: white; font-family: var(--font-display); font-weight: 800; font-size: 16px; padding: 14px; border-radius: 18px; border: none; cursor: pointer; }
-.sheet-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 24px 8px; }
+.sheet-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 24px 8px; }
 .sheet-item { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--sand); border-radius: var(--radius-md); padding: 14px 8px; cursor: pointer; transition: all 0.15s; border: none; }
 .sheet-item:active { background: var(--peach); transform: scale(0.95); }
 .sheet-item-icon { font-size: 22px; }
 .sheet-item-label { font-family: var(--font-display); font-weight: 700; font-size: 10px; color: var(--text-secondary); text-align: center; line-height: 1.3; }
-.rating-list { display: flex; flex-direction: column; gap: 16px; padding: 0 24px; }
-.rating-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.rating-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--text-primary); }
-.rating-emojis { display: flex; gap: 8px; }
-.rating-emoji { font-size: 22px; cursor: pointer; opacity: 0.4; transition: all 0.15s; }
-.rating-emoji.selected { opacity: 1; transform: scale(1.2); }
-.rating-slider { width: 100%; height: 6px; border-radius: 3px; background: var(--sand); appearance: none; outline: none; cursor: pointer; }
-.rating-slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--peach-deep); box-shadow: 0 2px 8px rgba(232,131,74,0.4); }
 
 /* TODAY — STATUS CARD */
 .today-status-card { background: rgba(255,255,255,0.22); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,0.45); border-radius: 20px; padding: 14px; box-shadow: 0 4px 24px rgba(60,80,120,0.10), inset 0 1px 0 rgba(255,255,255,0.6); flex-shrink: 0; }
 .status-unrated { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .status-unrated-text { font-family: var(--font-display); font-weight: 700; font-size: 11px; color: rgba(30,30,60,0.7); text-align: center; }
 .status-start-btn { background: var(--peach-deep); color: white; font-family: var(--font-display); font-weight: 800; font-size: 12px; padding: 8px 20px; border-radius: 14px; border: none; cursor: pointer; }
-.status-rated { display: flex; align-items: center; gap: 10px; }
-.status-rated-icon { font-size: 28px; flex-shrink: 0; }
-.status-rated-body { flex: 1; }
-.status-rated-title { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: rgba(20,20,50,0.95); }
-.status-rated-sub { font-size: 10px; font-weight: 600; color: rgba(40,40,80,0.7); margin-top: 3px; }
 
 /* TODAY — NOTIFICATION BADGE */
 .nav-action { position: relative; }
@@ -289,16 +274,26 @@ html { height: 100%; }
 .dot-health { background: var(--mint-deep); }
 .dot-exp { background: var(--sky); }
 .dot-todo { background: var(--coral); }
-.daily-records { padding: 20px 24px; }
-.record-date-header { font-family: var(--font-display); font-weight: 800; font-size: 17px; color: var(--text-primary); margin-bottom: 14px; }
-.record-list { display: flex; flex-direction: column; gap: 8px; }
-.record-item { background: var(--card-bg); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(139,94,60,0.06); }
-.record-time { font-family: var(--font-display); font-weight: 700; font-size: 12px; color: var(--text-muted); min-width: 44px; }
-.record-type-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.record-content { flex: 1; }
-.record-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--text-primary); }
-.record-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; }
-.record-emoji { font-size: 18px; }
+.daily-records { padding: 16px 24px; }
+.record-date-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; min-width: 0; }
+.record-date-status { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.record-date-status::-webkit-scrollbar { display: none; }
+.record-date-status-badge { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(139,94,60,0.12); border-radius: 16px; padding: 4px 10px; font-family: var(--font-display); font-weight: 700; font-size: 11px; color: var(--text-secondary); white-space: nowrap; flex-shrink: 0; }
+.record-date-status-badge.good { background: var(--mint-light); border-color: rgba(107,191,171,0.3); color: var(--mint-deep); }
+.record-date-status-badge.warn { background: #FEF0E8; border-color: rgba(232,131,74,0.3); color: var(--peach-deep); }
+.record-date-label { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--text-primary); flex-shrink: 0; }
+.record-filter-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.record-filter-tab { padding: 5px 14px; border-radius: 16px; font-family: var(--font-display); font-weight: 700; font-size: 12px; cursor: pointer; border: none; background: var(--sand); color: var(--text-secondary); transition: all 0.15s; }
+.record-filter-tab.active { background: var(--peach-deep); color: white; }
+.record-list { display: flex; flex-direction: column; gap: 6px; }
+.record-item { border-radius: var(--radius-md); padding: 10px 14px; display: flex; align-items: center; gap: 25px; }
+.record-item-record { background: var(--card-bg); box-shadow: 0 2px 8px rgba(139,94,60,0.06); }
+.record-item-todo { background: var(--lavender-light); }
+.record-item-icon { font-size: 20px; flex-shrink: 0; }
+.record-content { flex: 1; min-width: 0; }
+.record-name { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--text-primary); }
+.record-sub { font-size: 11px; color: var(--text-muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.record-time { font-family: var(--font-display); font-weight: 700; font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
 .cal-fab { position: fixed; bottom: 96px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--peach-deep), var(--coral)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; box-shadow: 0 8px 24px rgba(232,131,74,0.4); cursor: pointer; border: none; z-index: 10; }
 
 
@@ -311,7 +306,7 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
 .phone { width: 393px; height: 852px; background: var(--cream); border-radius: 50px; overflow: hidden; position: relative; box-shadow: 0 32px 80px rgba(61,43,31,0.3), 0 0 0 10px #2A1A0E, inset 0 0 0 1px rgba(255,255,255,0.2); display: flex; flex-direction: column; flex-shrink: 0; /* Safari: GPU layer so momentum scroll on overview page can't shift phone internals */ will-change: transform; transform: translateZ(0); -webkit-transform: translateZ(0); }
 .phone-label { text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--brown); margin-bottom: 12px; letter-spacing: 0.5px; }
 .page-wrapper { display: flex; flex-direction: column; align-items: center; }
-.pages-container { display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; }
+.pages-container { display: flex; flex-wrap: wrap; gap: 50px; justify-content: center; }
 /* ── Status Bar (Overview phone sim only) ── */ 
 .status-bar { height: 50px; background: var(--cream); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; /* Anchor to top of phone frame */ position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
 .status-time { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-primary); }
@@ -401,7 +396,7 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
               <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 Seoli')">✏️</div>
             </div>
 
-            <div class="health-strip">
+            <div class="health-strip" onclick="togglePetRecords('seoli')">
               <div class="hs-alerts">
                 <div class="hs-alert warn">
                   <span class="hs-alert-icon">🏃</span>
@@ -478,7 +473,7 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
               <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 Lele')">✏️</div>
             </div>
 
-            <div class="health-strip">
+            <div class="health-strip" onclick="togglePetRecords('lele')">
               <div class="hs-alerts">
                 <div class="hs-alert warn">
                   <span class="hs-alert-icon">💊</span>
@@ -544,7 +539,7 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
         <!-- Shared Management -->
         <div class="section-header">
           <span class="section-title">共享管理</span>
-          <span class="section-more">管理 +</span>
+          <span class="section-more">管理 🔐</span>
         </div>
         <div class="shared-section">
           <div style="font-size:13px;font-weight:600;color:var(--text-secondary);">與家人共享，一起陪伴寶貝們</div>
@@ -723,44 +718,54 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
             <div class="sheet-grid">
               <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🦴</span><span class="sheet-item-label">零食</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🍭</span><span class="sheet-item-label">零食</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">用藥</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">小便</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">💦</span><span class="sheet-item-label">小便</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🏃</span><span class="sheet-item-label">公園</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🏞️</span><span class="sheet-item-label">公園</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">😴</span><span class="sheet-item-label">睡眠</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">💤</span><span class="sheet-item-label">睡眠</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🪮</span><span class="sheet-item-label">清潔</span></button>
               <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
-              <button class="sheet-item"><span class="sheet-item-icon">🏥</span><span class="sheet-item-label">就診</span></button>
+              <button class="sheet-item"><span class="sheet-item-icon">🩺</span><span class="sheet-item-label">門診</span></button>
             </div>
             <div class="sheet-section-label sheet-section-label-health">健康</div>
             <div class="sheet-grid">
               <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤮</span><span class="sheet-item-label">嘔吐</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚽</span><span class="sheet-item-label">拉肚子 / 便秘</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔴</span><span class="sheet-item-label">尿失禁 / 排尿異常</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">⚡</span><span class="sheet-item-label">癲癇 / 抽搐</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😮‍💨</span><span class="sheet-item-label">咳嗽 / 呼吸困難</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦵</span><span class="sheet-item-label">跛腳 / 行走異常</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🩹</span><span class="sheet-item-label">持續搔癢 / 局部紅腫</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦷</span><span class="sheet-item-label">扣牙 / 咀嚼異常</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😪</span><span class="sheet-item-label">嗜睡 / 異常安靜</span></button>
-              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😤</span><span class="sheet-item-label">焦躁 / 吠叫異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚽</span><span class="sheet-item-label">拉肚子/便秘</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤐</span><span class="sheet-item-label">拒食</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">尿失禁/頻尿</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔴</span><span class="sheet-item-label">無法排尿</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">👃</span><span class="sheet-item-label">咳嗽/呼吸困難</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫁</span><span class="sheet-item-label">張口呼吸/過度喘氣</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦵</span><span class="sheet-item-label">跛腳/行走異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫥</span><span class="sheet-item-label">不願移動/明顯無力</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫨</span><span class="sheet-item-label">行走失衡/打滑無力</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">⚡</span><span class="sheet-item-label">癲癇/抽搐</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😶</span><span class="sheet-item-label">呆滯/失神</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤪</span><span class="sheet-item-label">原地打轉/異常行為</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🐛</span><span class="sheet-item-label">持續搔癢/抓癢</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫧</span><span class="sheet-item-label">舔腳/過度舔毛</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔥</span><span class="sheet-item-label">局部紅腫/皮膚異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦷</span><span class="sheet-item-label">扣牙/咀嚼異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">👁️</span><span class="sheet-item-label">瞇眼/流淚/分泌物</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🌡️</span><span class="sheet-item-label">發抖/發冷</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😪</span><span class="sheet-item-label">嗜睡/異常安靜</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😡</span><span class="sheet-item-label">焦躁/吠叫異常</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🙈</span><span class="sheet-item-label">躲藏/不互動</span></button>
+              <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">💥</span><span class="sheet-item-label">攻擊性/變兇</span></button>
             </div>
           </div>
           <div id="tab-exp" style="display:none;">
             <div class="sheet-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;padding:0 24px;">
               <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🚶</span><span class="sheet-item-label" style="font-size:13px;">散步</span></button>
-              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏃</span><span class="sheet-item-label" style="font-size:13px;">公園跑步</span></button>
+              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏞️</span><span class="sheet-item-label" style="font-size:13px;">公園</span></button>
               <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🏊</span><span class="sheet-item-label" style="font-size:13px;">游泳</span></button>
-              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🎮</span><span class="sheet-item-label" style="font-size:13px;">遊戲</span></button>
+              <button class="sheet-item" style="padding:20px 16px;"><span class="sheet-item-icon" style="font-size:32px;">🎮</span><span class="sheet-item-label" style="font-size:13px;">玩耍</span></button>
             </div>
           </div>
-        </div>
-        <div class="sheet-save">
-          <button class="sheet-save-btn">儲存記錄</button>
         </div>
       </div>
     </div>
@@ -804,17 +809,73 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
           </div>
           <div class="cal-days" id="calGrid"></div>
         </div>
+
         <div class="daily-records">
-          <div class="record-date-header"></div>
+          <div class="record-date-header">
+            <div class="record-date-status">
+              <span class="record-date-status-badge good">😊 Happy</span>
+              <span class="record-date-status-badge good">身體狀況良好</span>
+              <span class="record-date-status-badge warn">活動量偏低</span>
+            </div>
+            <span class="record-date-label"></span>
+          </div>
+          <div class="record-filter-tabs">
+            <button class="record-filter-tab active" onclick="filterRecords(this,'all')">全部</button>
+            <button class="record-filter-tab" onclick="filterRecords(this,'record')">記錄</button>
+            <button class="record-filter-tab" onclick="filterRecords(this,'todo')">待辦</button>
+          </div>
           <div class="record-list">
-            <div class="record-item"><span class="record-time">07:30</span><div class="record-type-dot dot-life"></div><div class="record-content"><div class="record-name">早餐</div><div class="record-sub">乾飼料 200g · Seoli</div></div><span class="record-emoji">🥣</span></div>
-            <div class="record-item"><span class="record-time">08:15</span><div class="record-type-dot dot-exp"></div><div class="record-content"><div class="record-name">晨間散步</div><div class="record-sub">0.8 km · 18 分鐘 · 晴天</div></div><span class="record-emoji">🚶</span></div>
-            <div class="record-item"><span class="record-time">09:00</span><div class="record-type-dot dot-health"></div><div class="record-content"><div class="record-name">健康狀態確認</div><div class="record-sub">飲食：正常 · 情緒：開心</div></div><span class="record-emoji">💚</span></div>
-            <div class="record-item"><span class="record-time">12:00</span><div class="record-type-dot dot-life"></div><div class="record-content"><div class="record-name">午餐</div><div class="record-sub">濕糧 150g · Lele</div></div><span class="record-emoji">🍱</span></div>
-            <div class="record-item"><span class="record-time">18:00</span><div class="record-type-dot dot-todo"></div><div class="record-content"><div class="record-name">傍晚散步（待辦）</div><div class="record-sub">提醒：30 分鐘 · Seoli</div></div><span class="record-emoji">⏰</span></div>
-            <div class="record-item"><span class="record-time">20:00</span><div class="record-type-dot dot-todo"></div><div class="record-content"><div class="record-name">Lele 用藥（待辦）</div><div class="record-sub">跳蚤預防藥今天到期</div></div><span class="record-emoji">💊</span></div>
+            <div class="record-item record-item-record" data-type="record">
+              <span class="record-item-icon">🥣</span>
+              <div class="record-content">
+                <div class="record-name">早餐</div>
+                <div class="record-sub">乾飼料 200g · Seoli</div>
+              </div>
+              <span class="record-time">07:30</span>
+            </div>
+            <div class="record-item record-item-record" data-type="record">
+              <span class="record-item-icon">🚶</span>
+              <div class="record-content">
+                <div class="record-name">晨間散步</div>
+                <div class="record-sub">0.8 km · 18 分鐘 · 晴天</div>
+              </div>
+              <span class="record-time">08:15</span>
+            </div>
+            <div class="record-item record-item-todo" data-type="todo">
+              <span class="record-item-icon">💚</span>
+              <div class="record-content">
+                <div class="record-name">健康狀態確認</div>
+                <div class="record-sub">飲食：正常 · 情緒：開心</div>
+              </div>
+              <span class="record-time">09:00</span>
+            </div>
+            <div class="record-item record-item-record" data-type="record">
+              <span class="record-item-icon">🍱</span>
+              <div class="record-content">
+                <div class="record-name">午餐</div>
+                <div class="record-sub">濕糧 150g · Lele</div>
+              </div>
+              <span class="record-time">12:00</span>
+            </div>
+            <div class="record-item record-item-record" data-type="record">
+              <span class="record-item-icon">⏰</span>
+              <div class="record-content">
+                <div class="record-name">傍晚散步</div>
+                <div class="record-sub">提醒：30 分鐘 · Seoli</div>
+              </div>
+              <span class="record-time">18:00</span>
+            </div>
+            <div class="record-item record-item-todo" data-type="todo">
+              <span class="record-item-icon">💊</span>
+              <div class="record-content">
+                <div class="record-name">Lele 用藥</div>
+                <div class="record-sub">跳蚤預防藥今天到期</div>
+              </div>
+              <span class="record-time">20:00</span>
+            </div>
           </div>
         </div>
+
         <div style="height:32px;"></div>
       </div>
     </div>
@@ -852,12 +913,11 @@ function buildRing(container, events) {
   container.innerHTML = '';
   const C = 2 * Math.PI * 18;
   events.forEach(ev => {
-    const pct = Math.min(ev.today / ev.avg7, 1.5);
-    const fillPct = Math.min(pct / 1.5, 1);
-    const offset = C * (1 - fillPct);
+    const pct = Math.min(ev.today / ev.avg7, 1);
+    const offset = C * (1 - pct);
     const div = document.createElement('div');
     div.className = 'pr-event';
-    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.today}<span>/均${ev.avg7}</span></div>`;
+    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.today}<span>/${ev.avg7}</span></div>`;
     container.appendChild(div);
   });
 }
@@ -927,14 +987,14 @@ function avg7(total) { return Math.ceil(total / 7); }
 const seoli = {
   week7: [
     { icon:'🥣', name:'吃飯',   today:2, avg7:avg7(14), color:'ring-green'    },
-    { icon:'😴', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
+    { icon:'💤', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
     { icon:'🚶', name:'散步',   today:0, avg7:avg7(5),  color:'ring-peach'    },
     { icon:'💧', name:'喝水',   today:1, avg7:avg7(12), color:'ring-lavender' },
-    { icon:'💩', name:'排泄',   today:2, avg7:avg7(9),  color:'ring-yellow'   },
+    { icon:'💩', name:'大便',   today:2, avg7:avg7(9),  color:'ring-yellow'   },
     { icon:'🎮', name:'玩耍',   today:1, avg7:avg7(8),  color:'ring-lavender' },
-    { icon:'🦴', name:'零食',   today:0, avg7:avg7(4),  color:'ring-peach'    },
+    { icon:'🍭', name:'零食',   today:0, avg7:avg7(4),  color:'ring-peach'    },
     { icon:'💊', name:'用藥',   today:1, avg7:avg7(7),  color:'ring-green'    },
-    { icon:'✂️', name:'美容',   today:0, avg7:avg7(1),  color:'ring-sky'      },
+    { icon:'🪮', name:'清潔',   today:0, avg7:avg7(1),  color:'ring-sky'      },
     { icon:'🛁', name:'洗澡',   today:0, avg7:avg7(2),  color:'ring-yellow'   },
   ],
   trend: [
@@ -947,20 +1007,20 @@ const seoli = {
   ],
   exps: [
     { id:'a', name:'公園晨走',    type:'Walk', icon:'🚶', date:'3/5 週三', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'#6BBFAB', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 },
-    { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏃', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
+    { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏞️', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
     { id:'c', name:'海邊游泳',    type:'Swim', icon:'🏊', date:'2/28 上週', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', mapC1:'#B8D8F0', mapC2:'#A8C8E8', routeColor:'#4890C8', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 },
   ],
 };
 const lele = {
   week7: [
     { icon:'🥣', name:'吃飯',   today:2, avg7:avg7(13), color:'ring-lavender' },
-    { icon:'😴', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
-    { icon:'💊', name:'藥物',   today:0, avg7:avg7(6),  color:'ring-peach'    },
+    { icon:'💤', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
+    { icon:'💊', name:'用藥',   today:0, avg7:avg7(6),  color:'ring-peach'    },
     { icon:'💧', name:'喝水',   today:2, avg7:avg7(10), color:'ring-green'    },
     { icon:'🎮', name:'玩耍',   today:0, avg7:avg7(4),  color:'ring-yellow'   },
-    { icon:'🥣', name:'零食',   today:1, avg7:avg7(5),  color:'ring-lavender' },
-    { icon:'💩', name:'排泄',   today:1, avg7:avg7(7),  color:'ring-yellow'   },
-    { icon:'✂️', name:'美容',   today:0, avg7:avg7(1),  color:'ring-sky'      },
+    { icon:'🍭', name:'零食',   today:1, avg7:avg7(5),  color:'ring-lavender' },
+    { icon:'💩', name:'大便',   today:1, avg7:avg7(7),  color:'ring-yellow'   },
+    { icon:'🪮', name:'清潔',   today:0, avg7:avg7(1),  color:'ring-sky'      },
     { icon:'🛁', name:'洗澡',   today:0, avg7:avg7(1),  color:'ring-peach'    },
     { icon:'🚶', name:'散步',   today:0, avg7:avg7(3),  color:'ring-green'    },
   ],
@@ -996,21 +1056,11 @@ function closeSheet(e) {
 function switchTab(btn, tab) {
   document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  ['life','status','exp'].forEach(t => {
+  ['life','exp'].forEach(t => {
     const el = document.getElementById('tab-'+t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
   });
 }
-document.querySelectorAll('.rating-item').forEach(item => {
-  const slider = item.querySelector('.rating-slider');
-  const emojis = item.querySelectorAll('.rating-emoji');
-  function sync(v) {
-    emojis.forEach(e => e.classList.toggle('selected', parseInt(e.dataset.v) === v));
-    slider.value = v;
-  }
-  slider.addEventListener('input', () => sync(parseInt(slider.value)));
-  emojis.forEach(e => e.addEventListener('click', () => sync(parseInt(e.dataset.v))));
-});
 
 // ── Task Center ──
 let pendingCount = 3;
@@ -1047,14 +1097,14 @@ function delayTask(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.classList.add('task-delayed');
-  setTimeout(() => el.classList.remove('task-delayed'), 600);
+  setTimeout(() => el.classList.remove('task-delayed'), 6000);
 }
 
 // ── Calendar ──
 dayjs.locale('zh-tw');
 const calGrid = document.getElementById('calGrid');
 const calMonthEl = document.querySelector('.cal-month');
-const recordDate = document.querySelector('.record-date-header');
+const recordDate = document.querySelector('.record-date-label');
 const prevBtn = document.querySelectorAll('.cal-arrow')[0];
 const nextBtn = document.querySelectorAll('.cal-arrow')[1];
 const dotData = {
@@ -1131,6 +1181,15 @@ nextBtn.addEventListener('click', () => {
 });
 
 renderCalendar(currentDate);
+
+function filterRecords(btn, type) {
+  document.querySelectorAll('.record-filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.record-item').forEach(item => {
+    if (type === 'all') { item.style.display = ''; return; }
+    item.style.display = item.dataset.type === type ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>
