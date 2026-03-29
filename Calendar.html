@@ -24,11 +24,11 @@
         <span class="cal-month"></span>
         <button class="cal-arrow">›</button>
       </div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-life" style="width:8px;height:8px;"></div>生活</div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-health" style="width:8px;height:8px;"></div>健康</div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-exp" style="width:8px;height:8px;"></div>活動</div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--text-muted);"><div class="day-dot dot-todo" style="width:8px;height:8px;"></div>待辦</div>
+      <div class="cal-legend-row">
+        <div class="cal-legend-item"><div class="day-dot dot-life cal-legend-dot"></div>生活</div>
+        <div class="cal-legend-item"><div class="day-dot dot-health cal-legend-dot"></div>健康</div>
+        <div class="cal-legend-item"><div class="day-dot dot-exp cal-legend-dot"></div>活動</div>
+        <div class="cal-legend-item"><div class="day-dot dot-todo cal-legend-dot"></div>待辦</div>
       </div>
     </div>
 
@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-    <div style="height:32px;"></div>
+    <div class="cal-spacer"></div>
   </div><!-- /scroll-area -->
 
   <button class="cal-fab">➕</button>
