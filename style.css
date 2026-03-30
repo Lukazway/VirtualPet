@@ -219,7 +219,7 @@ html { height: 100%; }
 .trend-chart-wrap { background: var(--sand); border-radius: var(--radius-md); padding: 12px 10px 8px; position: relative; flex-shrink: 0; }
 .trend-chart-clickable { cursor: pointer; transition: box-shadow 0.15s; }
 .trend-chart-clickable:active { box-shadow: 0 2px 12px rgba(139,94,60,0.15); }
-.trend-chart-hint { font-family: var(--font-display); font-weight: 600; font-size: 12px; color: var(--text-muted); text-align: right; margin-top: 4px; padding-right: 2px; }
+.trend-chart-hint { font-family: var(--font-display); font-weight: 600; font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 4px; padding-right: 2px; }
 .trend-svg { width: 100%; overflow: visible; display: block; }
 .trend-x-labels { display: flex; justify-content: space-between; padding: 4px 2px 0; }
 .trend-x-label { font-size: 10px; color: var(--text-muted); font-weight: 600; text-align: center; flex: 1; }
@@ -596,7 +596,8 @@ html { height: 100%; }
 ══════════════════════════════════ */
 .cal-header { padding: 0 24px 16px; }
 .cal-legend-row { display: flex; gap: 12px; flex-wrap: wrap; }
-.cal-legend-item { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text-muted); }
+.cal-legend-item { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; user-select: none; transition: opacity 0.2s; }
+.cal-legend-item.dimmed { opacity: 0.3; }
 .cal-legend-dot { width: 8px; height: 8px; }
 .cal-month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .cal-month { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--text-primary); }
@@ -612,9 +613,10 @@ html { height: 100%; }
 .cal-day.selected { background: var(--sand-dark); }
 .day-num { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-primary); }
 .day-dots { display: flex; gap: 2px; margin-top: 2px; flex-wrap: wrap; justify-content: center; }
-.day-dot { width: 4px; height: 4px; border-radius: 50%; }
-.dot-life { background: var(--peach-mid); }
-.dot-health { background: var(--mint-deep); }
+.day-dot { width: 4px; height: 4px; border-radius: 50%; transition: opacity 0.2s; }
+.day-dot.dot-hidden { opacity: 0; }
+.dot-life { background: var(--mint-deep); }
+.dot-health { background: var(--peach-mid); }
 .dot-exp { background: var(--sky); }
 .dot-todo { background: var(--coral); }
 .daily-records { padding: 16px 24px; }
@@ -629,9 +631,11 @@ html { height: 100%; }
 .record-filter-tab { padding: 5px 14px; border-radius: 16px; font-family: var(--font-display); font-weight: 700; font-size: 12px; cursor: pointer; border: none; background: var(--sand); color: var(--text-secondary); transition: all 0.15s; }
 .record-filter-tab.active { background: var(--peach-deep); color: white; }
 .record-list { display: flex; flex-direction: column; gap: 6px; }
-.record-item { border-radius: var(--radius-md); padding: 10px 14px; display: flex; align-items: center; gap: 25px; }
-.record-item-record { background: var(--card-bg); box-shadow: 0 2px 8px rgba(139,94,60,0.06); }
-.record-item-todo { background: var(--lavender-light); }
+.record-item { border-radius: var(--radius-md); padding: 10px 20px; display: flex; align-items: center; gap: 25px; }
+.record-item-life { background: rgba(107,191,171,0.12); }
+.record-item-health { background: rgba(245,168,112,0.15); }
+.record-item-exp { background: rgba(168,200,232,0.18); }
+.record-item-todo { background: rgba(240,123,90,0.12); }
 .record-item-icon { font-size: 20px; flex-shrink: 0; }
 .record-content { flex: 1; min-width: 0; }
 .record-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--text-primary); }

@@ -10,9 +10,7 @@
 
 <div class="app-shell">
   <div class="top-nav">
-    <div class="nav-logo">
-      <div class="logo-icon">🐾</div>
-    </div>
+    <div class="nav-logo"><div class="logo-icon">🐾</div></div>
     <span class="nav-title">Calendar</span>
     <button class="nav-action">🔍</button>
   </div>
@@ -24,12 +22,7 @@
         <span class="cal-month"></span>
         <button class="cal-arrow">›</button>
       </div>
-      <div class="cal-legend-row">
-        <div class="cal-legend-item"><div class="day-dot dot-life cal-legend-dot"></div>生活</div>
-        <div class="cal-legend-item"><div class="day-dot dot-health cal-legend-dot"></div>健康</div>
-        <div class="cal-legend-item"><div class="day-dot dot-exp cal-legend-dot"></div>活動</div>
-        <div class="cal-legend-item"><div class="day-dot dot-todo cal-legend-dot"></div>待辦</div>
-      </div>
+      <div class="cal-legend-row" id="calLegend"></div>
     </div>
 
     <div class="cal-grid">
@@ -44,135 +37,196 @@
 
     <div class="daily-records">
       <div class="record-date-header">
-        <div class="record-date-status">
-          <span class="record-date-status-badge good">😊 Happy</span>
-          <span class="record-date-status-badge good">身體狀況良好</span>
-          <span class="record-date-status-badge warn">活動量偏低</span>
-        </div>
-        <span class="record-date-label"></span>
+        <div class="record-date-status" id="recordStatus"></div>
+        <span class="record-date-label" id="recordDateLabel"></span>
       </div>
-      <div class="record-filter-tabs">
-        <button class="record-filter-tab active" onclick="filterRecords(this,'all')">全部</button>
-        <button class="record-filter-tab" onclick="filterRecords(this,'record')">記錄</button>
-        <button class="record-filter-tab" onclick="filterRecords(this,'todo')">待辦</button>
-      </div>
-      <div class="record-list">
-        <div class="record-item record-item-record" data-type="record">
-          <span class="record-item-icon">🥣</span>
-          <div class="record-content">
-            <div class="record-name">早餐</div>
-            <div class="record-sub">乾飼料 200g · Seoli</div>
-          </div>
-          <span class="record-time">07:30</span>
-        </div>
-        <div class="record-item record-item-record" data-type="record">
-          <span class="record-item-icon">🚶</span>
-          <div class="record-content">
-            <div class="record-name">晨間散步</div>
-            <div class="record-sub">0.8 km · 18 分鐘 · 晴天</div>
-          </div>
-          <span class="record-time">08:15</span>
-        </div>
-        <div class="record-item record-item-todo" data-type="todo">
-          <span class="record-item-icon">💚</span>
-          <div class="record-content">
-            <div class="record-name">健康狀態確認</div>
-            <div class="record-sub">飲食：正常 · 情緒：開心</div>
-          </div>
-          <span class="record-time">09:00</span>
-        </div>
-        <div class="record-item record-item-record" data-type="record">
-          <span class="record-item-icon">🍱</span>
-          <div class="record-content">
-            <div class="record-name">午餐</div>
-            <div class="record-sub">濕糧 150g · Lele</div>
-          </div>
-          <span class="record-time">12:00</span>
-        </div>
-        <div class="record-item record-item-record" data-type="record">
-          <span class="record-item-icon">⏰</span>
-          <div class="record-content">
-            <div class="record-name">傍晚散步</div>
-            <div class="record-sub">提醒：30 分鐘 · Seoli</div>
-          </div>
-          <span class="record-time">18:00</span>
-        </div>
-        <div class="record-item record-item-todo" data-type="todo">
-          <span class="record-item-icon">💊</span>
-          <div class="record-content">
-            <div class="record-name">Lele 用藥</div>
-            <div class="record-sub">跳蚤預防藥今天到期</div>
-          </div>
-          <span class="record-time">20:00</span>
-        </div>
-      </div>
+      <div class="record-filter-tabs" id="recordFilterTabs"></div>
+      <div class="record-list" id="recordList"></div>
     </div>
     <div class="cal-spacer"></div>
-  </div><!-- /scroll-area -->
+  </div>
 
   <button class="cal-fab">➕</button>
 
   <div class="bottom-nav">
     <button class="nav-item" onclick="location.href='Home.html'">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Home</span>
+      <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
     </button>
     <button class="nav-item" onclick="location.href='Today.html'">
-      <span class="nav-icon">🌤️</span>
-      <span class="nav-label">Today</span>
+      <span class="nav-icon">🌤️</span><span class="nav-label">Today</span>
     </button>
     <button class="nav-item active">
-      <span class="nav-icon">📅</span>
-      <span class="nav-label">Calendar</span>
+      <span class="nav-icon">📅</span><span class="nav-label">Calendar</span>
     </button>
   </div>
-</div><!-- /app-shell -->
+</div>
 
 <script src="dayjs/dayjs.min.js"></script>
 <script src="dayjs/zh-tw.min.js"></script>
 <script>
-dayjs.locale('zh-tw');
-const calGrid = document.getElementById('calGrid');
-const calMonthEl = document.querySelector('.cal-month');
-const recordDate = document.querySelector('.record-date-label');
-const prevBtn = document.querySelectorAll('.cal-arrow')[0];
-const nextBtn = document.querySelectorAll('.cal-arrow')[1];
+// ── Data ──
+const categories = [
+  { key: 'life',   label: '生活', dotClass: 'dot-life'   },
+  { key: 'health', label: '健康', dotClass: 'dot-health' },
+  { key: 'exp',    label: '體驗', dotClass: 'dot-exp'    },
+  { key: 'todo',   label: '待辦', dotClass: 'dot-todo'   },
+];
+
 const dotData = {
-  1:['life','health'], 2:['life','exp'], 3:['life','health','exp'],
-  4:['life','todo'], 5:['life','health','exp','todo'], 6:['life','health','todo'],
-  7:['life','exp'], 8:['life','health'], 9:['life'], 10:['life','health','exp'],
-  12:['life','todo'], 14:['life','health'], 15:['life','exp'],
-  18:['life','health'], 20:['life','exp'], 22:['health','todo'],
-  25:['life'], 28:['life','health','exp'],
+  1:  ['life','health'],
+  2:  ['life','exp'],
+  3:  ['life','health','exp'],
+  4:  ['life','todo'],
+  5:  ['life','health','exp','todo'],
+  6:  ['life','health','todo'],
+  7:  ['life','exp'],
+  8:  ['life','health'],
+  9:  ['life'],
+  10: ['life','health','exp'],
+  12: ['life','todo'],
+  14: ['life','health'],
+  15: ['life','exp'],
+  18: ['life','health'],
+  20: ['life','exp'],
+  22: ['health','todo'],
+  25: ['life'],
+  28: ['life','health','exp'],
 };
-let currentDate = dayjs();
+
+const statusBadges = [
+  { label: '😊 Happy',   type: 'good' },
+  { label: '身體狀況良好', type: 'good' },
+  { label: '活動量偏低',  type: 'warn' },
+];
+
+const filterTabs = [
+  { key: 'all',    label: '全部' },
+  { key: 'record', label: '記錄' },
+  { key: 'todo',   label: '待辦' },
+];
+
+const records = [
+  { icon: '🥣', name: '早餐',      sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life'   },
+  { icon: '🚶', name: '晨間散步',  sub: '0.8 km · 18 分鐘 · 晴天', time: '08:15', category: 'exp' },
+  { icon: '💚', name: '健康狀態確認', sub: '飲食：正常 · 情緒：開心', time: '09:00', category: 'health' },
+  { icon: '🍱', name: '午餐',      sub: '濕糧 150g · Lele',    time: '12:00', category: 'life'   },
+  { icon: '⏰', name: '傍晚散步',  sub: '提醒：30 分鐘 · Seoli', time: '18:00', category: 'exp'  },
+  { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥今天到期',   time: '20:00', category: 'todo'  },
+];
+
+// ── State ──
+let hiddenCategories = new Set();
+let activeFilter = 'all';
+let currentDate;
 let selectedDayEl = null;
 
+// ── Legend ──
+function buildLegend() {
+  const container = document.getElementById('calLegend');
+  container.innerHTML = '';
+  categories.forEach(cat => {
+    const item = document.createElement('div');
+    item.className = 'cal-legend-item';
+    item.dataset.key = cat.key;
+    item.innerHTML = `<div class="day-dot ${cat.dotClass} cal-legend-dot"></div>${cat.label}`;
+    item.addEventListener('click', () => toggleCategory(cat.key));
+    container.appendChild(item);
+  });
+}
+
+function toggleCategory(key) {
+  if (hiddenCategories.has(key)) {
+    hiddenCategories.delete(key);
+  } else {
+    hiddenCategories.add(key);
+  }
+  document.querySelectorAll(`[data-key="${key}"]`).forEach(el => {
+    el.classList.toggle('dimmed', hiddenCategories.has(key));
+  });
+  document.querySelectorAll(`.day-dot.dot-${key}`).forEach(dot => {
+    dot.classList.toggle('dot-hidden', hiddenCategories.has(key));
+  });
+}
+
+// ── Filter tabs ──
+function buildFilterTabs() {
+  const container = document.getElementById('recordFilterTabs');
+  container.innerHTML = '';
+  filterTabs.forEach(tab => {
+    const btn = document.createElement('button');
+    btn.className = 'record-filter-tab' + (tab.key === activeFilter ? ' active' : '');
+    btn.textContent = tab.label;
+    btn.addEventListener('click', () => {
+      activeFilter = tab.key;
+      document.querySelectorAll('.record-filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderRecords();
+    });
+    container.appendChild(btn);
+  });
+}
+
+// ── Status badges ──
+function buildStatus() {
+  const container = document.getElementById('recordStatus');
+  container.innerHTML = '';
+  statusBadges.forEach(b => {
+    const span = document.createElement('span');
+    span.className = `record-date-status-badge ${b.type}`;
+    span.textContent = b.label;
+    container.appendChild(span);
+  });
+}
+
+// ── Record list ──
+function renderRecords() {
+  const container = document.getElementById('recordList');
+  container.innerHTML = '';
+  const filtered = records.filter(r => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'todo') return r.category === 'todo';
+    return r.category !== 'todo';
+  });
+  filtered.forEach(r => {
+    const item = document.createElement('div');
+    item.className = `record-item record-item-${r.category}`;
+    item.dataset.type = r.category === 'todo' ? 'todo' : 'record';
+    item.innerHTML = `
+      <span class="record-item-icon">${r.icon}</span>
+      <div class="record-content">
+        <div class="record-name">${r.name}</div>
+        <div class="record-sub">${r.sub}</div>
+      </div>
+      <span class="record-time">${r.time}</span>`;
+    container.appendChild(item);
+  });
+}
+
+// ── Calendar ──
 function renderCalendar(date) {
+  const calGrid = document.getElementById('calGrid');
+  const calMonthEl = document.querySelector('.cal-month');
+  const recordDateLabel = document.getElementById('recordDateLabel');
+
   calGrid.innerHTML = '';
+  dayjs.locale('zh-tw');
+  calMonthEl.textContent = date.format('YYYY MMMM');
+  recordDateLabel.textContent = date.format('M/D dddd');
 
-  // 月份顯示
-  calMonthEl.textContent = date.format('YYYY MMMM')
-  recordDate.textContent = date.format('M/D dddd');
-  const startOfMonth = date.startOf('month');
-  const endOfMonth = date.endOf('month');
-  const startWeekDay = startOfMonth.day();
-
-  // 空格
+  const startWeekDay = date.startOf('month').day();
   for (let i = 0; i < startWeekDay; i++) {
     const empty = document.createElement('div');
     empty.className = 'cal-day empty';
     calGrid.appendChild(empty);
   }
 
-  // 日期
-  for (let d = 1; d <= endOfMonth.date(); d++) {
-    const dayEl = document.createElement('div');
-
+  for (let d = 1; d <= date.endOf('month').date(); d++) {
     const dayDate = dayjs(new Date(date.year(), date.month(), d));
-    const today = dayDate.isSame(dayjs(), 'day');
+    const isToday = dayDate.isSame(dayjs(), 'day');
 
-    dayEl.className = 'cal-day' + (today ? ' today' : '');
+    const dayEl = document.createElement('div');
+    dayEl.className = 'cal-day' + (isToday ? ' today' : '');
+
     const num = document.createElement('div');
     num.className = 'day-num';
     num.textContent = d;
@@ -182,7 +236,7 @@ function renderCalendar(date) {
     dots.className = 'day-dots';
     (dotData[d] || []).forEach(type => {
       const dot = document.createElement('div');
-      dot.className = 'day-dot dot-' + type;
+      dot.className = `day-dot dot-${type}${hiddenCategories.has(type) ? ' dot-hidden' : ''}`;
       dots.appendChild(dot);
     });
     dayEl.appendChild(dots);
@@ -191,35 +245,36 @@ function renderCalendar(date) {
       if (selectedDayEl) selectedDayEl.classList.remove('selected');
       dayEl.classList.add('selected');
       selectedDayEl = dayEl;
-      recordDate.textContent = dayDate.format('M/D dddd');
+      recordDateLabel.textContent = dayDate.format('M/D dddd');
     });
 
     calGrid.appendChild(dayEl);
   }
 }
 
-// 上一個月
-prevBtn.addEventListener('click', () => {
-  currentDate = currentDate.subtract(1, 'month');
-  renderCalendar(currentDate);
-});
-
-// 下一個月
-nextBtn.addEventListener('click', () => {
-  currentDate = currentDate.add(1, 'month');
-  renderCalendar(currentDate);
-});
-
-renderCalendar(currentDate);
-
-function filterRecords(btn, type) {
-  document.querySelectorAll('.record-filter-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.record-item').forEach(item => {
-    if (type === 'all') { item.style.display = ''; return; }
-    item.style.display = item.dataset.type === type ? '' : 'none';
+// ── Nav ──
+function initNav() {
+  const prevBtn = document.querySelectorAll('.cal-arrow')[0];
+  const nextBtn = document.querySelectorAll('.cal-arrow')[1];
+  prevBtn.addEventListener('click', () => {
+    currentDate = currentDate.subtract(1, 'month');
+    renderCalendar(currentDate);
+  });
+  nextBtn.addEventListener('click', () => {
+    currentDate = currentDate.add(1, 'month');
+    renderCalendar(currentDate);
   });
 }
+
+// ── Init ──
+dayjs.locale('zh-tw');
+currentDate = dayjs();
+buildLegend();
+buildFilterTabs();
+buildStatus();
+renderRecords();
+renderCalendar(currentDate);
+initNav();
 </script>
 </body>
 </html>
