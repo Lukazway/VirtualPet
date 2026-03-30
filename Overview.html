@@ -25,19 +25,18 @@
 .ov-today-content { position:relative; z-index:5; flex:1; display:flex; overflow:hidden; }
 .ov-dog-photo { width:100%; max-width:180px; height:auto; object-fit:contain; animation:petFloat 4s ease-in-out infinite; position:relative; z-index:2; } 
 .today-scene { position: relative; flex: 1; overflow: hidden; display: flex; flex-direction: column; }
-.today-left-label { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.3); padding-left: 2px; flex-shrink: 0; }
-.sky-date { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: rgba(30,30,60,0.9); margin-bottom: 6px; }
+.today-left-label { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.3); padding-left: 2px; flex-shrink: 0; }
+.sky-date { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: rgba(30,30,60,0.9); margin-bottom: 6px; }
 .sky-info { display: flex; flex-direction: row; flex-wrap: wrap; gap: 5px; }
 .sky-tip { font-size: 10px; font-weight: 600; color: rgba(40,120,80,0.95); margin-top: 5px; line-height: 1.4; text-shadow: 0 1px 3px rgba(255,255,255,0.6); }
 .pet-3d-area { flex: 1; display: flex; align-items: flex-end; justify-content: center; position: relative; padding-bottom: 8px; overflow: visible; }
 .pet-3d-shadow { position: absolute; bottom: 4px; width: 70px; height: 14px; background: rgba(30,60,20,0.25); border-radius: 50%; filter: blur(8px); }
 @keyframes petFloat { 0%, 100% { transform: translateY(0px); }50% { transform: translateY(-10px); } }
 .pet-mood-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); border-radius: 16px; padding: 4px 10px; font-size: 10px; font-weight: 700; color: rgba(30,30,60,0.85); white-space: nowrap; }
-.today-right-label { font-family: var(--font-display); font-weight: 800; font-size: 11px; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.3); padding-left: 2px; flex-shrink: 0; }
-.virtual-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(123,94,167,0.35); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(180,150,220,0.5); border-radius: 16px; padding: 10px 12px; font-family: var(--font-display); font-weight: 800; font-size: 11px; color: rgba(255,255,255,0.95); cursor: pointer; box-shadow: 0 2px 16px rgba(123,94,167,0.25), inset 0 1px 0 rgba(255,255,255,0.3); margin-top: auto; flex-shrink: 0; }
+.today-right-label { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.3); padding-left: 2px; flex-shrink: 0; }
 .sheet-overlay { position: fixed; inset: 0; background: rgba(61,43,31,0.4); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 100; display: none; align-items: flex-end; }
 @keyframes slideUp { from { transform: translateY(100%); }to { transform: translateY(0); } }
-.sheet-tab-cal { flex-shrink: 0; padding: 8px 18px; border-radius: 20px; font-family: var(--font-display); font-weight: 700; font-size: 13px; cursor: pointer; border: none; background: var(--sand); color: var(--text-secondary); transition: all 0.15s; }
+.sheet-tab-cal { flex-shrink: 0; padding: 8px 18px; border-radius: 20px; font-family: var(--font-display); font-weight: 700; font-size: 14px; cursor: pointer; border: none; background: var(--sand); color: var(--text-secondary); transition: all 0.15s; }
 .sheet-tab-cal.active { background: var(--peach-deep); color: white; }
 
 /* TASK CENTER */
@@ -56,14 +55,14 @@ html:has(body.overview-mode) { height: auto; overflow: auto; }
 html:has(body.overview-mode) body { height: auto; overflow: visible; }
 /* ── Phone frame ── */ 
 .phone { width: 393px; height: 852px; background: var(--cream); border-radius: 50px; overflow: hidden; position: relative; box-shadow: 0 32px 80px rgba(61,43,31,0.3), 0 0 0 10px #2A1A0E, inset 0 0 0 1px rgba(255,255,255,0.2); display: flex; flex-direction: column; flex-shrink: 0; will-change: transform; transform: translateZ(0); -webkit-transform: translateZ(0); }
-.phone-label { text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--brown); margin-bottom: 12px; letter-spacing: 0.5px; }
+.phone-label { text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--brown); margin-bottom: 12px; letter-spacing: 0.5px; }
 .page-wrapper { display: flex; flex-direction: column; align-items: center; }
 .pages-container { display: flex; flex-wrap: wrap; gap: 50px; justify-content: center; }
 /* ── Status Bar (Overview phone sim only) ── */ 
 .status-bar { height: 50px; background: var(--cream); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
 .status-time { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-primary); }
 .status-icons { display: flex; gap: 6px; align-items: center; }
-.status-icons span { font-size: 13px; color: var(--text-primary); }
+.status-icons span { font-size: 14px; color: var(--text-primary); }
 /* ── Override app-shell inside phone frame ── */ 
 .phone .app-shell, .phone .page.active { position: static; height: 100%; }
 /* ── Overview phone-frame overrides ── */ 
@@ -79,20 +78,20 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
 .phone .bottom-nav.ov-glass .nav-label { color:rgba(255,255,255,0.88); }
 .phone .bottom-nav.ov-glass .nav-item.active { background:rgba(255,255,255,0.20); }
 .phone .bottom-nav.ov-glass .nav-item.active .nav-label { color:white; font-weight:800; }
-.phone .today-left-label { font-size:9px; }
-.phone .today-right-label { font-size:9px; }
-.phone .today-right-label-mt { font-size:9px; margin-top:3px; }
-.phone .sky-date { font-size:10px; margin-bottom:4px; }
+.phone .today-left-label { font-size:14px; }
+.phone .today-right-label { font-size:14px; }
+.phone .today-right-label-mt { font-size:14px; margin-top:3px; }
+.phone .sky-date { font-size:14px; margin-bottom:4px; }
 .phone .sky-info { flex-wrap:nowrap; }
-.phone .sky-tag { font-size:9px; padding:3px 7px; }
-.phone .sky-tip { font-size:8.5px; margin-top:4px; }
-.phone .pet-mood-badge { font-size:8px; padding:3px 7px; top:4px; left:50%; transform:translateX(-50%); }
+.phone .sky-tag { font-size:10px; padding:3px 7px; }
+.phone .sky-tip { font-size:10px; margin-top:4px; }
+.phone .pet-mood-badge { font-size:10px; padding:3px 7px; top:4px; left:50%; transform:translateX(-50%); }
 .phone .pet-3d-shadow { width:60px; bottom:2px; }
 .phone .lg-card.sm { padding:7px 9px; }
 .phone .lg-card.xs { padding:6px 8px; }
-.phone .insight-row-icon { font-size:11px; }
-.phone .insight-row-title { font-size:9.5px; }
-.phone .insight-row-text { font-size:8.5px; }
+.phone .insight-row-icon { font-size:14px; }
+.phone .insight-row-title { font-size:12px; }
+.phone .insight-row-text { font-size:11px; }
 .phone .sheet-overlay { position:absolute; }
 .phone .cal-fab { position:absolute; bottom:96px; }
 .phone .shared-members { display:flex; align-items:center; gap:0; margin:12px 0; }
@@ -100,12 +99,12 @@ html:has(body.overview-mode) body { height: auto; overflow: visible; }
 .phone .member-avatar:nth-child(2) { background:#C8E4FF; margin-left:-8px; }
 .phone .member-avatar:nth-child(3) { background:#FFE4F8; margin-left:-8px; }
 .phone .add-member { margin-left:8px; }
-.phone .shared-section > div:first-child { font-size:13px; font-weight:600; color:var(--text-secondary); }
+.phone .shared-section > div:first-child { font-size:14px; font-weight:600; color:var(--text-secondary); }
 .phone .pet-avatar.lele { background:linear-gradient(135deg,var(--lavender),var(--sky-light)); }
 .phone .pet-avatar-badge.female { background:var(--coral); }
 .phone .sheet-item.exp { padding:20px 16px; }
 .phone .sheet-item.exp .sheet-item-icon { font-size:32px; }
-.phone .sheet-item.exp .sheet-item-label { font-size:13px; }
+.phone .sheet-item.exp .sheet-item-label { font-size:14px; }
 </style>
 </head>
 <body class="overview-mode">
@@ -691,7 +690,7 @@ function buildTrend(svgId, legendId, lines) {
     svg.appendChild(line);
     const t = document.createElementNS('http://www.w3.org/2000/svg','text');
     t.setAttribute('x', 0); t.setAttribute('y', y + 3);
-    t.setAttribute('font-size', '7'); t.setAttribute('fill', '#B09880');
+    t.setAttribute('font-size', '10'); t.setAttribute('fill', '#B09880');
     t.setAttribute('font-family', 'Nunito'); t.setAttribute('font-weight', '700');
     t.textContent = v;
     svg.appendChild(t);
