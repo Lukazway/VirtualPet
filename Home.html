@@ -10,224 +10,133 @@
 
 <div class="app-shell">
   <div class="top-nav">
-    <div class="nav-logo">
-      <div class="logo-icon">🐾</div>
-    </div>
+    <div class="nav-logo"><div class="logo-icon">🐾</div></div>
     <span class="nav-title">Home</span>
     <button class="nav-action">⚙️</button>
   </div>
 
   <div class="scroll-area home-content">
-
     <div class="section-header">
       <span class="section-title">我的寵物</span>
       <span class="section-more">加入 +</span>
     </div>
+    <div class="pet-card-grid" id="petCardGrid"></div>
 
-    <div class="pet-card-grid">
-      <!-- Pet 1: Seoli -->
-      <div class="pet-card">
-        <div class="pet-card-header" onclick="togglePetRecords('seoli')">
-          <div class="pet-avatar-wrap">
-              <img class="pet-avatar" src="face_seoli.png">
-            <div class="pet-avatar-badge">✓</div>
-          </div>
-          <div class="pet-info">
-            <div class="pet-name">Seoli</div>
-            <div class="pet-breed">薩摩耶犬 · 男生</div>
-            <div class="pet-age-tag">🎂 4 歲 11 月</div>
-          </div>
-          <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 Seoli')">✏️</div>
-        </div>
-
-        <div class="health-strip">
-          <div class="hs-alerts">
-            <div class="hs-alert warn">
-              <span class="hs-alert-icon">🏃</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">活動量偏低</div>
-                <div class="hs-alert-sub">比過去7天少 40%</div>
-              </div>
-            </div>
-            <div class="hs-alert ok">
-              <span class="hs-alert-icon">🍽️</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">飲食正常</div>
-                <div class="hs-alert-sub">進食量與過去7天相近</div>
-              </div>
-            </div>
-            <div class="hs-alert ok">
-              <span class="hs-alert-icon">💧</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">飲水正常</div>
-                <div class="hs-alert-sub">飲水量達標</div>
-              </div>
-            </div>
-            <div class="hs-alert warn">
-              <span class="hs-alert-icon">😴</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">睡眠略少</div>
-                <div class="hs-alert-sub">比過去7天平均少 1 小時</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pet-records collapsed" id="pr-seoli">
-          <div class="pr-tabs">
-            <button class="pr-tab active" onclick="switchPrTab(this,'life','seoli')">生活摘要</button>
-            <button class="pr-tab" onclick="switchPrTab(this,'status','seoli')">狀態趨勢</button>
-            <button class="pr-tab" onclick="switchPrTab(this,'exp','seoli')">最近體驗</button>
-          </div>
-          <div class="pr-panel active" id="pr-life-seoli">
-            <div class="pr-row-label">7天 Top 10 · 今天 / 7天均值</div>
-            <div class="pr-events-row" id="row7-seoli"></div>
-          </div>
-          <div class="pr-panel pr-panel-scroll" id="pr-status-seoli">
-            <div class="status-legend" id="legend-seoli"></div>
-            <div class="trend-chart-wrap trend-chart-clickable" onclick="">
-              <svg class="trend-svg" id="trend-svg-seoli" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
-              <div class="trend-x-labels">
-                <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
-                <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
-                <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
-                <span class="trend-x-label">今</span>
-              </div>
-              <div class="trend-chart-hint">點擊查看完整健康數據 ›</div>
-            </div>
-          </div>
-          <div class="pr-panel pr-panel-scroll" id="pr-exp-seoli">
-            <div class="exp-list" id="exp-list-seoli"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pet 2: Lele -->
-      <div class="pet-card">
-        <div class="pet-card-header" onclick="togglePetRecords('lele')">
-          <div class="pet-avatar-wrap">
-              <img class="pet-avatar" src="face_lele.png">
-            <div class="pet-avatar-badge favorite-pet">♡</div>
-          </div>
-          <div class="pet-info">
-            <div class="pet-name">Lele</div>
-            <div class="pet-breed">馬爾濟斯犬 · 男生</div>
-            <div class="pet-age-tag">🎂 13 歲 11 月</div>
-          </div>
-          <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 Lele')">✏️</div>
-        </div>
-
-        <div class="health-strip">
-          <div class="hs-alerts">
-            <div class="hs-alert warn">
-              <span class="hs-alert-icon">💊</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">用藥提醒</div>
-                <div class="hs-alert-sub">今天的跳蚤預防藥尚未記錄</div>
-              </div>
-            </div>
-            <div class="hs-alert ok">
-              <span class="hs-alert-icon">🍽️</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">飲食正常</div>
-                <div class="hs-alert-sub">與過去7天進食量相近</div>
-              </div>
-            </div>
-            <div class="hs-alert ok">
-              <span class="hs-alert-icon">🏃</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">活動量正常</div>
-                <div class="hs-alert-sub">與過去7天相近</div>
-              </div>
-            </div>
-            <div class="hs-alert warn">
-              <span class="hs-alert-icon">💧</span>
-              <div class="hs-alert-body">
-                <div class="hs-alert-title">飲水偏少</div>
-                <div class="hs-alert-sub">今天飲水量低於7天均值</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pet-records collapsed" id="pr-lele">
-          <div class="pr-tabs">
-            <button class="pr-tab active" onclick="switchPrTab(this,'life','lele')">生活摘要</button>
-            <button class="pr-tab" onclick="switchPrTab(this,'status','lele')">狀態趨勢</button>
-            <button class="pr-tab" onclick="switchPrTab(this,'exp','lele')">最近體驗</button>
-          </div>
-          <div class="pr-panel active" id="pr-life-lele">
-            <div class="pr-row-label">7天 Top 10 · 今天 / 7天均值</div>
-            <div class="pr-events-row" id="row7-lele"></div>
-          </div>
-          <div class="pr-panel pr-panel-scroll" id="pr-status-lele">
-            <div class="status-legend" id="legend-lele"></div>
-            <div class="trend-chart-wrap trend-chart-clickable" onclick="">
-              <svg class="trend-svg" id="trend-svg-lele" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
-              <div class="trend-x-labels">
-                <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
-                <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
-                <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
-                <span class="trend-x-label">今</span>
-              </div>
-              <div class="trend-chart-hint">點擊查看完整健康數據 ›</div>
-            </div>
-          </div>
-          <div class="pr-panel pr-panel-scroll" id="pr-exp-lele">
-            <div class="exp-list" id="exp-list-lele"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Shared Management -->
     <div class="section-header">
       <span class="section-title">共享管理</span>
       <span class="section-more">管理 🔐</span>
     </div>
-    <div class="shared-section">
-      <div class="shared-desc">與家人共享，一起陪伴寶貝們</div>
-      <div class="shared-members">
-        <div class="member-avatar">👩</div>
-        <div class="member-avatar">👨</div>
-        <div class="member-avatar">👧</div>
-        <div class="add-member">+</div>
-      </div>
-      <button class="invite-btn">✉️ 發送邀請</button>
-    </div>
-
-  </div><!-- /scroll-area -->
+    <div class="shared-section" id="sharedSection"></div>
+  </div>
 
   <div class="bottom-nav">
     <button class="nav-item active" onclick="location.href='Home.html'">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Home</span>
+      <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
     </button>
     <button class="nav-item" onclick="location.href='Today.html'">
-      <span class="nav-icon">🌤️</span>
-      <span class="nav-label">Today</span>
+      <span class="nav-icon">🌤️</span><span class="nav-label">Today</span>
     </button>
     <button class="nav-item" onclick="location.href='Calendar.html'">
-      <span class="nav-icon">📅</span>
-      <span class="nav-label">Calendar</span>
+      <span class="nav-icon">📅</span><span class="nav-label">Calendar</span>
     </button>
   </div>
-</div><!-- /app-shell -->
+</div>
 
 <script>
-function togglePetRecords(pet) {
-  const el = document.getElementById('pr-' + pet);
-  if (!el) return;
-  el.classList.toggle('collapsed');
-}
-function switchPrTab(btn, tab, pet) {
-  const card = btn.closest('.pet-card');
-  card.querySelectorAll('.pr-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  card.querySelectorAll('.pr-panel').forEach(p => p.classList.remove('active'));
-  const panel = document.getElementById('pr-' + tab + '-' + pet);
-  if (panel) panel.classList.add('active');
-}
+// ── PetsData ──
+const pets = [
+  {
+    id: 'seoli',
+    name: 'Seoli',
+    breed: '薩摩耶犬 · 男生',
+    age: '4 歲 11 月',
+    avatar: 'face_seoli.png',
+    badgeLabel: '✓',
+    badgeClass: '',
+    alerts: [
+      { type: 'warn', icon: '🏃', title: '活動量偏低',   sub: '比過去7天少 40%' },
+      { type: 'ok',   icon: '🍽️', title: '飲食正常',     sub: '進食量與過去7天相近' },
+      { type: 'ok',   icon: '💧', title: '飲水正常',     sub: '飲水量達標' },
+      { type: 'warn', icon: '😴', title: '睡眠略少',     sub: '比過去7天平均少 1 小時' },
+    ],
+    week7: [
+      { icon:'🥣', name:'吃飯', today:2, avg7:avg7(14), color:'ring-green'    },
+      { icon:'💤', name:'睡眠', today:1, avg7:avg7(7),  color:'ring-sky'      },
+      { icon:'🚶', name:'散步', today:0, avg7:avg7(5),  color:'ring-peach'    },
+      { icon:'💧', name:'喝水', today:1, avg7:avg7(12), color:'ring-lavender' },
+      { icon:'💩', name:'大便', today:2, avg7:avg7(9),  color:'ring-yellow'   },
+      { icon:'🎮', name:'玩耍', today:1, avg7:avg7(8),  color:'ring-lavender' },
+      { icon:'🍭', name:'零食', today:0, avg7:avg7(4),  color:'ring-peach'    },
+      { icon:'💊', name:'用藥', today:1, avg7:avg7(7),  color:'ring-green'    },
+      { icon:'🪮', name:'清潔', today:0, avg7:avg7(1),  color:'ring-sky'      },
+      { icon:'🛁', name:'洗澡', today:0, avg7:avg7(2),  color:'ring-yellow'   },
+    ],
+    trend: [
+      { key:'activity',  label:'活動', color:'#E8834A', data:[5,4,3,5,3,4,2] },
+      { key:'eating',    label:'飲食', color:'#6BBFAB', data:[4,5,4,5,3,5,4] },
+      { key:'sleep',     label:'睡眠', color:'#A8C8E8', data:[4,4,4,3,4,5,3] },
+      { key:'hydration', label:'飲水', color:'#7BC8E8', data:[3,4,5,4,4,4,3] },
+      { key:'excrete',   label:'排泄', color:'#C9B8E8', data:[3,4,5,4,4,5,4] },
+      { key:'mood',      label:'情緒', color:'#F5A870', data:[4,5,4,5,3,4,4] },
+    ],
+    exps: [
+      { id:'a', name:'公園晨走',     type:'Walk', icon:'🚶', date:'3/5 週三', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'#6BBFAB', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 },
+      { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏞️', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
+      { id:'c', name:'海邊游泳',     type:'Swim', icon:'🏊', date:'2/28 上週', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', mapC1:'#B8D8F0', mapC2:'#A8C8E8', routeColor:'#4890C8', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 },
+    ],
+  },
+  {
+    id: 'lele',
+    name: 'Lele',
+    breed: '馬爾濟斯犬 · 男生',
+    age: '13 歲 11 月',
+    avatar: 'face_lele.png',
+    badgeLabel: '♡',
+    badgeClass: 'favorite-pet',
+    alerts: [
+      { type: 'warn', icon: '💊', title: '用藥提醒',   sub: '今天的跳蚤預防藥尚未記錄' },
+      { type: 'ok',   icon: '🍽️', title: '飲食正常',   sub: '與過去7天進食量相近' },
+      { type: 'ok',   icon: '🏃', title: '活動量正常', sub: '與過去7天相近' },
+      { type: 'warn', icon: '💧', title: '飲水偏少',   sub: '今天飲水量低於7天均值' },
+    ],
+    week7: [
+      { icon:'🥣', name:'吃飯', today:2, avg7:avg7(13), color:'ring-lavender' },
+      { icon:'💤', name:'睡眠', today:1, avg7:avg7(7),  color:'ring-sky'      },
+      { icon:'💊', name:'用藥', today:0, avg7:avg7(6),  color:'ring-peach'    },
+      { icon:'💧', name:'喝水', today:2, avg7:avg7(10), color:'ring-green'    },
+      { icon:'🎮', name:'玩耍', today:0, avg7:avg7(4),  color:'ring-yellow'   },
+      { icon:'🍭', name:'零食', today:1, avg7:avg7(5),  color:'ring-lavender' },
+      { icon:'💩', name:'大便', today:1, avg7:avg7(7),  color:'ring-yellow'   },
+      { icon:'🪮', name:'清潔', today:0, avg7:avg7(1),  color:'ring-sky'      },
+      { icon:'🛁', name:'洗澡', today:0, avg7:avg7(1),  color:'ring-peach'    },
+      { icon:'🚶', name:'散步', today:0, avg7:avg7(3),  color:'ring-green'    },
+    ],
+    trend: [
+      { key:'eating',    label:'飲食', color:'#6BBFAB', data:[4,5,5,4,4,5,4] },
+      { key:'activity',  label:'活動', color:'#A07BC8', data:[3,3,4,3,4,3,3] },
+      { key:'sleep',     label:'睡眠', color:'#A8C8E8', data:[5,5,4,5,4,5,4] },
+      { key:'hydration', label:'飲水', color:'#7BC8E8', data:[4,3,4,4,3,4,3] },
+      { key:'excrete',   label:'排泄', color:'#C9B8E8', data:[4,4,4,5,4,4,3] },
+      { key:'mood',      label:'情緒', color:'#F5A870', data:[5,4,5,4,5,4,4] },
+    ],
+    exps: [
+      { id:'d', name:'客廳追逐遊戲', type:'Play', icon:'🎮', date:'3/5 週三', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'#A07BC8', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 },
+      { id:'e', name:'陽台曬太陽',   type:'Rest', icon:'☀️', date:'3/4 週二', weather:'☀️ 晴',  duration:'45min', steps:'—', temp:'22°C', mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040', path:'60,40 100,38 140,42 180,38 220,40 260,38', startX:60, startY:40, endX:260, endY:38 },
+    ],
+  },
+];
+
+const sharedData = {
+  desc: '與家人共享，一起陪伴寶貝們',
+  members: [
+    { emoji: '👩' },
+    { emoji: '👨' },
+    { emoji: '👧' },
+  ],
+};
+
+function avg7(total) { return Math.ceil(total / 7); }
+// ── Render ──
 function buildRing(container, events) {
   if (!container) return;
   container.innerHTML = '';
@@ -241,6 +150,7 @@ function buildRing(container, events) {
     container.appendChild(div);
   });
 }
+
 function buildTrend(svgId, legendId, lines) {
   const svg = document.getElementById(svgId);
   const legend = document.getElementById(legendId);
@@ -290,6 +200,7 @@ function buildTrend(svgId, legendId, lines) {
     legend.appendChild(item);
   });
 }
+
 function buildExpCards(containerId, exps) {
   const c = document.getElementById(containerId);
   if (!c) return;
@@ -302,68 +213,99 @@ function buildExpCards(containerId, exps) {
   });
 }
 
-function avg7(total) { return Math.ceil(total / 7); }
+function buildPetCard(pet) {
+  const card = document.createElement('div');
+  card.className = 'pet-card';
 
-const seoli = {
-  week7: [
-    { icon:'🥣', name:'吃飯',   today:2, avg7:avg7(14), color:'ring-green'    },
-    { icon:'💤', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
-    { icon:'🚶', name:'散步',   today:0, avg7:avg7(5),  color:'ring-peach'    },
-    { icon:'💧', name:'喝水',   today:1, avg7:avg7(12), color:'ring-lavender' },
-    { icon:'💩', name:'大便',   today:2, avg7:avg7(9),  color:'ring-yellow'   },
-    { icon:'🎮', name:'玩耍',   today:1, avg7:avg7(8),  color:'ring-lavender' },
-    { icon:'🍭', name:'零食',   today:0, avg7:avg7(4),  color:'ring-peach'    },
-    { icon:'💊', name:'用藥',   today:1, avg7:avg7(7),  color:'ring-green'    },
-    { icon:'🪮', name:'清潔',   today:0, avg7:avg7(1),  color:'ring-sky'      },
-    { icon:'🛁', name:'洗澡',   today:0, avg7:avg7(2),  color:'ring-yellow'   },
-  ],
-  trend: [
-    { key:'activity',  label:'活動',   color:'#E8834A', data:[5,4,3,5,3,4,2] },
-    { key:'eating',    label:'飲食',   color:'#6BBFAB', data:[4,5,4,5,3,5,4] },
-    { key:'sleep',     label:'睡眠',   color:'#A8C8E8', data:[4,4,4,3,4,5,3] },
-    { key:'hydration', label:'飲水',   color:'#7BC8E8', data:[3,4,5,4,4,4,3] },
-    { key:'excrete',   label:'排泄',   color:'#C9B8E8', data:[3,4,5,4,4,5,4] },
-    { key:'mood',      label:'情緒',   color:'#F5A870', data:[4,5,4,5,3,4,4] },
-  ],
-  exps: [
-    { id:'a', name:'公園晨走',    type:'Walk', icon:'🚶', date:'3/5 週三', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'#6BBFAB', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 },
-    { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏞️', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
-    { id:'c', name:'海邊游泳',    type:'Swim', icon:'🏊', date:'2/28 上週', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', mapC1:'#B8D8F0', mapC2:'#A8C8E8', routeColor:'#4890C8', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 },
-  ],
-};
-const lele = {
-  week7: [
-    { icon:'🥣', name:'吃飯',   today:2, avg7:avg7(13), color:'ring-lavender' },
-    { icon:'💤', name:'睡眠',   today:1, avg7:avg7(7),  color:'ring-sky'      },
-    { icon:'💊', name:'用藥',   today:0, avg7:avg7(6),  color:'ring-peach'    },
-    { icon:'💧', name:'喝水',   today:2, avg7:avg7(10), color:'ring-green'    },
-    { icon:'🎮', name:'玩耍',   today:0, avg7:avg7(4),  color:'ring-yellow'   },
-    { icon:'🍭', name:'零食',   today:1, avg7:avg7(5),  color:'ring-lavender' },
-    { icon:'💩', name:'大便',   today:1, avg7:avg7(7),  color:'ring-yellow'   },
-    { icon:'🪮', name:'清潔',   today:0, avg7:avg7(1),  color:'ring-sky'      },
-    { icon:'🛁', name:'洗澡',   today:0, avg7:avg7(1),  color:'ring-peach'    },
-    { icon:'🚶', name:'散步',   today:0, avg7:avg7(3),  color:'ring-green'    },
-  ],
-  trend: [
-    { key:'eating',    label:'飲食',   color:'#6BBFAB', data:[4,5,5,4,4,5,4] },
-    { key:'activity',  label:'活動',   color:'#A07BC8', data:[3,3,4,3,4,3,3] },
-    { key:'sleep',     label:'睡眠',   color:'#A8C8E8', data:[5,5,4,5,4,5,4] },
-    { key:'hydration', label:'飲水',   color:'#7BC8E8', data:[4,3,4,4,3,4,3] },
-    { key:'excrete',   label:'排泄',   color:'#C9B8E8', data:[4,4,4,5,4,4,3] },
-    { key:'mood',      label:'情緒',   color:'#F5A870', data:[5,4,5,4,5,4,4] },
-  ],
-  exps: [
-    { id:'d', name:'客廳追逐遊戲', type:'Play', icon:'🎮', date:'3/5 週三', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'#A07BC8', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 },
-    { id:'e', name:'陽台曬太陽',   type:'Rest', icon:'☀️', date:'3/4 週二', weather:'☀️ 晴',  duration:'45min', steps:'—', temp:'22°C', mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040', path:'60,40 100,38 140,42 180,38 220,40 260,38', startX:60, startY:40, endX:260, endY:38 },
-  ],
-};
-function initPet(id, data) {
-  buildRing(document.getElementById('row7-' + id), data.week7);
-  buildTrend('trend-svg-' + id, 'legend-' + id, data.trend);
-  buildExpCards('exp-list-' + id, data.exps);
+  const alertsHTML = pet.alerts.map(a => `
+    <div class="hs-alert ${a.type}">
+      <span class="hs-alert-icon">${a.icon}</span>
+      <div class="hs-alert-body">
+        <div class="hs-alert-title">${a.title}</div>
+        <div class="hs-alert-sub">${a.sub}</div>
+      </div>
+    </div>`).join('');
+
+  card.innerHTML = `
+    <div class="pet-card-header" onclick="togglePetRecords('${pet.id}')">
+      <div class="pet-avatar-wrap">
+        <img class="pet-avatar" src="${pet.avatar}">
+        <div class="pet-avatar-badge ${pet.badgeClass}">${pet.badgeLabel}</div>
+      </div>
+      <div class="pet-info">
+        <div class="pet-name">${pet.name}</div>
+        <div class="pet-breed">${pet.breed}</div>
+        <div class="pet-age-tag">🎂 ${pet.age}</div>
+      </div>
+      <div class="pet-card-more" onclick="event.stopPropagation(); alert('編輯 ${pet.name}')">✏️</div>
+    </div>
+    <div class="health-strip">
+      <div class="hs-alerts">${alertsHTML}</div>
+    </div>
+    <div class="pet-records collapsed" id="pr-${pet.id}">
+      <div class="pr-tabs">
+        <button class="pr-tab active" onclick="switchPrTab(this,'life','${pet.id}')">生活摘要</button>
+        <button class="pr-tab" onclick="switchPrTab(this,'status','${pet.id}')">狀態趨勢</button>
+        <button class="pr-tab" onclick="switchPrTab(this,'exp','${pet.id}')">最近體驗</button>
+      </div>
+      <div class="pr-panel active" id="pr-life-${pet.id}">
+        <div class="pr-row-label">7天 Top 10 · 今天 / 7天均值</div>
+        <div class="pr-events-row" id="row7-${pet.id}"></div>
+      </div>
+      <div class="pr-panel pr-panel-scroll" id="pr-status-${pet.id}">
+        <div class="status-legend" id="legend-${pet.id}"></div>
+        <div class="trend-chart-wrap trend-chart-clickable" onclick="">
+          <svg class="trend-svg" id="trend-svg-${pet.id}" viewBox="0 0 290 100" preserveAspectRatio="none"></svg>
+          <div class="trend-x-labels">
+            <span class="trend-x-label">Mon</span><span class="trend-x-label">Tue</span>
+            <span class="trend-x-label">Wed</span><span class="trend-x-label">Thu</span>
+            <span class="trend-x-label">Fri</span><span class="trend-x-label">Sat</span>
+            <span class="trend-x-label">今</span>
+          </div>
+          <div class="trend-chart-hint">點擊查看完整健康數據 ›</div>
+        </div>
+      </div>
+      <div class="pr-panel pr-panel-scroll" id="pr-exp-${pet.id}">
+        <div class="exp-list" id="exp-list-${pet.id}"></div>
+      </div>
+    </div>`;
+
+  return card;
 }
-initPet('seoli', seoli);
-initPet('lele', lele);
+
+function buildSharedSection(data) {
+  const section = document.getElementById('sharedSection');
+  const membersHTML = data.members.map(m => `<div class="member-avatar">${m.emoji}</div>`).join('');
+  section.innerHTML = `
+    <div class="shared-desc">${data.desc}</div>
+    <div class="shared-members">
+      ${membersHTML}
+      <div class="add-member">+</div>
+    </div>
+    <button class="invite-btn">✉️ 發送邀請</button>`;
+}
+
+function togglePetRecords(pet) {
+  document.getElementById('pr-' + pet).classList.toggle('collapsed');
+}
+function switchPrTab(btn, tab, pet) {
+  const card = btn.closest('.pet-card');
+  card.querySelectorAll('.pr-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  card.querySelectorAll('.pr-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('pr-' + tab + '-' + pet).classList.add('active');
+}
+
+// ── Init ──
+const grid = document.getElementById('petCardGrid');
+pets.forEach(pet => {
+  const card = buildPetCard(pet);
+  grid.appendChild(card);
+  buildRing(document.getElementById('row7-' + pet.id), pet.week7);
+  buildTrend('trend-svg-' + pet.id, 'legend-' + pet.id, pet.trend);
+  buildExpCards('exp-list-' + pet.id, pet.exps);
+});
+buildSharedSection(sharedData);
 </script>
 </body>
 </html>

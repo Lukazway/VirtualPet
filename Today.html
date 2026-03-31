@@ -12,97 +12,35 @@
 <div class="today-bg-overlay"></div>
 
 <div class="app-shell">
-
   <div class="top-nav">
     <div class="nav-logo"><div class="logo-icon">🐾</div></div>
     <span class="nav-title">Today</span>
     <button class="nav-action" onclick="openTaskCenter()">
       🔔
-      <span class="notif-badge" id="notifBadge">3</span>
+      <span class="notif-badge" id="notifBadge"></span>
     </button>
   </div>
 
   <div class="today-scene">
     <div class="today-split">
-
-      <!-- Left: status card + pet -->
-      <div class="today-left">
-        <div class="today-left-label">今日狀態</div>
-        <div class="today-status-card">
-          <div class="status-unrated" id="statusUnrated">
-            <div class="status-unrated-text">尚未評估今日狀態</div>
-            <button class="status-start-btn">開始評估</button>
-          </div>
-        </div>
-        <div class="pet-3d-area">
-          <div class="pet-mood-badge">😊 Happy</div>
-          <img class="dog-photo" src="Seoli_the_Samoyed.png" alt="Seoli">
-          <div class="pet-3d-shadow"></div>
-        </div>
-      </div>
-
-      <!-- Right: weather + health observations -->
-      <div class="today-right">
-        <div class="today-right-label">今日天氣</div>
-        <div class="today-sky">
-          <div class="sky-date">March 8, 2026</div>
-          <div class="sky-info">
-            <div class="sky-tag">☀️ 晴天</div>
-            <div class="sky-tag">🌡️ 23°C</div>
-          </div>
-          <div class="sky-tip">🐾 今天很適合帶 Seoli 出去散步！</div>
-        </div>
-        <div class="today-right-label today-right-label-mt">健康觀察</div>
-        <div class="lg-card">
-          <div class="insight-row">
-            <span class="insight-row-icon">💡</span>
-            <div class="insight-row-body">
-              <div class="insight-row-title">健康摘要</div>
-              <div class="insight-row-text">Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！</div>
-            </div>
-          </div>
-        </div>
-        <div class="lg-card">
-          <div class="insight-row">
-            <span class="insight-row-icon">💧</span>
-            <div class="insight-row-body">
-              <div class="insight-row-title">飲水量偏低</div>
-              <div class="insight-row-text">Seoli 今天的飲水量低於建議標準</div>
-            </div>
-          </div>
-        </div>
-        <div class="lg-card">
-          <div class="insight-row">
-            <span class="insight-row-icon">💊</span>
-            <div class="insight-row-body">
-              <div class="insight-row-title">Lele 用藥提醒</div>
-              <div class="insight-row-text">跳蚤預防藥今天到期，請至任務中心查看</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <div class="today-left" id="todayLeft"></div>
+      <div class="today-right" id="todayRight"></div>
     </div>
   </div>
 
   <div class="bottom-nav">
     <button class="nav-item" onclick="location.href='Home.html'">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Home</span>
+      <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
     </button>
     <button class="nav-item active" onclick="openSheet()">
-      <span class="nav-icon">➕</span>
-      <span class="nav-label">Today</span>
+      <span class="nav-icon">➕</span><span class="nav-label">Today</span>
     </button>
     <button class="nav-item" onclick="location.href='Calendar.html'">
-      <span class="nav-icon">📅</span>
-      <span class="nav-label">Calendar</span>
+      <span class="nav-icon">📅</span><span class="nav-label">Calendar</span>
     </button>
   </div>
-
 </div>
 
-<!-- Task Center -->
 <div class="task-overlay" id="taskOverlay">
   <div class="task-center">
     <div class="top-nav task-center-nav">
@@ -110,120 +48,204 @@
       <span class="nav-title">Tasks</span>
       <button class="nav-action" onclick="closeTaskCenter()">✕</button>
     </div>
-    <div class="task-tabs">
-      <button class="task-tab active" onclick="switchTaskTab(this,'pending')">待完成 <span class="task-tab-count" id="pendingCount">3</span></button>
-      <button class="task-tab" onclick="switchTaskTab(this,'done')">已完成</button>
-    </div>
-    <div class="task-list" id="tab-pending">
-      <div class="task-item" id="task-1">
-        <div class="task-dot task-dot-warn"></div>
-        <div class="task-item-body">
-          <div class="task-item-title">Seoli 尚未散步</div>
-          <div class="task-item-sub">建議：30 分鐘戶外散步</div>
-        </div>
-        <div class="task-item-actions">
-          <button class="task-action-btn task-done-btn" onclick="completeTask('task-1')">✔</button>
-          <button class="task-action-btn task-delay-btn" onclick="delayTask('task-1')">⏰</button>
-        </div>
-      </div>
-      <div class="task-item" id="task-2">
-        <div class="task-dot task-dot-info"></div>
-        <div class="task-item-body">
-          <div class="task-item-title">補充飲水量</div>
-          <div class="task-item-sub">Seoli 今天需要多喝水</div>
-        </div>
-        <div class="task-item-actions">
-          <button class="task-action-btn task-done-btn" onclick="completeTask('task-2')">✔</button>
-          <button class="task-action-btn task-delay-btn" onclick="delayTask('task-2')">⏰</button>
-        </div>
-      </div>
-      <div class="task-item" id="task-3">
-        <div class="task-dot task-dot-med"></div>
-        <div class="task-item-body">
-          <div class="task-item-title">Lele 用藥提醒</div>
-          <div class="task-item-sub">跳蚤預防藥 — 今天到期</div>
-        </div>
-        <div class="task-item-actions">
-          <button class="task-action-btn task-done-btn" onclick="completeTask('task-3')">✔</button>
-          <button class="task-action-btn task-delay-btn" onclick="delayTask('task-3')">⏰</button>
-        </div>
-      </div>
-    </div>
-    <div class="task-list" id="tab-done" style="display:none;">
-      <div class="task-done-empty" id="doneEmpty">目前沒有已完成的任務</div>
-    </div>
+    <div class="task-tabs" id="taskTabs"></div>
+    <div class="task-list" id="tab-pending"></div>
+    <div class="task-list" id="tab-done" style="display:none;"></div>
   </div>
 </div>
 
-<!-- Bottom Sheet -->
 <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
   <div class="bottom-sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-title">快速記錄</div>
-    <div class="sheet-tabs">
-      <button class="sheet-tab active" onclick="switchTab(this,'life')">生活記錄</button>
-      <button class="sheet-tab" onclick="switchTab(this,'exp')">體驗記錄</button>
-    </div>
-    <div class="sheet-tab-content">
-      <div id="tab-life">
-        <div class="sheet-section-label">生活</div>
-        <div class="sheet-grid">
-          <button class="sheet-item"><span class="sheet-item-icon">🥣</span><span class="sheet-item-label">吃飯</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💧</span><span class="sheet-item-label">喝水</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🍭</span><span class="sheet-item-label">零食</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💊</span><span class="sheet-item-label">用藥</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💩</span><span class="sheet-item-label">大便</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💦</span><span class="sheet-item-label">小便</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🚶</span><span class="sheet-item-label">散步</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🏞️</span><span class="sheet-item-label">公園</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🏊</span><span class="sheet-item-label">游泳</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🎮</span><span class="sheet-item-label">玩耍</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">💤</span><span class="sheet-item-label">睡眠</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🪮</span><span class="sheet-item-label">清潔</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🛁</span><span class="sheet-item-label">洗澡</span></button>
-          <button class="sheet-item"><span class="sheet-item-icon">🩺</span><span class="sheet-item-label">門診</span></button>
-        </div>
-        <div class="sheet-section-label sheet-section-label-health">健康</div>
-        <div class="sheet-grid">
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤮</span><span class="sheet-item-label">嘔吐</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚽</span><span class="sheet-item-label">拉肚子/便秘</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤐</span><span class="sheet-item-label">拒食</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🚿</span><span class="sheet-item-label">尿失禁/頻尿</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔴</span><span class="sheet-item-label">無法排尿</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">👃</span><span class="sheet-item-label">咳嗽/呼吸困難</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫁</span><span class="sheet-item-label">張口呼吸/過度喘氣</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦵</span><span class="sheet-item-label">跛腳/行走異常</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫥</span><span class="sheet-item-label">不願移動/明顯無力</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫨</span><span class="sheet-item-label">行走失衡/打滑無力</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">⚡</span><span class="sheet-item-label">癲癇/抽搐</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😶</span><span class="sheet-item-label">呆滯/失神</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🤪</span><span class="sheet-item-label">原地打轉/異常行為</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🐛</span><span class="sheet-item-label">持續搔癢/抓癢</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🫧</span><span class="sheet-item-label">舔腳/過度舔毛</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🔥</span><span class="sheet-item-label">局部紅腫/皮膚異常</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🦷</span><span class="sheet-item-label">扣牙/咀嚼異常</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">👁️</span><span class="sheet-item-label">瞇眼/流淚/分泌物</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🌡️</span><span class="sheet-item-label">發抖/發冷</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😪</span><span class="sheet-item-label">嗜睡/異常安靜</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">😡</span><span class="sheet-item-label">焦躁/吠叫異常</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">🙈</span><span class="sheet-item-label">躲藏/不互動</span></button>
-          <button class="sheet-item sheet-item-health"><span class="sheet-item-icon">💥</span><span class="sheet-item-label">攻擊性/變兇</span></button>
-        </div>
-      </div>
-      <div id="tab-exp" style="display:none;">
-        <div class="sheet-grid sheet-grid-exp">
-          <button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">🚶</span><span class="sheet-item-label sheet-item-label-lg">散步</span></button>
-          <button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">🏞️</span><span class="sheet-item-label sheet-item-label-lg">公園</span></button>
-          <button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">🏊</span><span class="sheet-item-label sheet-item-label-lg">游泳</span></button>
-          <button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">🎮</span><span class="sheet-item-label sheet-item-label-lg">玩耍</span></button>
-        </div>
-      </div>
-    </div>
+    <div class="sheet-tabs" id="sheetTabs"></div>
+    <div class="sheet-tab-content" id="sheetTabContent"></div>
   </div>
 </div>
 
 <script>
-// ── Sheet ──
+// ── UserData ──
+const todayData = {
+  activePet: {
+    name: 'Seoli',
+    image: 'Seoli_the_Samoyed.png',
+    mood: '😊 Happy',
+  },
+  weather: {
+    date: 'March 8, 2026',
+    icon: '☀️ 晴天',
+    temp: '🌡️ 23°C',
+    tip: '🐾 今天很適合帶 Seoli 出去散步！',
+  },
+  healthInsights: [
+    { icon: '💡', title: '健康摘要',    text: 'Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！' },
+    { icon: '💧', title: '飲水量偏低',  text: 'Seoli 今天的飲水量低於建議標準' },
+    { icon: '💊', title: 'Lele 用藥提醒', text: '跳蚤預防藥今天到期，請至任務中心查看' },
+  ],
+  tasks: [
+    { id: 'task-1', dotClass: 'task-dot-warn', title: 'Seoli 尚未散步',  sub: '建議：30 分鐘戶外散步' },
+    { id: 'task-2', dotClass: 'task-dot-info', title: '補充飲水量',       sub: 'Seoli 今天需要多喝水' },
+    { id: 'task-3', dotClass: 'task-dot-med',  title: 'Lele 用藥提醒',   sub: '跳蚤預防藥 — 今天到期' },
+  ],
+};
+
+// ── SheetData ──
+const sheetData = {
+  tabs: [
+    { key: 'life', label: '事件記錄' },
+    { key: 'exp',  label: '體驗記錄' },
+  ],
+  life: {
+    sections: [
+      {
+        label: '生活',
+        labelClass: 'sheet-section-label',
+        items: [
+          { icon:'🥣', label:'吃飯' }, { icon:'💧', label:'喝水' },
+          { icon:'🍭', label:'零食' }, { icon:'💊', label:'用藥' },
+          { icon:'💩', label:'大便' }, { icon:'💦', label:'小便' },
+          { icon:'🚶', label:'散步' }, { icon:'🏞️', label:'公園' },
+          { icon:'🏊', label:'游泳' }, { icon:'🎮', label:'玩耍' },
+          { icon:'💤', label:'睡眠' }, { icon:'🪮', label:'清潔' },
+          { icon:'🛁', label:'洗澡' }, { icon:'🩺', label:'門診' },
+        ],
+        itemClass: 'sheet-item',
+      },
+      {
+        label: '健康',
+        labelClass: 'sheet-section-label sheet-section-label-health',
+        items: [
+          { icon:'🤮', label:'嘔吐' },             { icon:'🚽', label:'拉肚子/便秘' },
+          { icon:'🤐', label:'拒食' },             { icon:'🚿', label:'尿失禁/頻尿' },
+          { icon:'🔴', label:'無法排尿' },         { icon:'👃', label:'咳嗽/呼吸困難' },
+          { icon:'🫁', label:'張口呼吸/過度喘氣' },{ icon:'🦵', label:'跛腳/行走異常' },
+          { icon:'🫥', label:'不願移動/明顯無力' },{ icon:'🫨', label:'行走失衡/打滑無力' },
+          { icon:'⚡', label:'癲癇/抽搐' },        { icon:'😶', label:'呆滯/失神' },
+          { icon:'🤪', label:'原地打轉/異常行為' },{ icon:'🐛', label:'持續搔癢/抓癢' },
+          { icon:'🫧', label:'舔腳/過度舔毛' },    { icon:'🔥', label:'局部紅腫/皮膚異常' },
+          { icon:'🦷', label:'扣牙/咀嚼異常' },    { icon:'👁️', label:'瞇眼/流淚/分泌物' },
+          { icon:'🌡️', label:'發抖/發冷' },        { icon:'😪', label:'嗜睡/異常安靜' },
+          { icon:'😡', label:'焦躁/吠叫異常' },    { icon:'🙈', label:'躲藏/不互動' },
+          { icon:'💥', label:'攻擊性/變兇' },
+        ],
+        itemClass: 'sheet-item sheet-item-health',
+      },
+    ],
+  },
+  exp: {
+    items: [
+      { icon:'🚶', label:'散步' },
+      { icon:'🏞️', label:'公園' },
+      { icon:'🏊', label:'游泳' },
+      { icon:'🎮', label:'玩耍' },
+    ],
+  },
+};
+
+// ── Render Today ──
+function renderTodayLeft() {
+  const pet = todayData.activePet;
+  const el = document.getElementById('todayLeft');
+  el.innerHTML = `
+    <div class="today-left-label">今日狀態</div>
+    <div class="today-status-card">
+      <div class="status-unrated">
+        <div class="status-unrated-text">尚未評估今日狀態</div>
+        <button class="status-start-btn">開始評估</button>
+      </div>
+    </div>
+    <div class="pet-3d-area">
+      <div class="pet-mood-badge">${pet.mood}</div>
+      <img class="dog-photo" src="${pet.image}" alt="${pet.name}">
+      <div class="pet-3d-shadow"></div>
+    </div>`;
+}
+
+function renderTodayRight() {
+  const { weather, healthInsights } = todayData;
+  const insightsHTML = healthInsights.map(i => `
+    <div class="lg-card">
+      <div class="insight-row">
+        <span class="insight-row-icon">${i.icon}</span>
+        <div class="insight-row-body">
+          <div class="insight-row-title">${i.title}</div>
+          <div class="insight-row-text">${i.text}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('todayRight').innerHTML = `
+    <div class="today-right-label">今日天氣</div>
+    <div class="today-sky">
+      <div class="sky-date">${weather.date}</div>
+      <div class="sky-info">
+        <div class="sky-tag">${weather.icon}</div>
+        <div class="sky-tag">${weather.temp}</div>
+      </div>
+      <div class="sky-tip">${weather.tip}</div>
+    </div>
+    <div class="today-right-label today-right-label-mt">健康觀察</div>
+    ${insightsHTML}`;
+}
+
+// ── Render Task Center ──
+let pendingCount = todayData.tasks.length;
+
+function renderTaskCenter() {
+  const tabsEl = document.getElementById('taskTabs');
+  tabsEl.innerHTML = `
+    <button class="task-tab active" onclick="switchTaskTab(this,'pending')">待完成 <span class="task-tab-count" id="pendingCount">${pendingCount}</span></button>
+    <button class="task-tab" onclick="switchTaskTab(this,'done')">已完成</button>`;
+
+  const pendingEl = document.getElementById('tab-pending');
+  pendingEl.innerHTML = '';
+  todayData.tasks.forEach(task => {
+    const item = document.createElement('div');
+    item.className = 'task-item';
+    item.id = task.id;
+    item.innerHTML = `
+      <div class="task-dot ${task.dotClass}"></div>
+      <div class="task-item-body">
+        <div class="task-item-title">${task.title}</div>
+        <div class="task-item-sub">${task.sub}</div>
+      </div>
+      <div class="task-item-actions">
+        <button class="task-action-btn task-done-btn" onclick="completeTask('${task.id}')">✔</button>
+        <button class="task-action-btn task-delay-btn" onclick="delayTask('${task.id}')">⏰</button>
+      </div>`;
+    pendingEl.appendChild(item);
+  });
+
+  document.getElementById('tab-done').innerHTML = `<div class="task-done-empty" id="doneEmpty">目前沒有已完成的任務</div>`;
+  document.getElementById('notifBadge').textContent = pendingCount;
+}
+
+// ── Render Sheet ──
+function renderSheet() {
+  const tabsEl = document.getElementById('sheetTabs');
+  const contentEl = document.getElementById('sheetTabContent');
+
+  tabsEl.innerHTML = sheetData.tabs.map((tab, i) =>
+    `<button class="sheet-tab${i === 0 ? ' active' : ''}" onclick="switchTab(this,'${tab.key}')">${tab.label}</button>`
+  ).join('');
+
+  const lifeHTML = sheetData.life.sections.map(sec => {
+    const itemsHTML = sec.items.map(it =>
+      `<button class="${sec.itemClass}"><span class="sheet-item-icon">${it.icon}</span><span class="sheet-item-label">${it.label}</span></button>`
+    ).join('');
+    return `<div class="${sec.labelClass}">${sec.label}</div><div class="sheet-grid">${itemsHTML}</div>`;
+  }).join('');
+
+  const expHTML = sheetData.exp.items.map(it =>
+    `<button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">${it.icon}</span><span class="sheet-item-label sheet-item-label-lg">${it.label}</span></button>`
+  ).join('');
+
+  contentEl.innerHTML = `
+    <div id="tab-life">${lifeHTML}</div>
+    <div id="tab-exp" style="display:none;"><div class="sheet-grid sheet-grid-exp">${expHTML}</div></div>`;
+}
+
+// ── Sheet controls ──
 function openSheet() { document.getElementById('sheetOverlay').classList.add('open'); }
 function closeSheet(e) {
   if (e.target === document.getElementById('sheetOverlay'))
@@ -233,14 +255,12 @@ function switchTab(btn, tab) {
   document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   ['life','exp'].forEach(t => {
-    const el = document.getElementById('tab-'+t);
+    const el = document.getElementById('tab-' + t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
   });
 }
 
-// ── Task Center ──
-let pendingCount = 3;
-
+// ── Task controls ──
 function openTaskCenter() { document.getElementById('taskOverlay').classList.add('open'); }
 function closeTaskCenter() { document.getElementById('taskOverlay').classList.remove('open'); }
 function switchTaskTab(btn, tab) {
@@ -261,8 +281,7 @@ function completeTask(id) {
     const badge = document.getElementById('notifBadge');
     badge.textContent = pendingCount;
     if (pendingCount === 0) badge.style.display = 'none';
-    const empty = document.getElementById('doneEmpty');
-    if (empty) empty.style.display = 'none';
+    document.getElementById('doneEmpty').style.display = 'none';
     const item = document.createElement('div');
     item.className = 'task-done-item';
     item.innerHTML = `<span class="task-done-check">✔</span><span class="task-done-title">${title}</span>`;
@@ -275,6 +294,12 @@ function delayTask(id) {
   el.classList.add('task-delayed');
   setTimeout(() => el.classList.remove('task-delayed'), 6000);
 }
+
+// ── Init ──
+renderTodayLeft();
+renderTodayRight();
+renderTaskCenter();
+renderSheet();
 </script>
 </body>
 </html>
