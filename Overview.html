@@ -198,115 +198,166 @@ body.overview-mode { background: #E8D8C8; display: flex; flex-direction: row; ju
 <script src="dayjs/zh-tw.min.js"></script>
 <script>
 /* ══════════════════════════════════ Home Page ══════════════════════════════════ */
+// ── UI config ──
+const BADGE_CLASS = {
+  default:'',
+  favorite:'favorite-pet'
+};
+const ALERT_CLASS = {
+  default:'ok',
+  warn:'warn',
+  ok:'ok'
+};
+const RING_COLOR = (pct) =>
+  pct <= 0.33 ? 'ring-peach' : pct <= 0.66 ? 'ring-yellow' : 'ring-green';
+const TREND_COLOR = {
+  default:'var(--mint-deep)',
+  activity:'var(--peach-mid)',
+  eating:'var(--mint-deep)',
+  sleep:'var(--yellow)',
+  hydration:'var(--sky-mid)',
+  excrete:'var(--brown-mid)',
+  mood:'var(--lavender)'
+};
+const EXP_PALETTE = {
+  default:{ mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'var(--mint-deep)' },
+  Walk:{ mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'var(--mint-deep)' },
+  Park:{ mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040' },
+  Swim:{ mapC1:'#B8D8F0', mapC2:'var(--sky)', routeColor:'#4890C8' },
+  Play:{ mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'var(--purple-mid)' }
+};
+
 // ── PetsData ──
-const pets = [
+const petsData = [
   {
-    id: 'seoli',
-    name: 'Seoli',
-    breed: '薩摩耶犬 · 男生',
-    age: '4 歲 11 月',
-    avatar: 'face_seoli.png',
+    id:'seoli',
+    name:'Seoli',
+    breed:'薩摩耶犬 · 男生',
+    age:'4 歲 11 月',
+    avatar:'face_seoli.png',
+    badge:'default',
     badgeLabel: '✓',
-    badgeClass: '',
     alerts: [
-      { type: 'warn', icon: '🏃', title: '活動量偏低',   sub: '比過去7天少 40%' },
-      { type: 'ok',   icon: '🍽️', title: '飲食正常',     sub: '進食量與過去7天相近' },
-      { type: 'ok',   icon: '💧', title: '飲水正常',     sub: '飲水量達標' },
-      { type: 'warn', icon: '😴', title: '睡眠略少',     sub: '比過去7天平均少 1 小時' },
+      { urgency:'warn', icon:'🏃', title:'活動量偏低', sub:'比過去7天少 40%'},
+      { urgency:'ok', icon:'🍽️', title:'飲食正常', sub:'進食量與過去7天相近'},
+      { urgency:'ok', icon:'💧', title:'飲水正常', sub:'飲水量達標'},
+      { urgency:'warn', icon:'😴', title:'睡眠略少', sub:'比過去7天平均少 1 小時'}
     ],
     week7: [
-      { icon:'🥣', name:'吃飯', today:2, avg7:avg7(14), color:'ring-green'    },
-      { icon:'💤', name:'睡眠', today:1, avg7:avg7(7),  color:'ring-sky'      },
-      { icon:'🚶', name:'散步', today:0, avg7:avg7(5),  color:'ring-peach'    },
-      { icon:'💧', name:'喝水', today:1, avg7:avg7(12), color:'ring-lavender' },
-      { icon:'💩', name:'大便', today:2, avg7:avg7(9),  color:'ring-yellow'   },
-      { icon:'🎮', name:'玩耍', today:1, avg7:avg7(8),  color:'ring-lavender' },
-      { icon:'🍭', name:'零食', today:0, avg7:avg7(4),  color:'ring-peach'    },
-      { icon:'💊', name:'用藥', today:1, avg7:avg7(7),  color:'ring-green'    },
-      { icon:'🪮', name:'清潔', today:0, avg7:avg7(1),  color:'ring-sky'      },
-      { icon:'🛁', name:'洗澡', today:0, avg7:avg7(2),  color:'ring-yellow'   },
+      { icon:'🥣', name:'吃飯', data: { today:2, avg7:3 } },
+      { icon:'💤', name:'睡眠', data: { today:1, avg7:4 } },
+      { icon:'🚶', name:'散步', data: { today:2, avg7:3 } },
+      { icon:'💧', name:'喝水', data: { today:1, avg7:7 } },
+      { icon:'💩', name:'大便', data: { today:2, avg7:2 } },
+      { icon:'🎮', name:'玩耍', data: { today:1, avg7:2 } },
+      { icon:'🍭', name:'零食', data: { today:0, avg7:2 } },
+      { icon:'💊', name:'用藥', data: { today:1, avg7:1 } },
+      { icon:'🪮', name:'清潔', data: { today:0, avg7:1 } },
+      { icon:'🛁', name:'洗澡', data: { today:0, avg7:1 } }
     ],
     trend: [
-      { key:'activity',  label:'活動', color:'#E8834A', data:[5,4,3,5,3,4,2] },
-      { key:'eating',    label:'飲食', color:'#6BBFAB', data:[4,5,4,5,3,5,4] },
-      { key:'sleep',     label:'睡眠', color:'#A8C8E8', data:[4,4,4,3,4,5,3] },
-      { key:'hydration', label:'飲水', color:'#7BC8E8', data:[3,4,5,4,4,4,3] },
-      { key:'excrete',   label:'排泄', color:'#C9B8E8', data:[3,4,5,4,4,5,4] },
-      { key:'mood',      label:'情緒', color:'#F5A870', data:[4,5,4,5,3,4,4] },
+      { key:'activity',  label:'活動', data:[5,4,3,5,3,4,2] },
+      { key:'eating',    label:'飲食', data:[4,5,4,5,3,5,4] },
+      { key:'sleep',     label:'睡眠', data:[4,4,4,3,4,5,3] },
+      { key:'hydration', label:'飲水', data:[3,4,5,4,4,4,3] },
+      { key:'excrete',   label:'排泄', data:[3,4,5,4,4,5,4] },
+      { key:'mood',      label:'情緒', data:[4,5,4,5,3,4,4] }
     ],
     exps: [
-      { id:'a', name:'公園晨走',     type:'Walk', icon:'🚶', date:'3/5 週三', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'#6BBFAB', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 },
-      { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏞️', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
-      { id:'c', name:'海邊游泳',     type:'Swim', icon:'🏊', date:'2/28 上週', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', mapC1:'#B8D8F0', mapC2:'#A8C8E8', routeColor:'#4890C8', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 },
-    ],
+      { id:'a', type:'Walk', icon:'🚶', data:{ name:'公園晨走',     date:'2026-03-05', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 } },
+      { id:'b', type:'Park',  icon:'🏞️', data:{ name:'河濱公園', date:'2026-03-04', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 } },
+      { id:'c', type:'Swim', icon:'🏊', data:{ name:'游泳',     date:'2026-02-28', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 } }
+    ]
   },
   {
-    id: 'lele',
-    name: 'Lele',
-    breed: '馬爾濟斯犬 · 男生',
-    age: '13 歲 11 月',
-    avatar: 'face_lele.png',
-    badgeLabel: '♡',
-    badgeClass: 'favorite-pet',
+    id:'lele',
+    name:'Lele',
+    breed:'馬爾濟斯犬 · 男生',
+    age:'13 歲 11 月',
+    avatar:'face_lele.png',
+    badge:'favorite',
+    badgeLabel:'♡',
     alerts: [
-      { type: 'warn', icon: '💊', title: '用藥提醒',   sub: '今天的跳蚤預防藥尚未記錄' },
-      { type: 'ok',   icon: '🍽️', title: '飲食正常',   sub: '與過去7天進食量相近' },
-      { type: 'ok',   icon: '🏃', title: '活動量正常', sub: '與過去7天相近' },
-      { type: 'warn', icon: '💧', title: '飲水偏少',   sub: '今天飲水量低於7天均值' },
+      { urgency:'warn', icon:'💊', title:'用藥提醒',   sub:'今天的跳蚤預防藥尚未記錄' },
+      { urgency:'ok', icon:'🍽️', title:'飲食正常',   sub:'與過去7天進食量相近' },
+      { urgency:'ok', icon:'🏃', title:'活動量正常', sub:'與過去7天相近' },
+      { urgency:'warn', icon:'💧', title:'飲水偏少',   sub:'今天飲水量低於7天均值' }
     ],
     week7: [
-      { icon:'🥣', name:'吃飯', today:2, avg7:avg7(13), color:'ring-lavender' },
-      { icon:'💤', name:'睡眠', today:1, avg7:avg7(7),  color:'ring-sky'      },
-      { icon:'💊', name:'用藥', today:0, avg7:avg7(6),  color:'ring-peach'    },
-      { icon:'💧', name:'喝水', today:2, avg7:avg7(10), color:'ring-green'    },
-      { icon:'🎮', name:'玩耍', today:0, avg7:avg7(4),  color:'ring-yellow'   },
-      { icon:'🍭', name:'零食', today:1, avg7:avg7(5),  color:'ring-lavender' },
-      { icon:'💩', name:'大便', today:1, avg7:avg7(7),  color:'ring-yellow'   },
-      { icon:'🪮', name:'清潔', today:0, avg7:avg7(1),  color:'ring-sky'      },
-      { icon:'🛁', name:'洗澡', today:0, avg7:avg7(1),  color:'ring-peach'    },
-      { icon:'🚶', name:'散步', today:0, avg7:avg7(3),  color:'ring-green'    },
+      { icon:'🥣', name:'吃飯', data: { today:2, avg7:3 } },
+      { icon:'💤', name:'睡眠', data: { today:1, avg7:5 } },
+      { icon:'💊', name:'用藥', data: { today:0, avg7:2 } },
+      { icon:'💧', name:'喝水', data: { today:2, avg7:10 } },
+      { icon:'🎮', name:'玩耍', data: { today:0, avg7:2 } },
+      { icon:'🍭', name:'零食', data: { today:1, avg7:3 } },
+      { icon:'💩', name:'大便', data: { today:1, avg7:2 } },
+      { icon:'🪮', name:'清潔', data: { today:0, avg7:1 } },
+      { icon:'🛁', name:'洗澡', data: { today:0, avg7:1 } },
+      { icon:'🚶', name:'散步', data: { today:0, avg7:3 } }
     ],
     trend: [
-      { key:'eating',    label:'飲食', color:'#6BBFAB', data:[4,5,5,4,4,5,4] },
-      { key:'activity',  label:'活動', color:'#A07BC8', data:[3,3,4,3,4,3,3] },
-      { key:'sleep',     label:'睡眠', color:'#A8C8E8', data:[5,5,4,5,4,5,4] },
-      { key:'hydration', label:'飲水', color:'#7BC8E8', data:[4,3,4,4,3,4,3] },
-      { key:'excrete',   label:'排泄', color:'#C9B8E8', data:[4,4,4,5,4,4,3] },
-      { key:'mood',      label:'情緒', color:'#F5A870', data:[5,4,5,4,5,4,4] },
+      { key:'eating', label:'飲食', data:[4,5,5,4,4,5,4] },
+      { key:'activity', label:'活動', data:[3,3,4,3,4,3,3] },
+      { key:'sleep', label:'睡眠', data:[5,5,4,5,4,5,4] },
+      { key:'hydration', label:'飲水', data:[4,3,4,4,3,4,3] },
+      { key:'excrete', label:'排泄', data:[4,4,4,5,4,4,3] },
+      { key:'mood', label:'情緒', data:[5,4,5,4,5,4,4] }
     ],
     exps: [
-      { id:'d', name:'客廳追逐遊戲', type:'Play', icon:'🎮', date:'3/5 週三', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'#A07BC8', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 },
-      { id:'e', name:'陽台曬太陽',   type:'Rest', icon:'☀️', date:'3/4 週二', weather:'☀️ 晴',  duration:'45min', steps:'—', temp:'22°C', mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040', path:'60,40 100,38 140,42 180,38 220,40 260,38', startX:60, startY:40, endX:260, endY:38 },
-    ],
-  },
+      { id:'d', type:'Play', icon:'🎮', data:{ name:'客廳追逐遊戲', date:'2026-03-05', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 } },
+      { id:'e', type:'Park',  icon:'🏞️', data:{ name:'河濱公園', date:'2026-03-04', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 } }
+    ]
+  }
 ];
 
 const sharedData = {
-  desc: '與家人共享，一起陪伴寶貝們',
+  desc:'與家人共享，一起陪伴寶貝們',
   members: [
-    { emoji: '👩' },
-    { emoji: '👨' },
-    { emoji: '👧' },
-  ],
+    { emoji:'👩' },
+    { emoji:'👨' },
+    { emoji:'👧' }
+  ]
 };
 
-function avg7(total) { return Math.ceil(total / 7); }
 // ── Render ──
-function buildRing(container, events) {
+function buildRing(container, week7) {
   if (!container) return;
   container.innerHTML = '';
   const C = 2 * Math.PI * 18;
-  events.forEach(ev => {
-    const pct = Math.min(ev.today / ev.avg7, 1);
+  week7.forEach(ev => {
+    const { today, avg7 } = ev.data;
+    const pct = Math.min(today / avg7, 1);
     const offset = C * (1 - pct);
+    const colorClass = RING_COLOR(pct);
     const div = document.createElement('div');
     div.className = 'pr-event';
-    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.today}<span>/${ev.avg7}</span></div>`;
+    div.innerHTML = `
+        <div class="pr-ring-wrap">
+            <svg class="pr-ring-svg" viewBox="0 0 44 44">
+                <circle class="pr-ring-bg" cx="22" cy="22" r="18" />
+                <circle 
+                    class="pr-ring-fg ${colorClass}" 
+                    cx="22" 
+                    cy="22" 
+                    r="18" 
+                    stroke-dasharray="${C.toFixed(1)}" 
+                    stroke-dashoffset="${offset.toFixed(1)}" 
+                />
+            </svg>
+            <div class="pr-ring-center">
+                ${ev.icon}
+                <span class="pr-ring-label">${ev.name}</span>
+            </div>
+        </div>
+        <div class="pr-ring-count">
+            ${today}<span>/${avg7}</span>
+        </div>
+    `;
     container.appendChild(div);
   });
 }
 
-function buildTrend(svgId, legendId, lines) {
+function buildTrend(svgId, legendId, trend) {
   const svg = document.getElementById(svgId);
   const legend = document.getElementById(legendId);
   if (!svg || !legend) return;
@@ -316,11 +367,11 @@ function buildTrend(svgId, legendId, lines) {
   svg.innerHTML = '';
   for (let v = 1; v <= 5; v++) {
     const y = yScale(v);
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1', pad.l); line.setAttribute('x2', W - pad.r);
-    line.setAttribute('y1', y); line.setAttribute('y2', y);
-    line.setAttribute('stroke', '#EAD9C5'); line.setAttribute('stroke-width', '0.8');
-    svg.appendChild(line);
+    const gridLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+    gridLine.setAttribute('x1', pad.l); gridLine.setAttribute('x2', W - pad.r);
+    gridLine.setAttribute('y1', y); gridLine.setAttribute('y2', y);
+    gridLine.setAttribute('stroke', '#EAD9C5'); gridLine.setAttribute('stroke-width', '0.8');
+    svg.appendChild(gridLine);
     const t = document.createElementNS('http://www.w3.org/2000/svg','text');
     t.setAttribute('x', 0); t.setAttribute('y', y + 3);
     t.setAttribute('font-size', '10'); t.setAttribute('fill', '#B09880');
@@ -329,24 +380,26 @@ function buildTrend(svgId, legendId, lines) {
     svg.appendChild(t);
   }
   const lineEls = {};
-  lines.forEach(ln => {
+  trend.forEach(ln => {
+    const color = TREND_COLOR[ln.key] || TREND_COLOR.default;
     const pts = ln.data.map((v,i) => `${xs[i]},${yScale(v)}`).join(' ');
     const el = document.createElementNS('http://www.w3.org/2000/svg','polyline');
     el.setAttribute('points', pts); el.setAttribute('fill', 'none');
-    el.setAttribute('stroke', ln.color); el.setAttribute('stroke-width', '2');
+    el.setAttribute('stroke', color); el.setAttribute('stroke-width', '2');
     el.setAttribute('stroke-linejoin', 'round'); el.setAttribute('stroke-linecap', 'round');
     svg.appendChild(el);
     const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
     dot.setAttribute('cx', xs[6]); dot.setAttribute('cy', yScale(ln.data[6]));
-    dot.setAttribute('r', '3'); dot.setAttribute('fill', ln.color);
+    dot.setAttribute('r', '3'); dot.setAttribute('fill', color);
     svg.appendChild(dot);
     lineEls[ln.key] = [el, dot];
   });
   legend.innerHTML = '';
-  lines.forEach(ln => {
+  trend.forEach(ln => {
+    const color = TREND_COLOR[ln.key] || TREND_COLOR.default;
     const item = document.createElement('div');
     item.className = 'legend-item';
-    item.innerHTML = `<div class="legend-dot" style="background:${ln.color}"></div>${ln.label}`;
+    item.innerHTML = `<div class="legend-dot" style="background:${color}"></div>${ln.label}`;
     item.onclick = () => {
       item.classList.toggle('dimmed');
       const hidden = item.classList.contains('dimmed');
@@ -361,9 +414,69 @@ function buildExpCards(containerId, exps) {
   if (!c) return;
   c.innerHTML = '';
   exps.forEach(ex => {
+    const pal = EXP_PALETTE[ex.type] || EXP_PALETTE.default;
+    const d = ex.data;
     const card = document.createElement('div');
     card.className = 'exp-card-v2';
-    card.innerHTML = `<div class="exp-map"><svg class="exp-map-svg" viewBox="0 0 340 80" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="mg${ex.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${ex.mapC1}"/><stop offset="100%" stop-color="${ex.mapC2}"/></linearGradient></defs><rect width="340" height="80" fill="url(#mg${ex.id})"/><line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="80" y1="0" x2="80" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="180" y1="0" x2="180" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="260" y1="0" x2="260" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><polyline points="${ex.path}" fill="none" stroke="${ex.routeColor}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/><circle cx="${ex.startX}" cy="${ex.startY}" r="5" fill="white" opacity="0.9"/><circle cx="${ex.startX}" cy="${ex.startY}" r="3" fill="${ex.routeColor}"/><circle cx="${ex.endX}" cy="${ex.endY}" r="5" fill="white" opacity="0.9"/><circle cx="${ex.endX}" cy="${ex.endY}" r="3" fill="#E8834A"/></svg><div class="exp-map-badge">${ex.icon} ${ex.type}</div></div><div class="exp-card-body"><div class="exp-card-left"><div class="exp-card-title">${ex.name}</div><div class="exp-card-date">${ex.date} · ${ex.weather}</div></div><div class="exp-card-stats"><div class="exp-stat"><span class="exp-stat-val">${ex.duration}</span><span class="exp-stat-label">時長</span></div><div class="exp-stat"><span class="exp-stat-val">${ex.steps}</span><span class="exp-stat-label">步數</span></div><div class="exp-stat"><span class="exp-stat-val">${ex.temp}</span><span class="exp-stat-label">氣溫</span></div></div></div>`;
+    card.innerHTML = `
+        <div class="exp-map">
+            <svg class="exp-map-svg" viewBox="0 0 340 80" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <linearGradient id="mg${ex.id}" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="${pal.mapC1}" />
+                        <stop offset="100%" stop-color="${pal.mapC2}" />
+                    </linearGradient>
+                </defs>
+                
+                <rect width="340" height="80" fill="url(#mg${ex.id})" />
+                <line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="80" y1="0" x2="80" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="180" y1="0" x2="180" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="260" y1="0" x2="260" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                
+                <polyline 
+                    points="${d.path}" 
+                    fill="none" 
+                    stroke="${pal.routeColor}" 
+                    stroke-width="3" 
+                    stroke-linejoin="round" 
+                    stroke-linecap="round" 
+                    opacity="0.9" 
+                />
+                
+                <circle cx="${d.startX}" cy="${d.startY}" r="5" fill="white" opacity="0.9" />
+                <circle cx="${d.startX}" cy="${d.startY}" r="3" fill="${pal.routeColor}" />
+                
+                <circle cx="${d.endX}" cy="${d.endY}" r="5" fill="white" opacity="0.9" />
+                <circle cx="${d.endX}" cy="${d.endY}" r="3" fill="var(--peach-deep)" />
+            </svg>
+            
+            <div class="exp-map-badge">${ex.icon} ${ex.type}</div>
+        </div>
+
+        <div class="exp-card-body">
+            <div class="exp-card-left">
+                <div class="exp-card-title">${d.name}</div>
+                <div class="exp-card-date">${ex.data.date} · ${d.weather}</div>
+            </div>
+            
+            <div class="exp-card-stats">
+                <div class="exp-stat">
+                    <span class="exp-stat-val">${d.duration}</span>
+                    <span class="exp-stat-label">時長</span>
+                </div>
+                <div class="exp-stat">
+                    <span class="exp-stat-val">${d.steps}</span>
+                    <span class="exp-stat-label">步數</span>
+                </div>
+                <div class="exp-stat">
+                    <span class="exp-stat-val">${d.temp}</span>
+                    <span class="exp-stat-label">氣溫</span>
+                </div>
+            </div>
+        </div>
+    `;
     c.appendChild(card);
   });
 }
@@ -371,21 +484,20 @@ function buildExpCards(containerId, exps) {
 function buildPetCard(pet) {
   const card = document.createElement('div');
   card.className = 'pet-card';
-
   const alertsHTML = pet.alerts.map(a => `
-    <div class="hs-alert ${a.type}">
+    <div class="hs-alert ${ALERT_CLASS[a.urgency] || ALERT_CLASS.default}">
       <span class="hs-alert-icon">${a.icon}</span>
       <div class="hs-alert-body">
         <div class="hs-alert-title">${a.title}</div>
         <div class="hs-alert-sub">${a.sub}</div>
       </div>
     </div>`).join('');
-
+  const badgeClass = BADGE_CLASS[pet.badge] || BADGE_CLASS.default;
   card.innerHTML = `
     <div class="pet-card-header" onclick="togglePetRecords('${pet.id}')">
       <div class="pet-avatar-wrap">
         <img class="pet-avatar" src="${pet.avatar}">
-        <div class="pet-avatar-badge ${pet.badgeClass}">${pet.badgeLabel}</div>
+        <div class="pet-avatar-badge ${badgeClass}">${pet.badgeLabel}</div>
       </div>
       <div class="pet-info">
         <div class="pet-name">${pet.name}</div>
@@ -424,7 +536,6 @@ function buildPetCard(pet) {
         <div class="exp-list" id="exp-list-${pet.id}"></div>
       </div>
     </div>`;
-
   return card;
 }
 
@@ -433,10 +544,7 @@ function buildSharedSection(data) {
   const membersHTML = data.members.map(m => `<div class="member-avatar">${m.emoji}</div>`).join('');
   section.innerHTML = `
     <div class="shared-desc">${data.desc}</div>
-    <div class="shared-members">
-      ${membersHTML}
-      <div class="add-member">+</div>
-    </div>
+    <div class="shared-members">${membersHTML}<div class="add-member">+</div></div>
     <button class="invite-btn">✉️ 發送邀請</button>`;
 }
 
@@ -453,9 +561,8 @@ function switchPrTab(btn, tab, pet) {
 
 // ── Init ──
 const grid = document.getElementById('petCardGrid');
-pets.forEach(pet => {
-  const card = buildPetCard(pet);
-  grid.appendChild(card);
+petsData.forEach(pet => {
+  grid.appendChild(buildPetCard(pet));
   buildRing(document.getElementById('row7-' + pet.id), pet.week7);
   buildTrend('trend-svg-' + pet.id, 'legend-' + pet.id, pet.trend);
   buildExpCards('exp-list-' + pet.id, pet.exps);
@@ -465,42 +572,57 @@ buildSharedSection(sharedData);
 
 
 /* ══════════════════════════════════ Today Page ══════════════════════════════════ */
+// ── UI config ──
+const TASK_DOT = {
+  default:'task-dot-info',
+  warn:'task-dot-warn',
+  info:'task-dot-info',
+  med:'task-dot-med',
+  default:'task-dot-info'
+};
+const SHEET_SECTION_CLASS = {
+  default:'sheet-section-life',
+  life:'sheet-section-life',
+  health:'sheet-section-health'
+};
+const SHEET_ITEM_CLASS = {
+  default:'sheet-item-life',
+  life:'sheet-item-life',
+  health:'sheet-item-health'
+};
 // ── UserData ──
 const todayData = {
   activePet: {
     name: 'Seoli',
     image: 'Seoli_the_Samoyed.png',
-    mood: '😊 Happy',
+    mood: '😊 Happy'
   },
   weather: {
-    date: 'March 8, 2026',
+    date: new Date(),
     icon: '☀️ 晴天',
     temp: '🌡️ 23°C',
-    tip: '🐾 今天很適合帶 Seoli 出去散步！',
+    tip: '🐾 今天很適合帶 Seoli 出去散步！'
   },
   healthInsights: [
-    { icon: '💡', title: '健康摘要',    text: 'Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！' },
-    { icon: '💧', title: '飲水量偏低',  text: 'Seoli 今天的飲水量低於建議標準' },
-    { icon: '💊', title: 'Lele 用藥提醒', text: '跳蚤預防藥今天到期，請至任務中心查看' },
+    { icon: '💡', title: '健康摘要', text: 'Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！' },
+    { icon: '💧', title: '飲水量偏低', text: 'Seoli 今天的飲水量低於建議標準' },
+    { icon: '💊', title: 'Lele 用藥提醒', text: '跳蚤預防藥今天到期，請至任務中心查看' }
   ],
   tasks: [
-    { id: 'task-1', dotClass: 'task-dot-warn', title: 'Seoli 尚未散步',  sub: '建議：30 分鐘戶外散步' },
-    { id: 'task-2', dotClass: 'task-dot-info', title: '補充飲水量',       sub: 'Seoli 今天需要多喝水' },
-    { id: 'task-3', dotClass: 'task-dot-med',  title: 'Lele 用藥提醒',   sub: '跳蚤預防藥 — 今天到期' },
-  ],
+    { id: 'task-1', type: 'warn', title: 'Seoli 尚未散步', sub: '建議：30 分鐘戶外散步' },
+    { id: 'task-2', type: 'info', title: '補充飲水量', sub: 'Seoli 今天需要多喝水' },
+    { id: 'task-3', type: 'med', title: 'Lele 用藥提醒', sub: '跳蚤預防藥 — 今天到期' }
+  ]
 };
 
 // ── SheetData ──
 const sheetData = {
-  tabs: [
-    { key: 'life', label: '事件記錄' },
-    { key: 'exp',  label: '體驗記錄' },
-  ],
   life: {
+    tabLabel: '事件記錄',
     sections: [
       {
+        type: 'life',
         label: '生活',
-        labelClass: 'sheet-section-label',
         items: [
           { icon:'🥣', label:'吃飯' }, { icon:'💧', label:'喝水' },
           { icon:'🍭', label:'零食' }, { icon:'💊', label:'用藥' },
@@ -508,43 +630,42 @@ const sheetData = {
           { icon:'🚶', label:'散步' }, { icon:'🏞️', label:'公園' },
           { icon:'🏊', label:'游泳' }, { icon:'🎮', label:'玩耍' },
           { icon:'💤', label:'睡眠' }, { icon:'🪮', label:'清潔' },
-          { icon:'🛁', label:'洗澡' }, { icon:'🩺', label:'門診' },
-        ],
-        itemClass: 'sheet-item',
+          { icon:'🛁', label:'洗澡' }, { icon:'🩺', label:'門診' }
+        ]
       },
       {
+        type: 'health',
         label: '健康',
-        labelClass: 'sheet-section-label sheet-section-label-health',
         items: [
-          { icon:'🤮', label:'嘔吐' },             { icon:'🚽', label:'拉肚子/便秘' },
-          { icon:'🤐', label:'拒食' },             { icon:'🚿', label:'尿失禁/頻尿' },
-          { icon:'🔴', label:'無法排尿' },         { icon:'👃', label:'咳嗽/呼吸困難' },
-          { icon:'🫁', label:'張口呼吸/過度喘氣' },{ icon:'🦵', label:'跛腳/行走異常' },
-          { icon:'🫥', label:'不願移動/明顯無力' },{ icon:'🫨', label:'行走失衡/打滑無力' },
-          { icon:'⚡', label:'癲癇/抽搐' },        { icon:'😶', label:'呆滯/失神' },
-          { icon:'🤪', label:'原地打轉/異常行為' },{ icon:'🐛', label:'持續搔癢/抓癢' },
-          { icon:'🫧', label:'舔腳/過度舔毛' },    { icon:'🔥', label:'局部紅腫/皮膚異常' },
-          { icon:'🦷', label:'扣牙/咀嚼異常' },    { icon:'👁️', label:'瞇眼/流淚/分泌物' },
-          { icon:'🌡️', label:'發抖/發冷' },        { icon:'😪', label:'嗜睡/異常安靜' },
-          { icon:'😡', label:'焦躁/吠叫異常' },    { icon:'🙈', label:'躲藏/不互動' },
-          { icon:'💥', label:'攻擊性/變兇' },
-        ],
-        itemClass: 'sheet-item sheet-item-health',
-      },
-    ],
+          { icon:'🤮', label:'嘔吐' }, { icon:'🚽', label:'拉肚子/便秘' },
+          { icon:'🤐', label:'拒食' }, { icon:'🚿', label:'尿失禁/頻尿' },
+          { icon:'🔴', label:'無法排尿' }, { icon:'👃', label:'咳嗽/呼吸困難' },
+          { icon:'🫁', label:'張口呼吸/過度喘氣' }, { icon:'🦵', label:'跛腳/行走異常' },
+          { icon:'🫥', label:'不願移動/明顯無力' }, { icon:'🫨', label:'行走失衡/打滑無力' },
+          { icon:'⚡', label:'癲癇/抽搐' }, { icon:'😶', label:'呆滯/失神' },
+          { icon:'🤪', label:'原地打轉/異常行為' }, { icon:'🐛', label:'持續搔癢/抓癢' },
+          { icon:'🫧', label:'舔腳/過度舔毛' }, { icon:'🔥', label:'局部紅腫/皮膚異常' },
+          { icon:'🦷', label:'扣牙/咀嚼異常' }, { icon:'👁️', label:'瞇眼/流淚/分泌物' },
+          { icon:'🌡️', label:'發抖/發冷' }, { icon:'😪', label:'嗜睡/異常安靜' },
+          { icon:'😡', label:'焦躁/吠叫異常' }, { icon:'🙈', label:'躲藏/不互動' },
+          { icon:'💥', label:'攻擊性/變兇' }
+        ]
+      }
+    ]
   },
   exp: {
+    tabLabel: '體驗記錄',
     items: [
       { icon:'🚶', label:'散步' },
       { icon:'🏞️', label:'公園' },
       { icon:'🏊', label:'游泳' },
-      { icon:'🎮', label:'玩耍' },
-    ],
-  },
+      { icon:'🎮', label:'玩耍' }
+    ]
+  }
 };
 
 // ── Render Today ──
-function renderTodayLeft() {
+function renderTodayLeft(todayData) {
   const pet = todayData.activePet;
   const el = document.getElementById('todayLeft');
   el.innerHTML = `
@@ -562,7 +683,7 @@ function renderTodayLeft() {
     </div>`;
 }
 
-function renderTodayRight() {
+function renderTodayRight(todayData) {
   const { weather, healthInsights } = todayData;
   const insightsHTML = healthInsights.map(i => `
     <div class="lg-card">
@@ -574,11 +695,11 @@ function renderTodayRight() {
         </div>
       </div>
     </div>`).join('');
-
+  const formattedDate = new Intl.DateTimeFormat('en-CA').format(weather.date);
   document.getElementById('todayRight').innerHTML = `
     <div class="today-right-label">今日天氣</div>
     <div class="today-sky">
-      <div class="sky-date">${weather.date}</div>
+      <div class="sky-date">${formattedDate}</div>
       <div class="sky-info">
         <div class="sky-tag">${weather.icon}</div>
         <div class="sky-tag">${weather.temp}</div>
@@ -592,7 +713,7 @@ function renderTodayRight() {
 // ── Render Task Center ──
 let pendingCount = todayData.tasks.length;
 
-function renderTaskCenter() {
+function renderTaskCenter(todayData) {
   const tabsEl = document.getElementById('taskTabs');
   tabsEl.innerHTML = `
     <button class="task-tab active" onclick="switchTaskTab(this,'pending')">待完成 <span class="task-tab-count" id="pendingCount">${pendingCount}</span></button>
@@ -604,8 +725,9 @@ function renderTaskCenter() {
     const item = document.createElement('div');
     item.className = 'task-item';
     item.id = task.id;
+    let dotClass = TASK_DOT[task.type] ||TASK_DOT.default;
     item.innerHTML = `
-      <div class="task-dot ${task.dotClass}"></div>
+      <div class="task-dot ${dotClass}"></div>
       <div class="task-item-body">
         <div class="task-item-title">${task.title}</div>
         <div class="task-item-sub">${task.sub}</div>
@@ -622,28 +744,43 @@ function renderTaskCenter() {
 }
 
 // ── Render Sheet ──
-function renderSheet() {
+function renderSheet(sheetData) {
   const tabsEl = document.getElementById('sheetTabs');
   const contentEl = document.getElementById('sheetTabContent');
 
-  tabsEl.innerHTML = sheetData.tabs.map((tab, i) =>
-    `<button class="sheet-tab${i === 0 ? ' active' : ''}" onclick="switchTab(this,'${tab.key}')">${tab.label}</button>`
-  ).join('');
-
-  const lifeHTML = sheetData.life.sections.map(sec => {
-    const itemsHTML = sec.items.map(it =>
-      `<button class="${sec.itemClass}"><span class="sheet-item-icon">${it.icon}</span><span class="sheet-item-label">${it.label}</span></button>`
-    ).join('');
-    return `<div class="${sec.labelClass}">${sec.label}</div><div class="sheet-grid">${itemsHTML}</div>`;
+  const keys = Object.keys(sheetData);
+  tabsEl.innerHTML = keys.map((key, i) => {
+    return `<button class="sheet-tab${i === 0 ? ' active' : ''}" onclick="switchTab(this,'${key}')">
+      ${sheetData[key].tabLabel}
+    </button>`;
   }).join('');
 
-  const expHTML = sheetData.exp.items.map(it =>
-    `<button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">${it.icon}</span><span class="sheet-item-label sheet-item-label-lg">${it.label}</span></button>`
-  ).join('');
+  const lifeHTML = sheetData.life.sections.map(sec => {
+    let lblClass = SHEET_SECTION_CLASS[sec.type]||SHEET_SECTION_CLASS.default;
+    let itmClass = SHEET_ITEM_CLASS[sec.type]||SHEET_ITEM_CLASS.default;
+    const itemsHTML = sec.items.map(it =>
+      `<button class="${itmClass}">
+        <span class="sheet-item-icon">${it.icon}</span>
+        <span class="sheet-item-label">${it.label}</span>
+      </button>`
+    ).join('');
+
+    return `<div class="${lblClass}">${sec.label}</div><div class="sheet-grid">${itemsHTML}</div>`;
+  }).join('');
+
+  const expHTML = sheetData.exp.items.map(it => {
+    const itmClass = 'sheet-item-exp';
+    return `<button class="${itmClass}">
+      <span class="sheet-item-icon sheet-item-icon-lg">${it.icon}</span>
+      <span class="sheet-item-label sheet-item-label-lg">${it.label}</span>
+    </button>`;
+  }).join('');
 
   contentEl.innerHTML = `
     <div id="tab-life">${lifeHTML}</div>
-    <div id="tab-exp" style="display:none;"><div class="sheet-grid sheet-grid-exp">${expHTML}</div></div>`;
+    <div id="tab-exp" style="display:none;">
+      <div class="sheet-grid sheet-grid-exp">${expHTML}</div>
+    </div>`;
 }
 
 // ── Sheet controls ──
@@ -697,89 +834,351 @@ function delayTask(id) {
 }
 
 // ── Init ──
-renderTodayLeft();
-renderTodayRight();
-renderTaskCenter();
-renderSheet();
+renderTodayLeft(todayData);
+renderTodayRight(todayData);
+renderTaskCenter(todayData);
+renderSheet(sheetData);
 
 
 
 /* ══════════════════════════════════ Calendar Page ══════════════════════════════════ */
-const categories = [
-  { key: 'life',   label: '生活', dotClass: 'dot-life'   },
-  { key: 'health', label: '健康', dotClass: 'dot-health' },
-  { key: 'exp',    label: '體驗', dotClass: 'dot-exp'    },
-  { key: 'todo',   label: '待辦', dotClass: 'dot-todo'   },
-];
-
-const dotData = {
-  1:  ['life','health'],
-  2:  ['life','exp'],
-  3:  ['life','health','exp'],
-  4:  ['life','todo'],
-  5:  ['life','health','exp','todo'],
-  6:  ['life','health','todo'],
-  7:  ['life','exp'],
-  8:  ['life','health'],
-  9:  ['life'],
-  10: ['life','health','exp'],
-  12: ['life','todo'],
-  14: ['life','health'],
-  15: ['life','exp'],
-  18: ['life','health'],
-  20: ['life','exp'],
-  22: ['health','todo'],
-  25: ['life'],
-  28: ['life','health','exp'],
+// ── UI config ──
+const DAY_DOT = {
+  default:'dot-life',
+  life:'dot-life',
+  health:'dot-health',
+  exp:'dot-exp',
+  todo:'dot-todo'
 };
-
-const statusBadges = [
-  { label: '😊 Happy',   type: 'good' },
-  { label: '身體狀況良好', type: 'good' },
-  { label: '活動量偏低',  type: 'warn' },
+// ── CalenderData ──
+const categories = [
+  { key: 'life', label: '生活' },
+  { key: 'health', label: '健康' },
+  { key: 'exp', label: '體驗' },
+  { key: 'todo', label: '待辦' }
 ];
 
 const filterTabs = [
-  { key: 'all',    label: '全部' },
+  { key: 'all', label: '全部' },
   { key: 'record', label: '記錄' },
-  { key: 'todo',   label: '待辦' },
+  { key: 'todo', label: '待辦' }
 ];
 
-const records = [
-  { icon: '🥣', name: '早餐',      sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life'   },
-  { icon: '🚶', name: '晨間散步',  sub: '0.8 km · 18 分鐘 · 晴天', time: '08:15', category: 'exp' },
-  { icon: '💚', name: '健康狀態確認', sub: '飲食：正常 · 情緒：開心', time: '09:00', category: 'health' },
-  { icon: '🍱', name: '午餐',      sub: '濕糧 150g · Lele',    time: '12:00', category: 'life'   },
-  { icon: '⏰', name: '傍晚散步',  sub: '提醒：30 分鐘 · Seoli', time: '18:00', category: 'exp'  },
-  { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥今天到期',   time: '20:00', category: 'todo'  },
-];
+const monthlyData = {
+  '2026-4': {
+    year: 2026,
+    month: 4,
+    days: [
+      {
+        date: '2026-04-01',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '身體狀況良好', type: 'good' },
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '💧', name: '補充水分', sub: 'Seoli 飲水 350ml', time: '09:00', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '飲食：正常 · 情緒：開心', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-02',
+        categories: ['life', 'exp'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.2 km · 22 分鐘 · 晴', time: '08:15', category: 'exp'  },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-03',
+        categories: ['life', 'health', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '活動量充足', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '公園散步', sub: '2.0 km · 35 分鐘 · 晴', time: '08:00', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '活動量：良好 · 情緒：愉快', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '💧', name: '補充水分', sub: 'Seoli 飲水 400ml', time: '15:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-04',
+        categories: ['life', 'todo'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' },
+          { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥 — 未完成', time: '20:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-04-06',
+        categories: ['life', 'health', 'todo'],
+        status: [
+          { label: '😴 Tired', type: 'warn' },
+          { label: '活動量偏低', type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '活動量：偏低 · 情緒：平靜', time: '09:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '⏰', name: '傍晚散步', sub: '提醒：30 分鐘 · Seoli', time: '18:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-04-08',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy',   type: 'good' },
+          { label: '身體狀況良好', type: 'good' },
+          { label: '活動量偏低',  type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '飲食：正常 · 情緒：開心', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' },
+          { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥已給藥', time: '20:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-10',
+        categories: ['life', 'exp'],
+        status: [],
+        records: [
+          { icon: '🚶', name: '晨間散步', sub: '0.8 km · 18 分鐘 · 晴', time: '08:15', category: 'exp' },
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '09:00', category: 'life' },
+          { icon: '🏊', name: '游泳訓練', sub: '30 分鐘 · 室內泳池', time: '14:00', category: 'exp' }
+        ]
+      },
+      {
+        date: '2026-04-15',
+        categories: ['life', 'health', 'todo'],
+        status: [
+          { label: '🤒 Unwell', type: 'warn' },
+          { label: '需要關注', type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐（少量）', sub: 'Lele 食慾下降', time: '08:00', category: 'life' },
+          { icon: '🩺', name: '門診', sub: 'Lele 定期健康檢查', time: '10:30', category: 'health' },
+          { icon: '💊', name: '投藥', sub: 'Lele 口服藥 × 1',  time: '19:00', category: 'life' },
+          { icon: '⏰', name: '明日複診提醒', sub: 'Lele 追蹤回診', time: '21:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-04-20',
+        categories: ['life', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🏞️', name: '公園跑步', sub: '3.5 km · 40 分鐘', time: '08:00', category: 'exp' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-25',
+        categories: ['life'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🛁', name: '洗澡', sub: 'Seoli 定期清潔', time: '15:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-28',
+        categories: ['life', 'health', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '身體狀況良好', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.0 km · 20 分鐘', time: '08:15', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '全面狀況良好', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' }
+        ]
+      }
+    ]
+  },
+  '2026-5': {
+    year: 2026,
+    month: 5,
+    days: [
+      {
+        date: '2026-05-01',
+        categories: ['life', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🏞️', name: '勞動節外出', sub: '公園 2.5 km · 45 分鐘', time: '09:00', category: 'exp' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:30', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-03',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '身體狀況良好', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '飲食：正常 · 情緒：活潑',  time: '09:30', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' },
+          { icon: '💧', name: '補充水分', sub: 'Lele 飲水 300ml', time: '16:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-05',
+        categories: ['life', 'todo'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '⏰', name: '年度疫苗提醒', sub: 'Seoli 需預約疫苗', time: '09:00', category: 'todo' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '💊', name: '預防藥補給', sub: '跳蚤藥 — 需補充庫存', time: '20:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-05-07',
+        categories: ['life', 'exp', 'health'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '活動量充足',  type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.5 km · 28 分鐘 · 晴', time: '08:00', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '活動量：良好 · 飲食：正常', time: '11:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-10',
+        categories: ['life', 'health', 'todo'],
+        status: [
+          { label: '😴 Tired',  type: 'warn' },
+          { label: '需要關注', type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料（少量）· Lele', time: '08:00', category: 'life'   },
+          { icon: '🩺', name: '緊急門診', sub: 'Lele 嘔吐 · 就醫', time: '10:00', category: 'health' },
+          { icon: '💊', name: '投藥', sub: 'Lele 腸胃藥 × 1', time: '14:00', category: 'life'   },
+          { icon: '⏰', name: '明日追蹤提醒', sub: 'Lele 回診確認', time: '21:00', category: 'todo'   }
+        ]
+      },
+      {
+        date: '2026-05-12',
+        categories: ['life'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '流食 · Lele 恢復中', time: '08:00', category: 'life' },
+          { icon: '💧', name: '補水', sub: 'Lele 少量多次飲水', time: '12:00', category: 'life' },
+          { icon: '🥣', name: '晚餐', sub: '軟食少量 · Lele', time: '18:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-15',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy',   type: 'good' },
+          { label: 'Lele 恢復良好', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '正常飲食恢復 · Lele', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '腸胃恢復正常', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-18',
+        categories: ['life', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🏞️', name: '公園跑步', sub: '4.0 km · 50 分鐘', time: '08:00', category: 'exp'  },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '🛁', name: '洗澡', sub: 'Seoli 定期清潔', time: '16:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-22',
+        categories: ['life', 'todo'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '⏰', name: '年度疫苗', sub: 'Seoli 疫苗預約今日',  time: '14:00', category: 'todo' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli',  time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-28',
+        categories: ['life', 'health', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '本週表現優秀', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.8 km · 32 分鐘', time: '08:00', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '本週整體狀況良好', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '🎮', name: '玩耍', sub: 'Seoli 室內遊戲 20 分鐘', time: '17:00', category: 'life' }
+        ]
+      }
+    ]
+  }
+};
 
 // ── State ──
 let hiddenCategories = new Set();
 let activeFilter = 'all';
 let currentDate;
 let selectedDayEl = null;
+let currentMonthData = null;
 
-// ── Legend ──
-function buildLegend() {
-  const container = document.getElementById('calLegend');
-  container.innerHTML = '';
-  categories.forEach(cat => {
-    const item = document.createElement('div');
-    item.className = 'cal-legend-item';
-    item.dataset.key = cat.key;
-    item.innerHTML = `<div class="day-dot ${cat.dotClass} cal-legend-dot"></div>${cat.label}`;
-    item.addEventListener('click', () => toggleCategory(cat.key));
-    container.appendChild(item);
+// ── API fetch ──
+function fetchMonthData(year, month) {
+  const key = `${year}-${month}`;
+  return Promise.resolve(monthlyData[key] || { year, month, days: [] });
+}
+
+function initNav() {
+  document.querySelectorAll('.cal-arrow')[0].addEventListener('click', () => {
+    const prev = dayjs(new Date(currentDate.year(), currentDate.month() - 1, 1));
+    currentDate = prev;
+    loadMonth(prev.year(), prev.month() + 1);
+  });
+  document.querySelectorAll('.cal-arrow')[1].addEventListener('click', () => {
+    const next = dayjs(new Date(currentDate.year(), currentDate.month() + 1, 1));
+    currentDate = next;
+    loadMonth(next.year(), next.month() + 1);
+  });
+}
+
+// ── Month navigation ──
+function loadMonth(year, month) {
+  fetchMonthData(year, month).then(data => {
+    currentMonthData = data;
+    selectedDayEl = null;
+    renderCalendar(data);
   });
 }
 
 function toggleCategory(key) {
-  if (hiddenCategories.has(key)) {
-    hiddenCategories.delete(key);
-  } else {
-    hiddenCategories.add(key);
-  }
+  hiddenCategories.has(key) ? hiddenCategories.delete(key) : hiddenCategories.add(key);
   document.querySelectorAll(`[data-key="${key}"]`).forEach(el => {
     el.classList.toggle('dimmed', hiddenCategories.has(key));
   });
@@ -788,8 +1187,23 @@ function toggleCategory(key) {
   });
 }
 
+// ── Legend ──
+function buildLegend(categories) {
+  const container = document.getElementById('calLegend');
+  container.innerHTML = '';
+  categories.forEach(cat => {
+    const item = document.createElement('div');
+    item.className = 'cal-legend-item';
+    item.dataset.key = cat.key;
+    let dotClass = DAY_DOT[cat.key]||DAY_DOT.default;
+    item.innerHTML = `<div class="day-dot ${dotClass} cal-legend-dot"></div>${cat.label}`;
+    item.addEventListener('click', () => toggleCategory(cat.key));
+    container.appendChild(item);
+  });
+}
+
 // ── Filter tabs ──
-function buildFilterTabs() {
+function buildFilterTabs(filterTabs) {
   const container = document.getElementById('recordFilterTabs');
   container.innerHTML = '';
   filterTabs.forEach(tab => {
@@ -800,37 +1214,49 @@ function buildFilterTabs() {
       activeFilter = tab.key;
       document.querySelectorAll('.record-filter-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderRecords();
+      if (selectedDayEl) renderDayDetail(selectedDayEl.dataset.date);
     });
     container.appendChild(btn);
   });
 }
 
-// ── Status badges ──
-function buildStatus() {
-  const container = document.getElementById('recordStatus');
-  container.innerHTML = '';
-  statusBadges.forEach(b => {
-    const span = document.createElement('span');
-    span.className = `record-date-status-badge ${b.type}`;
-    span.textContent = b.label;
-    container.appendChild(span);
-  });
-}
+// ── Day detail ──
+function renderDayDetail(dateStr) {
+  const dayData = currentMonthData
+    ? currentMonthData.days.find(d => d.date === dateStr)
+    : null;
 
-// ── Record list ──
-function renderRecords() {
-  const container = document.getElementById('recordList');
-  container.innerHTML = '';
-  const filtered = records.filter(r => {
+  const statusEl = document.getElementById('recordStatus');
+  statusEl.innerHTML = '';
+  if (dayData && dayData.status.length > 0) {
+    dayData.status.forEach(b => {
+      const span = document.createElement('span');
+      span.className = `record-date-status-badge ${b.type}`;
+      span.textContent = b.label;
+      statusEl.appendChild(span);
+    });
+  }
+
+  const recordEl = document.getElementById('recordList');
+  recordEl.innerHTML = '';
+  const allRecords = dayData ? dayData.records : [];
+  const filtered = allRecords.filter(r => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'todo') return r.category === 'todo';
     return r.category !== 'todo';
   });
+  if (filtered.length === 0) {
+    const emptyItem = document.createElement('div');
+    emptyItem.className = 'record-item record-item-empty';
+    emptyItem.innerHTML = `
+      <div class="record-name">無</div>
+    `;
+    recordEl.appendChild(emptyItem);
+    return;
+  }
   filtered.forEach(r => {
     const item = document.createElement('div');
     item.className = `record-item record-item-${r.category}`;
-    item.dataset.type = r.category === 'todo' ? 'todo' : 'record';
     item.innerHTML = `
       <span class="record-item-icon">${r.icon}</span>
       <div class="record-content">
@@ -838,20 +1264,24 @@ function renderRecords() {
         <div class="record-sub">${r.sub}</div>
       </div>
       <span class="record-time">${r.time}</span>`;
-    container.appendChild(item);
+    recordEl.appendChild(item);
   });
 }
 
-// ── Calendar ──
-function renderCalendar(date) {
+// ── Calendar render ──
+function renderCalendar(monthData) {
   const calGrid = document.getElementById('calGrid');
   const calMonthEl = document.querySelector('.cal-month');
   const recordDateLabel = document.getElementById('recordDateLabel');
 
   calGrid.innerHTML = '';
   dayjs.locale('zh-tw');
+
+  const date = dayjs(new Date(monthData.year, monthData.month - 1, 1));
   calMonthEl.textContent = date.format('YYYY MMMM');
-  recordDateLabel.textContent = date.format('M/D dddd');
+
+  const dateMap = {};
+  monthData.days.forEach(d => { dateMap[d.date] = d; });
 
   const startWeekDay = date.startOf('month').day();
   for (let i = 0; i < startWeekDay; i++) {
@@ -860,12 +1290,18 @@ function renderCalendar(date) {
     calGrid.appendChild(empty);
   }
 
+  const today = dayjs();
+  let defaultDay = null;
+
   for (let d = 1; d <= date.endOf('month').date(); d++) {
-    const dayDate = dayjs(new Date(date.year(), date.month(), d));
-    const isToday = dayDate.isSame(dayjs(), 'day');
+    const dayDate = dayjs(new Date(monthData.year, monthData.month - 1, d));
+    const dateStr = dayDate.format('YYYY-MM-DD');
+    const isToday = dayDate.isSame(today, 'day');
+    const dayRecord = dateMap[dateStr];
 
     const dayEl = document.createElement('div');
     dayEl.className = 'cal-day' + (isToday ? ' today' : '');
+    dayEl.dataset.date = dateStr;
 
     const num = document.createElement('div');
     num.className = 'day-num';
@@ -874,11 +1310,13 @@ function renderCalendar(date) {
 
     const dots = document.createElement('div');
     dots.className = 'day-dots';
-    (dotData[d] || []).forEach(type => {
-      const dot = document.createElement('div');
-      dot.className = `day-dot dot-${type}${hiddenCategories.has(type) ? ' dot-hidden' : ''}`;
-      dots.appendChild(dot);
-    });
+    if (dayRecord) {
+      dayRecord.categories.forEach(cat => {
+        const dot = document.createElement('div');
+        dot.className = `day-dot dot-${cat}${hiddenCategories.has(cat) ? ' dot-hidden' : ''}`;
+        dots.appendChild(dot);
+      });
+    }
     dayEl.appendChild(dots);
 
     dayEl.addEventListener('click', () => {
@@ -886,35 +1324,31 @@ function renderCalendar(date) {
       dayEl.classList.add('selected');
       selectedDayEl = dayEl;
       recordDateLabel.textContent = dayDate.format('M/D dddd');
+      renderDayDetail(dateStr);
     });
 
+    if (isToday) defaultDay = { el: dayEl, dateStr, label: dayDate.format('M/D dddd') };
     calGrid.appendChild(dayEl);
   }
-}
 
-// ── Nav ──
-function initNav() {
-  const prevBtn = document.querySelectorAll('.cal-arrow')[0];
-  const nextBtn = document.querySelectorAll('.cal-arrow')[1];
-  prevBtn.addEventListener('click', () => {
-    currentDate = currentDate.subtract(1, 'month');
-    renderCalendar(currentDate);
-  });
-  nextBtn.addEventListener('click', () => {
-    currentDate = currentDate.add(1, 'month');
-    renderCalendar(currentDate);
-  });
+  if (defaultDay) {
+    defaultDay.el.classList.add('selected');
+    selectedDayEl = defaultDay.el;
+    recordDateLabel.textContent = defaultDay.label;
+    renderDayDetail(defaultDay.dateStr);
+  } else {
+    recordDateLabel.textContent = date.format('M/D dddd');
+    renderDayDetail(null);
+  }
 }
 
 // ── Init ──
 dayjs.locale('zh-tw');
 currentDate = dayjs();
-buildLegend();
-buildFilterTabs();
-buildStatus();
-renderRecords();
-renderCalendar(currentDate);
+buildLegend(categories);
+buildFilterTabs(filterTabs);
 initNav();
+loadMonth(currentDate.year(), currentDate.month() + 1);
 </script>
 </body>
 </html>

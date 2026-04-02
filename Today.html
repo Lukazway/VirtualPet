@@ -64,42 +64,56 @@
 </div>
 
 <script>
+// ── UI config ──
+const TASK_DOT = {
+  default:'task-dot-info',
+  warn:'task-dot-warn',
+  info:'task-dot-info',
+  med:'task-dot-med'
+};
+const SHEET_SECTION_CLASS = {
+  default:'sheet-section-life',
+  life:'sheet-section-life',
+  health:'sheet-section-health'
+};
+const SHEET_ITEM_CLASS = {
+  default:'sheet-item-life',
+  life:'sheet-item-life',
+  health:'sheet-item-health'
+};
 // ── UserData ──
 const todayData = {
   activePet: {
     name: 'Seoli',
     image: 'Seoli_the_Samoyed.png',
-    mood: '😊 Happy',
+    mood: '😊 Happy'
   },
   weather: {
-    date: 'March 8, 2026',
+    date: new Date(),
     icon: '☀️ 晴天',
     temp: '🌡️ 23°C',
-    tip: '🐾 今天很適合帶 Seoli 出去散步！',
+    tip: '🐾 今天很適合帶 Seoli 出去散步！'
   },
   healthInsights: [
-    { icon: '💡', title: '健康摘要',    text: 'Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！' },
-    { icon: '💧', title: '飲水量偏低',  text: 'Seoli 今天的飲水量低於建議標準' },
-    { icon: '💊', title: 'Lele 用藥提醒', text: '跳蚤預防藥今天到期，請至任務中心查看' },
+    { icon: '💡', title: '健康摘要', text: 'Seoli 活動量偏低，今晚可以試試 15 分鐘輕鬆散步！' },
+    { icon: '💧', title: '飲水量偏低', text: 'Seoli 今天的飲水量低於建議標準' },
+    { icon: '💊', title: 'Lele 用藥提醒', text: '跳蚤預防藥今天到期，請至任務中心查看' }
   ],
   tasks: [
-    { id: 'task-1', dotClass: 'task-dot-warn', title: 'Seoli 尚未散步',  sub: '建議：30 分鐘戶外散步' },
-    { id: 'task-2', dotClass: 'task-dot-info', title: '補充飲水量',       sub: 'Seoli 今天需要多喝水' },
-    { id: 'task-3', dotClass: 'task-dot-med',  title: 'Lele 用藥提醒',   sub: '跳蚤預防藥 — 今天到期' },
-  ],
+    { id: 'task-1', type: 'warn', title: 'Seoli 尚未散步', sub: '建議：30 分鐘戶外散步' },
+    { id: 'task-2', type: 'info', title: '補充飲水量', sub: 'Seoli 今天需要多喝水' },
+    { id: 'task-3', type: 'med', title: 'Lele 用藥提醒', sub: '跳蚤預防藥 — 今天到期' }
+  ]
 };
 
 // ── SheetData ──
 const sheetData = {
-  tabs: [
-    { key: 'life', label: '事件記錄' },
-    { key: 'exp',  label: '體驗記錄' },
-  ],
   life: {
+    tabLabel: '事件記錄',
     sections: [
       {
+        type: 'life',
         label: '生活',
-        labelClass: 'sheet-section-label',
         items: [
           { icon:'🥣', label:'吃飯' }, { icon:'💧', label:'喝水' },
           { icon:'🍭', label:'零食' }, { icon:'💊', label:'用藥' },
@@ -107,43 +121,42 @@ const sheetData = {
           { icon:'🚶', label:'散步' }, { icon:'🏞️', label:'公園' },
           { icon:'🏊', label:'游泳' }, { icon:'🎮', label:'玩耍' },
           { icon:'💤', label:'睡眠' }, { icon:'🪮', label:'清潔' },
-          { icon:'🛁', label:'洗澡' }, { icon:'🩺', label:'門診' },
-        ],
-        itemClass: 'sheet-item',
+          { icon:'🛁', label:'洗澡' }, { icon:'🩺', label:'門診' }
+        ]
       },
       {
+        type: 'health',
         label: '健康',
-        labelClass: 'sheet-section-label sheet-section-label-health',
         items: [
-          { icon:'🤮', label:'嘔吐' },             { icon:'🚽', label:'拉肚子/便秘' },
-          { icon:'🤐', label:'拒食' },             { icon:'🚿', label:'尿失禁/頻尿' },
-          { icon:'🔴', label:'無法排尿' },         { icon:'👃', label:'咳嗽/呼吸困難' },
-          { icon:'🫁', label:'張口呼吸/過度喘氣' },{ icon:'🦵', label:'跛腳/行走異常' },
-          { icon:'🫥', label:'不願移動/明顯無力' },{ icon:'🫨', label:'行走失衡/打滑無力' },
-          { icon:'⚡', label:'癲癇/抽搐' },        { icon:'😶', label:'呆滯/失神' },
-          { icon:'🤪', label:'原地打轉/異常行為' },{ icon:'🐛', label:'持續搔癢/抓癢' },
-          { icon:'🫧', label:'舔腳/過度舔毛' },    { icon:'🔥', label:'局部紅腫/皮膚異常' },
-          { icon:'🦷', label:'扣牙/咀嚼異常' },    { icon:'👁️', label:'瞇眼/流淚/分泌物' },
-          { icon:'🌡️', label:'發抖/發冷' },        { icon:'😪', label:'嗜睡/異常安靜' },
-          { icon:'😡', label:'焦躁/吠叫異常' },    { icon:'🙈', label:'躲藏/不互動' },
-          { icon:'💥', label:'攻擊性/變兇' },
-        ],
-        itemClass: 'sheet-item sheet-item-health',
-      },
-    ],
+          { icon:'🤮', label:'嘔吐' }, { icon:'🚽', label:'拉肚子/便秘' },
+          { icon:'🤐', label:'拒食' }, { icon:'🚿', label:'尿失禁/頻尿' },
+          { icon:'🔴', label:'無法排尿' }, { icon:'👃', label:'咳嗽/呼吸困難' },
+          { icon:'🫁', label:'張口呼吸/過度喘氣' }, { icon:'🦵', label:'跛腳/行走異常' },
+          { icon:'🫥', label:'不願移動/明顯無力' }, { icon:'🫨', label:'行走失衡/打滑無力' },
+          { icon:'⚡', label:'癲癇/抽搐' }, { icon:'😶', label:'呆滯/失神' },
+          { icon:'🤪', label:'原地打轉/異常行為' }, { icon:'🐛', label:'持續搔癢/抓癢' },
+          { icon:'🫧', label:'舔腳/過度舔毛' }, { icon:'🔥', label:'局部紅腫/皮膚異常' },
+          { icon:'🦷', label:'扣牙/咀嚼異常' }, { icon:'👁️', label:'瞇眼/流淚/分泌物' },
+          { icon:'🌡️', label:'發抖/發冷' }, { icon:'😪', label:'嗜睡/異常安靜' },
+          { icon:'😡', label:'焦躁/吠叫異常' }, { icon:'🙈', label:'躲藏/不互動' },
+          { icon:'💥', label:'攻擊性/變兇' }
+        ]
+      }
+    ]
   },
   exp: {
+    tabLabel: '體驗記錄',
     items: [
       { icon:'🚶', label:'散步' },
       { icon:'🏞️', label:'公園' },
       { icon:'🏊', label:'游泳' },
-      { icon:'🎮', label:'玩耍' },
-    ],
-  },
+      { icon:'🎮', label:'玩耍' }
+    ]
+  }
 };
 
 // ── Render Today ──
-function renderTodayLeft() {
+function renderTodayLeft(todayData) {
   const pet = todayData.activePet;
   const el = document.getElementById('todayLeft');
   el.innerHTML = `
@@ -161,7 +174,7 @@ function renderTodayLeft() {
     </div>`;
 }
 
-function renderTodayRight() {
+function renderTodayRight(todayData) {
   const { weather, healthInsights } = todayData;
   const insightsHTML = healthInsights.map(i => `
     <div class="lg-card">
@@ -173,11 +186,11 @@ function renderTodayRight() {
         </div>
       </div>
     </div>`).join('');
-
+  const formattedDate = new Intl.DateTimeFormat('en-CA').format(weather.date);
   document.getElementById('todayRight').innerHTML = `
     <div class="today-right-label">今日天氣</div>
     <div class="today-sky">
-      <div class="sky-date">${weather.date}</div>
+      <div class="sky-date">${formattedDate}</div>
       <div class="sky-info">
         <div class="sky-tag">${weather.icon}</div>
         <div class="sky-tag">${weather.temp}</div>
@@ -191,7 +204,7 @@ function renderTodayRight() {
 // ── Render Task Center ──
 let pendingCount = todayData.tasks.length;
 
-function renderTaskCenter() {
+function renderTaskCenter(todayData) {
   const tabsEl = document.getElementById('taskTabs');
   tabsEl.innerHTML = `
     <button class="task-tab active" onclick="switchTaskTab(this,'pending')">待完成 <span class="task-tab-count" id="pendingCount">${pendingCount}</span></button>
@@ -203,8 +216,9 @@ function renderTaskCenter() {
     const item = document.createElement('div');
     item.className = 'task-item';
     item.id = task.id;
+    let dotClass = TASK_DOT[task.type] ||TASK_DOT.default;
     item.innerHTML = `
-      <div class="task-dot ${task.dotClass}"></div>
+      <div class="task-dot ${dotClass}"></div>
       <div class="task-item-body">
         <div class="task-item-title">${task.title}</div>
         <div class="task-item-sub">${task.sub}</div>
@@ -221,28 +235,43 @@ function renderTaskCenter() {
 }
 
 // ── Render Sheet ──
-function renderSheet() {
+function renderSheet(sheetData) {
   const tabsEl = document.getElementById('sheetTabs');
   const contentEl = document.getElementById('sheetTabContent');
 
-  tabsEl.innerHTML = sheetData.tabs.map((tab, i) =>
-    `<button class="sheet-tab${i === 0 ? ' active' : ''}" onclick="switchTab(this,'${tab.key}')">${tab.label}</button>`
-  ).join('');
-
-  const lifeHTML = sheetData.life.sections.map(sec => {
-    const itemsHTML = sec.items.map(it =>
-      `<button class="${sec.itemClass}"><span class="sheet-item-icon">${it.icon}</span><span class="sheet-item-label">${it.label}</span></button>`
-    ).join('');
-    return `<div class="${sec.labelClass}">${sec.label}</div><div class="sheet-grid">${itemsHTML}</div>`;
+  const keys = Object.keys(sheetData);
+  tabsEl.innerHTML = keys.map((key, i) => {
+    return `<button class="sheet-tab${i === 0 ? ' active' : ''}" onclick="switchTab(this,'${key}')">
+      ${sheetData[key].tabLabel}
+    </button>`;
   }).join('');
 
-  const expHTML = sheetData.exp.items.map(it =>
-    `<button class="sheet-item sheet-item-exp"><span class="sheet-item-icon sheet-item-icon-lg">${it.icon}</span><span class="sheet-item-label sheet-item-label-lg">${it.label}</span></button>`
-  ).join('');
+  const lifeHTML = sheetData.life.sections.map(sec => {
+    let lblClass = SHEET_SECTION_CLASS[sec.type]||SHEET_SECTION_CLASS.default;
+    let itmClass = SHEET_ITEM_CLASS[sec.type]||SHEET_ITEM_CLASS.default;
+    const itemsHTML = sec.items.map(it =>
+      `<button class="${itmClass}">
+        <span class="sheet-item-icon">${it.icon}</span>
+        <span class="sheet-item-label">${it.label}</span>
+      </button>`
+    ).join('');
+
+    return `<div class="${lblClass}">${sec.label}</div><div class="sheet-grid">${itemsHTML}</div>`;
+  }).join('');
+
+  const expHTML = sheetData.exp.items.map(it => {
+    const itmClass = 'sheet-item-exp';
+    return `<button class="${itmClass}">
+      <span class="sheet-item-icon sheet-item-icon-lg">${it.icon}</span>
+      <span class="sheet-item-label sheet-item-label-lg">${it.label}</span>
+    </button>`;
+  }).join('');
 
   contentEl.innerHTML = `
     <div id="tab-life">${lifeHTML}</div>
-    <div id="tab-exp" style="display:none;"><div class="sheet-grid sheet-grid-exp">${expHTML}</div></div>`;
+    <div id="tab-exp" style="display:none;">
+      <div class="sheet-grid sheet-grid-exp">${expHTML}</div>
+    </div>`;
 }
 
 // ── Sheet controls ──
@@ -296,10 +325,10 @@ function delayTask(id) {
 }
 
 // ── Init ──
-renderTodayLeft();
-renderTodayRight();
-renderTaskCenter();
-renderSheet();
+renderTodayLeft(todayData);
+renderTodayRight(todayData);
+renderTaskCenter(todayData);
+renderSheet(sheetData);
 </script>
 </body>
 </html>

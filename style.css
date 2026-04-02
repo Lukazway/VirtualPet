@@ -23,8 +23,11 @@
   --lavender-light: #E8E0F5;
   --sky: #A8C8E8;
   --sky-light: #D4E8F5;
+  --sky-mid: #7BC8E8;
+  --purple-mid: #A07BC8;
   --yellow: #F5D97A;
   --yellow-light: #FBF0C0;
+  --yellow-dark: #C8A030;
   --rose: #F0A0A0;
   --rose-light: #F8D8D8;
   --brown: #8B5E3C;
@@ -204,8 +207,8 @@ html { height: 100%; }
 .ring-green { stroke: var(--mint-deep); }
 .ring-peach { stroke: var(--peach-deep); }
 .ring-sky { stroke: var(--sky); }
-.ring-lavender { stroke: #A07BC8; }
-.ring-yellow { stroke: #C8A030; }
+.ring-lavender { stroke: var(--purple-mid); }
+.ring-yellow { stroke: var(--yellow-dark); }
 .pr-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 15px; line-height: 1; }
 .pr-ring-center .pr-ring-label { font-family: var(--font-display); font-weight: 700; font-size: 10px; color: var(--text-secondary); line-height: 1; white-space: nowrap; }
 .pr-ring-count { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: var(--text-primary); white-space: nowrap; line-height: 1; }
@@ -522,11 +525,16 @@ html { height: 100%; }
 .sheet-tab-content::-webkit-scrollbar { display: none; }
 .sheet-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 24px 8px; }
 .sheet-grid-exp { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 24px; }
-.sheet-item { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--sand); border-radius: var(--radius-md); padding: 14px 8px; cursor: pointer; transition: all 0.15s; border: none; }
-.sheet-item:active { background: var(--peach); transform: scale(0.95); }
+
+.sheet-section-life { font-family: var(--font-display); font-weight: 800; font-size: 12px; color: var(--text-muted); letter-spacing: 0.6px; text-transform: uppercase; padding: 12px 24px 6px; }
+.sheet-section-health { font-family: var(--font-display); font-weight: 800; font-size: 12px; color: var(--coral); letter-spacing: 0.6px; text-transform: uppercase; padding: 12px 24px 6px; }
+.sheet-item-life { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--sand); border-radius: var(--radius-md); padding: 14px 8px; cursor: pointer; transition: all 0.15s; border: none; }
+.sheet-item-health { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--rose-light); border-radius: var(--radius-md); padding: 14px 8px; cursor: pointer; transition: all 0.15s; border: none; }
+.sheet-item-life:active { background: var(--peach); transform: scale(0.95); }
+.sheet-item-health:active { background: var(--rose); transform: scale(0.95); }
 .sheet-item-icon { font-size: 22px; }
 .sheet-item-label { font-family: var(--font-display); font-weight: 700; font-size: 12px; color: var(--text-secondary); text-align: center; line-height: 1.3; }
-.sheet-item-exp { padding: 20px 16px; }
+.sheet-item-exp { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--sand); border-radius: var(--radius-md); padding: 20px 16px; cursor: pointer; transition: all 0.15s; border: none; }
 .sheet-item-icon-lg { font-size: 32px; }
 .sheet-item-label-lg { font-size: 14px; }
 
@@ -585,12 +593,6 @@ html { height: 100%; }
 .task-done-check { width: 24px; height: 24px; background: var(--mint-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--mint-deep); flex-shrink: 0; }
 .task-done-title { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--text-muted); text-decoration: line-through; }
 
-/* SHEET — SECTION LABELS & HEALTH ITEMS */
-.sheet-section-label { font-family: var(--font-display); font-weight: 800; font-size: 12px; color: var(--text-muted); letter-spacing: 0.6px; text-transform: uppercase; padding: 12px 24px 6px; }
-.sheet-section-label-health { color: var(--coral); }
-.sheet-item-health { background: var(--rose-light); }
-.sheet-item-health:active { background: var(--rose); }
-
 /* ══════════════════════════════════
    CALENDAR PAGE
 ══════════════════════════════════ */
@@ -619,7 +621,7 @@ html { height: 100%; }
 .dot-health { background: var(--peach-mid); }
 .dot-exp { background: var(--sky); }
 .dot-todo { background: var(--coral); }
-.daily-records { padding: 16px 24px; }
+.daily-records { padding: 16px 24px; min-height: 350px; }
 .record-date-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; min-width: 0; }
 .record-date-status { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
 .record-date-status::-webkit-scrollbar { display: none; }
@@ -636,6 +638,7 @@ html { height: 100%; }
 .record-item-health { background: rgba(245,168,112,0.15); }
 .record-item-exp { background: rgba(168,200,232,0.18); }
 .record-item-todo { background: rgba(240,123,90,0.12); }
+.record-item-empty { background: rgba(100, 100, 100, 0.1); }
 .record-item-icon { font-size: 20px; flex-shrink: 0; }
 .record-content { flex: 1; min-width: 0; }
 .record-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--text-primary); }

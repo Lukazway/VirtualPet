@@ -64,82 +64,343 @@
 <script src="dayjs/dayjs.min.js"></script>
 <script src="dayjs/zh-tw.min.js"></script>
 <script>
-// ── HistoryData ──
-const categories = [
-  { key: 'life',   label: '生活', dotClass: 'dot-life'   },
-  { key: 'health', label: '健康', dotClass: 'dot-health' },
-  { key: 'exp',    label: '體驗', dotClass: 'dot-exp'    },
-  { key: 'todo',   label: '待辦', dotClass: 'dot-todo'   },
-];
-
-const dotData = {
-  1:  ['life','health'],
-  2:  ['life','exp'],
-  3:  ['life','health','exp'],
-  4:  ['life','todo'],
-  5:  ['life','health','exp','todo'],
-  6:  ['life','health','todo'],
-  7:  ['life','exp'],
-  8:  ['life','health'],
-  9:  ['life'],
-  10: ['life','health','exp'],
-  12: ['life','todo'],
-  14: ['life','health'],
-  15: ['life','exp'],
-  18: ['life','health'],
-  20: ['life','exp'],
-  22: ['health','todo'],
-  25: ['life'],
-  28: ['life','health','exp'],
+// ── UI config ──
+const DAY_DOT = {
+  default:'dot-life',
+  life:'dot-life',
+  health:'dot-health',
+  exp:'dot-exp',
+  todo:'dot-todo'
 };
-
-const statusBadges = [
-  { label: '😊 Happy',   type: 'good' },
-  { label: '身體狀況良好', type: 'good' },
-  { label: '活動量偏低',  type: 'warn' },
+// ── CalenderData ──
+const categories = [
+  { key: 'life', label: '生活' },
+  { key: 'health', label: '健康' },
+  { key: 'exp', label: '體驗' },
+  { key: 'todo', label: '待辦' }
 ];
 
 const filterTabs = [
-  { key: 'all',    label: '全部' },
+  { key: 'all', label: '全部' },
   { key: 'record', label: '記錄' },
-  { key: 'todo',   label: '待辦' },
+  { key: 'todo', label: '待辦' }
 ];
 
-const records = [
-  { icon: '🥣', name: '早餐',      sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life'   },
-  { icon: '🚶', name: '晨間散步',  sub: '0.8 km · 18 分鐘 · 晴天', time: '08:15', category: 'exp' },
-  { icon: '💚', name: '健康狀態確認', sub: '飲食：正常 · 情緒：開心', time: '09:00', category: 'health' },
-  { icon: '🍱', name: '午餐',      sub: '濕糧 150g · Lele',    time: '12:00', category: 'life'   },
-  { icon: '⏰', name: '傍晚散步',  sub: '提醒：30 分鐘 · Seoli', time: '18:00', category: 'exp'  },
-  { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥今天到期',   time: '20:00', category: 'todo'  },
-];
+const monthlyData = {
+  '2026-4': {
+    year: 2026,
+    month: 4,
+    days: [
+      {
+        date: '2026-04-01',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '身體狀況良好', type: 'good' },
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '💧', name: '補充水分', sub: 'Seoli 飲水 350ml', time: '09:00', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '飲食：正常 · 情緒：開心', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-02',
+        categories: ['life', 'exp'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.2 km · 22 分鐘 · 晴', time: '08:15', category: 'exp'  },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-03',
+        categories: ['life', 'health', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '活動量充足', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '公園散步', sub: '2.0 km · 35 分鐘 · 晴', time: '08:00', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '活動量：良好 · 情緒：愉快', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '💧', name: '補充水分', sub: 'Seoli 飲水 400ml', time: '15:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-04',
+        categories: ['life', 'todo'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' },
+          { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥 — 未完成', time: '20:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-04-06',
+        categories: ['life', 'health', 'todo'],
+        status: [
+          { label: '😴 Tired', type: 'warn' },
+          { label: '活動量偏低', type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '活動量：偏低 · 情緒：平靜', time: '09:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '⏰', name: '傍晚散步', sub: '提醒：30 分鐘 · Seoli', time: '18:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-04-08',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy',   type: 'good' },
+          { label: '身體狀況良好', type: 'good' },
+          { label: '活動量偏低',  type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '飲食：正常 · 情緒：開心', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' },
+          { icon: '💊', name: 'Lele 用藥', sub: '跳蚤預防藥已給藥', time: '20:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-10',
+        categories: ['life', 'exp'],
+        status: [],
+        records: [
+          { icon: '🚶', name: '晨間散步', sub: '0.8 km · 18 分鐘 · 晴', time: '08:15', category: 'exp' },
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '09:00', category: 'life' },
+          { icon: '🏊', name: '游泳訓練', sub: '30 分鐘 · 室內泳池', time: '14:00', category: 'exp' }
+        ]
+      },
+      {
+        date: '2026-04-15',
+        categories: ['life', 'health', 'todo'],
+        status: [
+          { label: '🤒 Unwell', type: 'warn' },
+          { label: '需要關注', type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐（少量）', sub: 'Lele 食慾下降', time: '08:00', category: 'life' },
+          { icon: '🩺', name: '門診', sub: 'Lele 定期健康檢查', time: '10:30', category: 'health' },
+          { icon: '💊', name: '投藥', sub: 'Lele 口服藥 × 1',  time: '19:00', category: 'life' },
+          { icon: '⏰', name: '明日複診提醒', sub: 'Lele 追蹤回診', time: '21:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-04-20',
+        categories: ['life', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🏞️', name: '公園跑步', sub: '3.5 km · 40 分鐘', time: '08:00', category: 'exp' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-25',
+        categories: ['life'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🛁', name: '洗澡', sub: 'Seoli 定期清潔', time: '15:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-04-28',
+        categories: ['life', 'health', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '身體狀況良好', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.0 km · 20 分鐘', time: '08:15', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '全面狀況良好', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' }
+        ]
+      }
+    ]
+  },
+  '2026-5': {
+    year: 2026,
+    month: 5,
+    days: [
+      {
+        date: '2026-05-01',
+        categories: ['life', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🏞️', name: '勞動節外出', sub: '公園 2.5 km · 45 分鐘', time: '09:00', category: 'exp' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:30', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-03',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '身體狀況良好', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Lele', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '飲食：正常 · 情緒：活潑',  time: '09:30', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' },
+          { icon: '💧', name: '補充水分', sub: 'Lele 飲水 300ml', time: '16:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-05',
+        categories: ['life', 'todo'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '⏰', name: '年度疫苗提醒', sub: 'Seoli 需預約疫苗', time: '09:00', category: 'todo' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '💊', name: '預防藥補給', sub: '跳蚤藥 — 需補充庫存', time: '20:00', category: 'todo' }
+        ]
+      },
+      {
+        date: '2026-05-07',
+        categories: ['life', 'exp', 'health'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '活動量充足',  type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.5 km · 28 分鐘 · 晴', time: '08:00', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '活動量：良好 · 飲食：正常', time: '11:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-10',
+        categories: ['life', 'health', 'todo'],
+        status: [
+          { label: '😴 Tired',  type: 'warn' },
+          { label: '需要關注', type: 'warn' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料（少量）· Lele', time: '08:00', category: 'life'   },
+          { icon: '🩺', name: '緊急門診', sub: 'Lele 嘔吐 · 就醫', time: '10:00', category: 'health' },
+          { icon: '💊', name: '投藥', sub: 'Lele 腸胃藥 × 1', time: '14:00', category: 'life'   },
+          { icon: '⏰', name: '明日追蹤提醒', sub: 'Lele 回診確認', time: '21:00', category: 'todo'   }
+        ]
+      },
+      {
+        date: '2026-05-12',
+        categories: ['life'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '流食 · Lele 恢復中', time: '08:00', category: 'life' },
+          { icon: '💧', name: '補水', sub: 'Lele 少量多次飲水', time: '12:00', category: 'life' },
+          { icon: '🥣', name: '晚餐', sub: '軟食少量 · Lele', time: '18:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-15',
+        categories: ['life', 'health'],
+        status: [
+          { label: '😊 Happy',   type: 'good' },
+          { label: 'Lele 恢復良好', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '正常飲食恢復 · Lele', time: '07:30', category: 'life' },
+          { icon: '💚', name: '健康確認', sub: '腸胃恢復正常', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Lele', time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-18',
+        categories: ['life', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🏞️', name: '公園跑步', sub: '4.0 km · 50 分鐘', time: '08:00', category: 'exp'  },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '🛁', name: '洗澡', sub: 'Seoli 定期清潔', time: '16:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-22',
+        categories: ['life', 'todo'],
+        status: [],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '⏰', name: '年度疫苗', sub: 'Seoli 疫苗預約今日',  time: '14:00', category: 'todo' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli',  time: '12:00', category: 'life' }
+        ]
+      },
+      {
+        date: '2026-05-28',
+        categories: ['life', 'health', 'exp'],
+        status: [
+          { label: '😊 Happy', type: 'good' },
+          { label: '本週表現優秀', type: 'good' }
+        ],
+        records: [
+          { icon: '🥣', name: '早餐', sub: '乾飼料 200g · Seoli', time: '07:30', category: 'life' },
+          { icon: '🚶', name: '晨間散步', sub: '1.8 km · 32 分鐘', time: '08:00', category: 'exp' },
+          { icon: '💚', name: '健康確認', sub: '本週整體狀況良好', time: '10:00', category: 'health' },
+          { icon: '🍱', name: '午餐', sub: '濕糧 150g · Seoli', time: '12:00', category: 'life' },
+          { icon: '🎮', name: '玩耍', sub: 'Seoli 室內遊戲 20 分鐘', time: '17:00', category: 'life' }
+        ]
+      }
+    ]
+  }
+};
 
 // ── State ──
 let hiddenCategories = new Set();
 let activeFilter = 'all';
 let currentDate;
 let selectedDayEl = null;
+let currentMonthData = null;
 
-// ── Legend ──
-function buildLegend() {
-  const container = document.getElementById('calLegend');
-  container.innerHTML = '';
-  categories.forEach(cat => {
-    const item = document.createElement('div');
-    item.className = 'cal-legend-item';
-    item.dataset.key = cat.key;
-    item.innerHTML = `<div class="day-dot ${cat.dotClass} cal-legend-dot"></div>${cat.label}`;
-    item.addEventListener('click', () => toggleCategory(cat.key));
-    container.appendChild(item);
+// ── API fetch ──
+function fetchMonthData(year, month) {
+  const key = `${year}-${month}`;
+  return Promise.resolve(monthlyData[key] || { year, month, days: [] });
+}
+
+function initNav() {
+  document.querySelectorAll('.cal-arrow')[0].addEventListener('click', () => {
+    const prev = dayjs(new Date(currentDate.year(), currentDate.month() - 1, 1));
+    currentDate = prev;
+    loadMonth(prev.year(), prev.month() + 1);
+  });
+  document.querySelectorAll('.cal-arrow')[1].addEventListener('click', () => {
+    const next = dayjs(new Date(currentDate.year(), currentDate.month() + 1, 1));
+    currentDate = next;
+    loadMonth(next.year(), next.month() + 1);
+  });
+}
+
+// ── Month navigation ──
+function loadMonth(year, month) {
+  fetchMonthData(year, month).then(data => {
+    currentMonthData = data;
+    selectedDayEl = null;
+    renderCalendar(data);
   });
 }
 
 function toggleCategory(key) {
-  if (hiddenCategories.has(key)) {
-    hiddenCategories.delete(key);
-  } else {
-    hiddenCategories.add(key);
-  }
+  hiddenCategories.has(key) ? hiddenCategories.delete(key) : hiddenCategories.add(key);
   document.querySelectorAll(`[data-key="${key}"]`).forEach(el => {
     el.classList.toggle('dimmed', hiddenCategories.has(key));
   });
@@ -148,8 +409,23 @@ function toggleCategory(key) {
   });
 }
 
+// ── Legend ──
+function buildLegend(categories) {
+  const container = document.getElementById('calLegend');
+  container.innerHTML = '';
+  categories.forEach(cat => {
+    const item = document.createElement('div');
+    item.className = 'cal-legend-item';
+    item.dataset.key = cat.key;
+    let dotClass = DAY_DOT[cat.key]||DAY_DOT.default;
+    item.innerHTML = `<div class="day-dot ${dotClass} cal-legend-dot"></div>${cat.label}`;
+    item.addEventListener('click', () => toggleCategory(cat.key));
+    container.appendChild(item);
+  });
+}
+
 // ── Filter tabs ──
-function buildFilterTabs() {
+function buildFilterTabs(filterTabs) {
   const container = document.getElementById('recordFilterTabs');
   container.innerHTML = '';
   filterTabs.forEach(tab => {
@@ -160,37 +436,49 @@ function buildFilterTabs() {
       activeFilter = tab.key;
       document.querySelectorAll('.record-filter-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderRecords();
+      if (selectedDayEl) renderDayDetail(selectedDayEl.dataset.date);
     });
     container.appendChild(btn);
   });
 }
 
-// ── Status badges ──
-function buildStatus() {
-  const container = document.getElementById('recordStatus');
-  container.innerHTML = '';
-  statusBadges.forEach(b => {
-    const span = document.createElement('span');
-    span.className = `record-date-status-badge ${b.type}`;
-    span.textContent = b.label;
-    container.appendChild(span);
-  });
-}
+// ── Day detail ──
+function renderDayDetail(dateStr) {
+  const dayData = currentMonthData
+    ? currentMonthData.days.find(d => d.date === dateStr)
+    : null;
 
-// ── Record list ──
-function renderRecords() {
-  const container = document.getElementById('recordList');
-  container.innerHTML = '';
-  const filtered = records.filter(r => {
+  const statusEl = document.getElementById('recordStatus');
+  statusEl.innerHTML = '';
+  if (dayData && dayData.status.length > 0) {
+    dayData.status.forEach(b => {
+      const span = document.createElement('span');
+      span.className = `record-date-status-badge ${b.type}`;
+      span.textContent = b.label;
+      statusEl.appendChild(span);
+    });
+  }
+
+  const recordEl = document.getElementById('recordList');
+  recordEl.innerHTML = '';
+  const allRecords = dayData ? dayData.records : [];
+  const filtered = allRecords.filter(r => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'todo') return r.category === 'todo';
     return r.category !== 'todo';
   });
+  if (filtered.length === 0) {
+    const emptyItem = document.createElement('div');
+    emptyItem.className = 'record-item record-item-empty';
+    emptyItem.innerHTML = `
+      <div class="record-name">無</div>
+    `;
+    recordEl.appendChild(emptyItem);
+    return;
+  }
   filtered.forEach(r => {
     const item = document.createElement('div');
     item.className = `record-item record-item-${r.category}`;
-    item.dataset.type = r.category === 'todo' ? 'todo' : 'record';
     item.innerHTML = `
       <span class="record-item-icon">${r.icon}</span>
       <div class="record-content">
@@ -198,20 +486,24 @@ function renderRecords() {
         <div class="record-sub">${r.sub}</div>
       </div>
       <span class="record-time">${r.time}</span>`;
-    container.appendChild(item);
+    recordEl.appendChild(item);
   });
 }
 
-// ── Calendar ──
-function renderCalendar(date) {
+// ── Calendar render ──
+function renderCalendar(monthData) {
   const calGrid = document.getElementById('calGrid');
   const calMonthEl = document.querySelector('.cal-month');
   const recordDateLabel = document.getElementById('recordDateLabel');
 
   calGrid.innerHTML = '';
   dayjs.locale('zh-tw');
+
+  const date = dayjs(new Date(monthData.year, monthData.month - 1, 1));
   calMonthEl.textContent = date.format('YYYY MMMM');
-  recordDateLabel.textContent = date.format('M/D dddd');
+
+  const dateMap = {};
+  monthData.days.forEach(d => { dateMap[d.date] = d; });
 
   const startWeekDay = date.startOf('month').day();
   for (let i = 0; i < startWeekDay; i++) {
@@ -220,12 +512,18 @@ function renderCalendar(date) {
     calGrid.appendChild(empty);
   }
 
+  const today = dayjs();
+  let defaultDay = null;
+
   for (let d = 1; d <= date.endOf('month').date(); d++) {
-    const dayDate = dayjs(new Date(date.year(), date.month(), d));
-    const isToday = dayDate.isSame(dayjs(), 'day');
+    const dayDate = dayjs(new Date(monthData.year, monthData.month - 1, d));
+    const dateStr = dayDate.format('YYYY-MM-DD');
+    const isToday = dayDate.isSame(today, 'day');
+    const dayRecord = dateMap[dateStr];
 
     const dayEl = document.createElement('div');
     dayEl.className = 'cal-day' + (isToday ? ' today' : '');
+    dayEl.dataset.date = dateStr;
 
     const num = document.createElement('div');
     num.className = 'day-num';
@@ -234,11 +532,13 @@ function renderCalendar(date) {
 
     const dots = document.createElement('div');
     dots.className = 'day-dots';
-    (dotData[d] || []).forEach(type => {
-      const dot = document.createElement('div');
-      dot.className = `day-dot dot-${type}${hiddenCategories.has(type) ? ' dot-hidden' : ''}`;
-      dots.appendChild(dot);
-    });
+    if (dayRecord) {
+      dayRecord.categories.forEach(cat => {
+        const dot = document.createElement('div');
+        dot.className = `day-dot dot-${cat}${hiddenCategories.has(cat) ? ' dot-hidden' : ''}`;
+        dots.appendChild(dot);
+      });
+    }
     dayEl.appendChild(dots);
 
     dayEl.addEventListener('click', () => {
@@ -246,35 +546,31 @@ function renderCalendar(date) {
       dayEl.classList.add('selected');
       selectedDayEl = dayEl;
       recordDateLabel.textContent = dayDate.format('M/D dddd');
+      renderDayDetail(dateStr);
     });
 
+    if (isToday) defaultDay = { el: dayEl, dateStr, label: dayDate.format('M/D dddd') };
     calGrid.appendChild(dayEl);
   }
-}
 
-// ── Nav ──
-function initNav() {
-  const prevBtn = document.querySelectorAll('.cal-arrow')[0];
-  const nextBtn = document.querySelectorAll('.cal-arrow')[1];
-  prevBtn.addEventListener('click', () => {
-    currentDate = currentDate.subtract(1, 'month');
-    renderCalendar(currentDate);
-  });
-  nextBtn.addEventListener('click', () => {
-    currentDate = currentDate.add(1, 'month');
-    renderCalendar(currentDate);
-  });
+  if (defaultDay) {
+    defaultDay.el.classList.add('selected');
+    selectedDayEl = defaultDay.el;
+    recordDateLabel.textContent = defaultDay.label;
+    renderDayDetail(defaultDay.dateStr);
+  } else {
+    recordDateLabel.textContent = date.format('M/D dddd');
+    renderDayDetail(null);
+  }
 }
 
 // ── Init ──
 dayjs.locale('zh-tw');
 currentDate = dayjs();
-buildLegend();
-buildFilterTabs();
-buildStatus();
-renderRecords();
-renderCalendar(currentDate);
+buildLegend(categories);
+buildFilterTabs(filterTabs);
 initNav();
+loadMonth(currentDate.year(), currentDate.month() + 1);
 </script>
 </body>
 </html>

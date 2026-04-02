@@ -43,115 +43,166 @@
 </div>
 
 <script>
+// ── UI config ──
+const BADGE_CLASS = {
+  default:'',
+  favorite:'favorite-pet'
+};
+const ALERT_CLASS = {
+  default:'ok',
+  warn:'warn',
+  ok:'ok'
+};
+const RING_COLOR = (pct) =>
+  pct <= 0.33 ? 'ring-peach' : pct <= 0.66 ? 'ring-yellow' : 'ring-green';
+const TREND_COLOR = {
+  default:'var(--mint-deep)',
+  activity:'var(--peach-mid)',
+  eating:'var(--mint-deep)',
+  sleep:'var(--yellow)',
+  hydration:'var(--sky-mid)',
+  excrete:'var(--brown-mid)',
+  mood:'var(--lavender)'
+};
+const EXP_PALETTE = {
+  default:{ mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'var(--mint-deep)' },
+  Walk:{ mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'var(--mint-deep)' },
+  Park:{ mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040' },
+  Swim:{ mapC1:'#B8D8F0', mapC2:'var(--sky)', routeColor:'#4890C8' },
+  Play:{ mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'var(--purple-mid)' }
+};
+
 // ── PetsData ──
-const pets = [
+const petsData = [
   {
-    id: 'seoli',
-    name: 'Seoli',
-    breed: '薩摩耶犬 · 男生',
-    age: '4 歲 11 月',
-    avatar: 'face_seoli.png',
+    id:'seoli',
+    name:'Seoli',
+    breed:'薩摩耶犬 · 男生',
+    age:'4 歲 11 月',
+    avatar:'face_seoli.png',
+    badge:'default',
     badgeLabel: '✓',
-    badgeClass: '',
     alerts: [
-      { type: 'warn', icon: '🏃', title: '活動量偏低',   sub: '比過去7天少 40%' },
-      { type: 'ok',   icon: '🍽️', title: '飲食正常',     sub: '進食量與過去7天相近' },
-      { type: 'ok',   icon: '💧', title: '飲水正常',     sub: '飲水量達標' },
-      { type: 'warn', icon: '😴', title: '睡眠略少',     sub: '比過去7天平均少 1 小時' },
+      { urgency:'warn', icon:'🏃', title:'活動量偏低', sub:'比過去7天少 40%'},
+      { urgency:'ok', icon:'🍽️', title:'飲食正常', sub:'進食量與過去7天相近'},
+      { urgency:'ok', icon:'💧', title:'飲水正常', sub:'飲水量達標'},
+      { urgency:'warn', icon:'😴', title:'睡眠略少', sub:'比過去7天平均少 1 小時'}
     ],
     week7: [
-      { icon:'🥣', name:'吃飯', today:2, avg7:avg7(14), color:'ring-green'    },
-      { icon:'💤', name:'睡眠', today:1, avg7:avg7(7),  color:'ring-sky'      },
-      { icon:'🚶', name:'散步', today:0, avg7:avg7(5),  color:'ring-peach'    },
-      { icon:'💧', name:'喝水', today:1, avg7:avg7(12), color:'ring-lavender' },
-      { icon:'💩', name:'大便', today:2, avg7:avg7(9),  color:'ring-yellow'   },
-      { icon:'🎮', name:'玩耍', today:1, avg7:avg7(8),  color:'ring-lavender' },
-      { icon:'🍭', name:'零食', today:0, avg7:avg7(4),  color:'ring-peach'    },
-      { icon:'💊', name:'用藥', today:1, avg7:avg7(7),  color:'ring-green'    },
-      { icon:'🪮', name:'清潔', today:0, avg7:avg7(1),  color:'ring-sky'      },
-      { icon:'🛁', name:'洗澡', today:0, avg7:avg7(2),  color:'ring-yellow'   },
+      { icon:'🥣', name:'吃飯', data: { today:2, avg7:3 } },
+      { icon:'💤', name:'睡眠', data: { today:1, avg7:4 } },
+      { icon:'🚶', name:'散步', data: { today:2, avg7:3 } },
+      { icon:'💧', name:'喝水', data: { today:1, avg7:7 } },
+      { icon:'💩', name:'大便', data: { today:2, avg7:2 } },
+      { icon:'🎮', name:'玩耍', data: { today:1, avg7:2 } },
+      { icon:'🍭', name:'零食', data: { today:0, avg7:2 } },
+      { icon:'💊', name:'用藥', data: { today:1, avg7:1 } },
+      { icon:'🪮', name:'清潔', data: { today:0, avg7:1 } },
+      { icon:'🛁', name:'洗澡', data: { today:0, avg7:1 } }
     ],
     trend: [
-      { key:'activity',  label:'活動', color:'#E8834A', data:[5,4,3,5,3,4,2] },
-      { key:'eating',    label:'飲食', color:'#6BBFAB', data:[4,5,4,5,3,5,4] },
-      { key:'sleep',     label:'睡眠', color:'#A8C8E8', data:[4,4,4,3,4,5,3] },
-      { key:'hydration', label:'飲水', color:'#7BC8E8', data:[3,4,5,4,4,4,3] },
-      { key:'excrete',   label:'排泄', color:'#C9B8E8', data:[3,4,5,4,4,5,4] },
-      { key:'mood',      label:'情緒', color:'#F5A870', data:[4,5,4,5,3,4,4] },
+      { key:'activity',  label:'活動', data:[5,4,3,5,3,4,2] },
+      { key:'eating',    label:'飲食', data:[4,5,4,5,3,5,4] },
+      { key:'sleep',     label:'睡眠', data:[4,4,4,3,4,5,3] },
+      { key:'hydration', label:'飲水', data:[3,4,5,4,4,4,3] },
+      { key:'excrete',   label:'排泄', data:[3,4,5,4,4,5,4] },
+      { key:'mood',      label:'情緒', data:[4,5,4,5,3,4,4] }
     ],
     exps: [
-      { id:'a', name:'公園晨走',     type:'Walk', icon:'🚶', date:'3/5 週三', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', mapC1:'#C8E4D4', mapC2:'#C4DCE8', routeColor:'#6BBFAB', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 },
-      { id:'b', name:'河濱公園跑步', type:'Run',  icon:'🏞️', date:'3/4 週二', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', mapC1:'#D4D4F0', mapC2:'#D4E8F0', routeColor:'#9898D8', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 },
-      { id:'c', name:'海邊游泳',     type:'Swim', icon:'🏊', date:'2/28 上週', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', mapC1:'#B8D8F0', mapC2:'#A8C8E8', routeColor:'#4890C8', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 },
-    ],
+      { id:'a', type:'Walk', icon:'🚶', data:{ name:'公園晨走',     date:'2026-03-05', weather:'☀️ 晴',  duration:'32min', steps:'3,820', temp:'21°C', path:'30,55 60,48 90,40 120,42 150,35 180,30 210,38 240,42 270,35 300,28', startX:30, startY:55, endX:300, endY:28 } },
+      { id:'b', type:'Park',  icon:'🏞️', data:{ name:'河濱公園', date:'2026-03-04', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 } },
+      { id:'c', type:'Swim', icon:'🏊', data:{ name:'游泳',     date:'2026-02-28', weather:'☀️ 晴',  duration:'55min', steps:'—',     temp:'24°C', path:'40,40 80,30 120,45 160,35 200,50 240,38 290,42', startX:40, startY:40, endX:290, endY:42 } }
+    ]
   },
   {
-    id: 'lele',
-    name: 'Lele',
-    breed: '馬爾濟斯犬 · 男生',
-    age: '13 歲 11 月',
-    avatar: 'face_lele.png',
-    badgeLabel: '♡',
-    badgeClass: 'favorite-pet',
+    id:'lele',
+    name:'Lele',
+    breed:'馬爾濟斯犬 · 男生',
+    age:'13 歲 11 月',
+    avatar:'face_lele.png',
+    badge:'favorite',
+    badgeLabel:'♡',
     alerts: [
-      { type: 'warn', icon: '💊', title: '用藥提醒',   sub: '今天的跳蚤預防藥尚未記錄' },
-      { type: 'ok',   icon: '🍽️', title: '飲食正常',   sub: '與過去7天進食量相近' },
-      { type: 'ok',   icon: '🏃', title: '活動量正常', sub: '與過去7天相近' },
-      { type: 'warn', icon: '💧', title: '飲水偏少',   sub: '今天飲水量低於7天均值' },
+      { urgency:'warn', icon:'💊', title:'用藥提醒',   sub:'今天的跳蚤預防藥尚未記錄' },
+      { urgency:'ok', icon:'🍽️', title:'飲食正常',   sub:'與過去7天進食量相近' },
+      { urgency:'ok', icon:'🏃', title:'活動量正常', sub:'與過去7天相近' },
+      { urgency:'warn', icon:'💧', title:'飲水偏少',   sub:'今天飲水量低於7天均值' }
     ],
     week7: [
-      { icon:'🥣', name:'吃飯', today:2, avg7:avg7(13), color:'ring-lavender' },
-      { icon:'💤', name:'睡眠', today:1, avg7:avg7(7),  color:'ring-sky'      },
-      { icon:'💊', name:'用藥', today:0, avg7:avg7(6),  color:'ring-peach'    },
-      { icon:'💧', name:'喝水', today:2, avg7:avg7(10), color:'ring-green'    },
-      { icon:'🎮', name:'玩耍', today:0, avg7:avg7(4),  color:'ring-yellow'   },
-      { icon:'🍭', name:'零食', today:1, avg7:avg7(5),  color:'ring-lavender' },
-      { icon:'💩', name:'大便', today:1, avg7:avg7(7),  color:'ring-yellow'   },
-      { icon:'🪮', name:'清潔', today:0, avg7:avg7(1),  color:'ring-sky'      },
-      { icon:'🛁', name:'洗澡', today:0, avg7:avg7(1),  color:'ring-peach'    },
-      { icon:'🚶', name:'散步', today:0, avg7:avg7(3),  color:'ring-green'    },
+      { icon:'🥣', name:'吃飯', data: { today:2, avg7:3 } },
+      { icon:'💤', name:'睡眠', data: { today:1, avg7:5 } },
+      { icon:'💊', name:'用藥', data: { today:0, avg7:2 } },
+      { icon:'💧', name:'喝水', data: { today:2, avg7:10 } },
+      { icon:'🎮', name:'玩耍', data: { today:0, avg7:2 } },
+      { icon:'🍭', name:'零食', data: { today:1, avg7:3 } },
+      { icon:'💩', name:'大便', data: { today:1, avg7:2 } },
+      { icon:'🪮', name:'清潔', data: { today:0, avg7:1 } },
+      { icon:'🛁', name:'洗澡', data: { today:0, avg7:1 } },
+      { icon:'🚶', name:'散步', data: { today:0, avg7:3 } }
     ],
     trend: [
-      { key:'eating',    label:'飲食', color:'#6BBFAB', data:[4,5,5,4,4,5,4] },
-      { key:'activity',  label:'活動', color:'#A07BC8', data:[3,3,4,3,4,3,3] },
-      { key:'sleep',     label:'睡眠', color:'#A8C8E8', data:[5,5,4,5,4,5,4] },
-      { key:'hydration', label:'飲水', color:'#7BC8E8', data:[4,3,4,4,3,4,3] },
-      { key:'excrete',   label:'排泄', color:'#C9B8E8', data:[4,4,4,5,4,4,3] },
-      { key:'mood',      label:'情緒', color:'#F5A870', data:[5,4,5,4,5,4,4] },
+      { key:'eating', label:'飲食', data:[4,5,5,4,4,5,4] },
+      { key:'activity', label:'活動', data:[3,3,4,3,4,3,3] },
+      { key:'sleep', label:'睡眠', data:[5,5,4,5,4,5,4] },
+      { key:'hydration', label:'飲水', data:[4,3,4,4,3,4,3] },
+      { key:'excrete', label:'排泄', data:[4,4,4,5,4,4,3] },
+      { key:'mood', label:'情緒', data:[5,4,5,4,5,4,4] }
     ],
     exps: [
-      { id:'d', name:'客廳追逐遊戲', type:'Play', icon:'🎮', date:'3/5 週三', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', mapC1:'#E8E0F8', mapC2:'#D8E8F8', routeColor:'#A07BC8', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 },
-      { id:'e', name:'陽台曬太陽',   type:'Rest', icon:'☀️', date:'3/4 週二', weather:'☀️ 晴',  duration:'45min', steps:'—', temp:'22°C', mapC1:'#FFF0D4', mapC2:'#FFE4C0', routeColor:'#E8C040', path:'60,40 100,38 140,42 180,38 220,40 260,38', startX:60, startY:40, endX:260, endY:38 },
-    ],
-  },
+      { id:'d', type:'Play', icon:'🎮', data:{ name:'客廳追逐遊戲', date:'2026-03-05', weather:'🌙 室內', duration:'20min', steps:'—', temp:'24°C', path:'20,40 50,55 80,35 100,50 130,30 160,45 190,35 220,50 250,38', startX:20, startY:40, endX:250, endY:38 } },
+      { id:'e', type:'Park',  icon:'🏞️', data:{ name:'河濱公園', date:'2026-03-04', weather:'🌤 多雲', duration:'48min', steps:'6,210', temp:'19°C', path:'20,60 50,50 80,35 110,28 140,35 170,45 200,55 230,45 260,32 290,28 310,40', startX:20, startY:60, endX:310, endY:40 } }
+    ]
+  }
 ];
 
 const sharedData = {
-  desc: '與家人共享，一起陪伴寶貝們',
+  desc:'與家人共享，一起陪伴寶貝們',
   members: [
-    { emoji: '👩' },
-    { emoji: '👨' },
-    { emoji: '👧' },
-  ],
+    { emoji:'👩' },
+    { emoji:'👨' },
+    { emoji:'👧' }
+  ]
 };
 
-function avg7(total) { return Math.ceil(total / 7); }
 // ── Render ──
-function buildRing(container, events) {
+function buildRing(container, week7) {
   if (!container) return;
   container.innerHTML = '';
   const C = 2 * Math.PI * 18;
-  events.forEach(ev => {
-    const pct = Math.min(ev.today / ev.avg7, 1);
+  week7.forEach(ev => {
+    const { today, avg7 } = ev.data;
+    const pct = Math.min(today / avg7, 1);
     const offset = C * (1 - pct);
+    const colorClass = RING_COLOR(pct);
     const div = document.createElement('div');
     div.className = 'pr-event';
-    div.innerHTML = `<div class="pr-ring-wrap"><svg class="pr-ring-svg" viewBox="0 0 44 44"><circle class="pr-ring-bg" cx="22" cy="22" r="18"/><circle class="pr-ring-fg ${ev.color}" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/></svg><div class="pr-ring-center">${ev.icon}<span class="pr-ring-label">${ev.name}</span></div></div><div class="pr-ring-count">${ev.today}<span>/${ev.avg7}</span></div>`;
+    div.innerHTML = `
+        <div class="pr-ring-wrap">
+            <svg class="pr-ring-svg" viewBox="0 0 44 44">
+                <circle class="pr-ring-bg" cx="22" cy="22" r="18" />
+                <circle 
+                    class="pr-ring-fg ${colorClass}" 
+                    cx="22" 
+                    cy="22" 
+                    r="18" 
+                    stroke-dasharray="${C.toFixed(1)}" 
+                    stroke-dashoffset="${offset.toFixed(1)}" 
+                />
+            </svg>
+            <div class="pr-ring-center">
+                ${ev.icon}
+                <span class="pr-ring-label">${ev.name}</span>
+            </div>
+        </div>
+        <div class="pr-ring-count">
+            ${today}<span>/${avg7}</span>
+        </div>
+    `;
     container.appendChild(div);
   });
 }
 
-function buildTrend(svgId, legendId, lines) {
+function buildTrend(svgId, legendId, trend) {
   const svg = document.getElementById(svgId);
   const legend = document.getElementById(legendId);
   if (!svg || !legend) return;
@@ -161,11 +212,11 @@ function buildTrend(svgId, legendId, lines) {
   svg.innerHTML = '';
   for (let v = 1; v <= 5; v++) {
     const y = yScale(v);
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1', pad.l); line.setAttribute('x2', W - pad.r);
-    line.setAttribute('y1', y); line.setAttribute('y2', y);
-    line.setAttribute('stroke', '#EAD9C5'); line.setAttribute('stroke-width', '0.8');
-    svg.appendChild(line);
+    const gridLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+    gridLine.setAttribute('x1', pad.l); gridLine.setAttribute('x2', W - pad.r);
+    gridLine.setAttribute('y1', y); gridLine.setAttribute('y2', y);
+    gridLine.setAttribute('stroke', '#EAD9C5'); gridLine.setAttribute('stroke-width', '0.8');
+    svg.appendChild(gridLine);
     const t = document.createElementNS('http://www.w3.org/2000/svg','text');
     t.setAttribute('x', 0); t.setAttribute('y', y + 3);
     t.setAttribute('font-size', '10'); t.setAttribute('fill', '#B09880');
@@ -174,24 +225,26 @@ function buildTrend(svgId, legendId, lines) {
     svg.appendChild(t);
   }
   const lineEls = {};
-  lines.forEach(ln => {
+  trend.forEach(ln => {
+    const color = TREND_COLOR[ln.key] || TREND_COLOR.default;
     const pts = ln.data.map((v,i) => `${xs[i]},${yScale(v)}`).join(' ');
     const el = document.createElementNS('http://www.w3.org/2000/svg','polyline');
     el.setAttribute('points', pts); el.setAttribute('fill', 'none');
-    el.setAttribute('stroke', ln.color); el.setAttribute('stroke-width', '2');
+    el.setAttribute('stroke', color); el.setAttribute('stroke-width', '2');
     el.setAttribute('stroke-linejoin', 'round'); el.setAttribute('stroke-linecap', 'round');
     svg.appendChild(el);
     const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
     dot.setAttribute('cx', xs[6]); dot.setAttribute('cy', yScale(ln.data[6]));
-    dot.setAttribute('r', '3'); dot.setAttribute('fill', ln.color);
+    dot.setAttribute('r', '3'); dot.setAttribute('fill', color);
     svg.appendChild(dot);
     lineEls[ln.key] = [el, dot];
   });
   legend.innerHTML = '';
-  lines.forEach(ln => {
+  trend.forEach(ln => {
+    const color = TREND_COLOR[ln.key] || TREND_COLOR.default;
     const item = document.createElement('div');
     item.className = 'legend-item';
-    item.innerHTML = `<div class="legend-dot" style="background:${ln.color}"></div>${ln.label}`;
+    item.innerHTML = `<div class="legend-dot" style="background:${color}"></div>${ln.label}`;
     item.onclick = () => {
       item.classList.toggle('dimmed');
       const hidden = item.classList.contains('dimmed');
@@ -206,9 +259,69 @@ function buildExpCards(containerId, exps) {
   if (!c) return;
   c.innerHTML = '';
   exps.forEach(ex => {
+    const pal = EXP_PALETTE[ex.type] || EXP_PALETTE.default;
+    const d = ex.data;
     const card = document.createElement('div');
     card.className = 'exp-card-v2';
-    card.innerHTML = `<div class="exp-map"><svg class="exp-map-svg" viewBox="0 0 340 80" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="mg${ex.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${ex.mapC1}"/><stop offset="100%" stop-color="${ex.mapC2}"/></linearGradient></defs><rect width="340" height="80" fill="url(#mg${ex.id})"/><line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="80" y1="0" x2="80" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="180" y1="0" x2="180" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="260" y1="0" x2="260" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><polyline points="${ex.path}" fill="none" stroke="${ex.routeColor}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/><circle cx="${ex.startX}" cy="${ex.startY}" r="5" fill="white" opacity="0.9"/><circle cx="${ex.startX}" cy="${ex.startY}" r="3" fill="${ex.routeColor}"/><circle cx="${ex.endX}" cy="${ex.endY}" r="5" fill="white" opacity="0.9"/><circle cx="${ex.endX}" cy="${ex.endY}" r="3" fill="#E8834A"/></svg><div class="exp-map-badge">${ex.icon} ${ex.type}</div></div><div class="exp-card-body"><div class="exp-card-left"><div class="exp-card-title">${ex.name}</div><div class="exp-card-date">${ex.date} · ${ex.weather}</div></div><div class="exp-card-stats"><div class="exp-stat"><span class="exp-stat-val">${ex.duration}</span><span class="exp-stat-label">時長</span></div><div class="exp-stat"><span class="exp-stat-val">${ex.steps}</span><span class="exp-stat-label">步數</span></div><div class="exp-stat"><span class="exp-stat-val">${ex.temp}</span><span class="exp-stat-label">氣溫</span></div></div></div>`;
+    card.innerHTML = `
+        <div class="exp-map">
+            <svg class="exp-map-svg" viewBox="0 0 340 80" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <linearGradient id="mg${ex.id}" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="${pal.mapC1}" />
+                        <stop offset="100%" stop-color="${pal.mapC2}" />
+                    </linearGradient>
+                </defs>
+                
+                <rect width="340" height="80" fill="url(#mg${ex.id})" />
+                <line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="80" y1="0" x2="80" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="180" y1="0" x2="180" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                <line x1="260" y1="0" x2="260" y2="80" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+                
+                <polyline 
+                    points="${d.path}" 
+                    fill="none" 
+                    stroke="${pal.routeColor}" 
+                    stroke-width="3" 
+                    stroke-linejoin="round" 
+                    stroke-linecap="round" 
+                    opacity="0.9" 
+                />
+                
+                <circle cx="${d.startX}" cy="${d.startY}" r="5" fill="white" opacity="0.9" />
+                <circle cx="${d.startX}" cy="${d.startY}" r="3" fill="${pal.routeColor}" />
+                
+                <circle cx="${d.endX}" cy="${d.endY}" r="5" fill="white" opacity="0.9" />
+                <circle cx="${d.endX}" cy="${d.endY}" r="3" fill="var(--peach-deep)" />
+            </svg>
+            
+            <div class="exp-map-badge">${ex.icon} ${ex.type}</div>
+        </div>
+
+        <div class="exp-card-body">
+            <div class="exp-card-left">
+                <div class="exp-card-title">${d.name}</div>
+                <div class="exp-card-date">${ex.data.date} · ${d.weather}</div>
+            </div>
+            
+            <div class="exp-card-stats">
+                <div class="exp-stat">
+                    <span class="exp-stat-val">${d.duration}</span>
+                    <span class="exp-stat-label">時長</span>
+                </div>
+                <div class="exp-stat">
+                    <span class="exp-stat-val">${d.steps}</span>
+                    <span class="exp-stat-label">步數</span>
+                </div>
+                <div class="exp-stat">
+                    <span class="exp-stat-val">${d.temp}</span>
+                    <span class="exp-stat-label">氣溫</span>
+                </div>
+            </div>
+        </div>
+    `;
     c.appendChild(card);
   });
 }
@@ -216,21 +329,20 @@ function buildExpCards(containerId, exps) {
 function buildPetCard(pet) {
   const card = document.createElement('div');
   card.className = 'pet-card';
-
   const alertsHTML = pet.alerts.map(a => `
-    <div class="hs-alert ${a.type}">
+    <div class="hs-alert ${ALERT_CLASS[a.urgency] || ALERT_CLASS.default}">
       <span class="hs-alert-icon">${a.icon}</span>
       <div class="hs-alert-body">
         <div class="hs-alert-title">${a.title}</div>
         <div class="hs-alert-sub">${a.sub}</div>
       </div>
     </div>`).join('');
-
+  const badgeClass = BADGE_CLASS[pet.badge] || BADGE_CLASS.default;
   card.innerHTML = `
     <div class="pet-card-header" onclick="togglePetRecords('${pet.id}')">
       <div class="pet-avatar-wrap">
         <img class="pet-avatar" src="${pet.avatar}">
-        <div class="pet-avatar-badge ${pet.badgeClass}">${pet.badgeLabel}</div>
+        <div class="pet-avatar-badge ${badgeClass}">${pet.badgeLabel}</div>
       </div>
       <div class="pet-info">
         <div class="pet-name">${pet.name}</div>
@@ -269,7 +381,6 @@ function buildPetCard(pet) {
         <div class="exp-list" id="exp-list-${pet.id}"></div>
       </div>
     </div>`;
-
   return card;
 }
 
@@ -278,10 +389,7 @@ function buildSharedSection(data) {
   const membersHTML = data.members.map(m => `<div class="member-avatar">${m.emoji}</div>`).join('');
   section.innerHTML = `
     <div class="shared-desc">${data.desc}</div>
-    <div class="shared-members">
-      ${membersHTML}
-      <div class="add-member">+</div>
-    </div>
+    <div class="shared-members">${membersHTML}<div class="add-member">+</div></div>
     <button class="invite-btn">✉️ 發送邀請</button>`;
 }
 
@@ -298,9 +406,8 @@ function switchPrTab(btn, tab, pet) {
 
 // ── Init ──
 const grid = document.getElementById('petCardGrid');
-pets.forEach(pet => {
-  const card = buildPetCard(pet);
-  grid.appendChild(card);
+petsData.forEach(pet => {
+  grid.appendChild(buildPetCard(pet));
   buildRing(document.getElementById('row7-' + pet.id), pet.week7);
   buildTrend('trend-svg-' + pet.id, 'legend-' + pet.id, pet.trend);
   buildExpCards('exp-list-' + pet.id, pet.exps);
